@@ -1,0 +1,100 @@
+"use client"
+
+import CTASection from "./cta-section"
+import { Github, Instagram, Dribbble, Globe, Twitter } from "lucide-react"
+
+export default function Footer() {
+    return (
+        <footer className="w-full">
+            {/* MAIN FOOTER */}
+            <div className="flex flex-col lg:flex-row min-h-[500px]">
+                <div className="lg:w-2/5 bg-[#1a1c2e] p-12 lg:p-20 relative overflow-hidden flex flex-col justify-between text-white border-r border-gray-800">
+                    <div className="absolute left-0 inset-0 opacity-10 pointer-events-none">
+                        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d="M0,50 Q25,30 50,50 T100,50" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                            <path d="M0,70 Q25,50 50,70 T100,70" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                        </svg>
+                    </div>
+
+                    <div className="relative z-10 space-y-8">
+                        <div className="h-16 w-16 bg-[#6d5dfc] rounded-2xl flex items-center justify-center">
+                            <span className="text-3xl font-black italic">D</span>
+                        </div>
+                        <h3 className="text-5xl md:text-7xl font-black flex flex-col uppercase leading-none tracking-tighter flex gap-5">
+                            <span>Creative</span>
+                            <span>Realiable</span>
+                            <span>Inovative</span>
+                        </h3>
+                    </div>
+
+                    <div className="relative z-10 space-y-4">
+                        <p className="text-sm font-medium opacity-60 uppercase tracking-widest">Catch me</p>
+                        <div className="flex items-center gap-4">
+                            <div className="h-12 w-12 bg-gray-400 rounded-full overflow-hidden flex items-center justify-center text-xs font-bold text-black border-2 border-white/20">
+                                PHOTO
+                            </div>
+                            <span className="text-xl font-bold">Adil Ivansyah L</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Side - Detailed Links */}
+                <div className="lg:w-3/5 bg-white text-black p-12 lg:p-20 flex flex-col justify-between">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        {/* Company Info */}
+                        <div className="space-y-6 lg:col-span-1">
+                            <div className="flex items-center gap-2 group cursor-pointer">
+                                <span className="text-3xl font-black tracking-tight">Truenapsh</span>
+                            </div>
+                            <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                                Truenapsh adalah studio kreatif yang berfokus pada pengembangan solusi digital mulai dari desain UI/UX, pengembangan website modern, hingga pembuatan produk digital siap pakai. Kami menggabungkan kreativitas dan teknologi untuk membantu brand tumbuh di era digital.
+                            </p>
+
+                            <div className="space-y-1 text-sm text-gray-400">
+                                <p>Monday to Friday: 8am - 12pm</p>
+                                <p>Weekend: 09am - 10pm</p>
+                            </div>
+
+                            <div className="flex gap-4 text-gray-400">
+                                <Instagram className="h-5 w-5 hover:text-black cursor-pointer" />
+                                <Twitter className="h-5 w-5 hover:text-black cursor-pointer" />
+                                <Github className="h-5 w-5 hover:text-black cursor-pointer" />
+                                <Dribbble className="h-5 w-5 hover:text-black cursor-pointer" />
+                                <Globe className="h-5 w-5 hover:text-black cursor-pointer" />
+                            </div>
+                        </div>
+
+                        {/* Menus */}
+                        <div className="space-y-6">
+                            <h4 className="font-bold text-gray-400 uppercase tracking-widest text-xs">Services</h4>
+                            <ul className="space-y-3 font-semibold text-gray-700">
+                                <li className="hover:text-black cursor-pointer">Home</li>
+                                <li className="hover:text-black cursor-pointer">Product</li>
+                                <li className="hover:text-black cursor-pointer">Portofolio</li>
+                                <li className="hover:text-black cursor-pointer">Pricing</li>
+                                <li className="hover:text-black cursor-pointer">About</li>
+                            </ul>
+                        </div>
+
+                        <div className="space-y-6">
+                            <h4 className="font-bold text-gray-400 uppercase tracking-widest text-xs">About Truenapsh</h4>
+                            <ul className="space-y-3 font-semibold text-gray-700">
+                                <li className="hover:text-black cursor-pointer">About</li>
+                                <li className="hover:text-black cursor-pointer">Meet the creator</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="pt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-400">
+                        <div className="flex gap-6 uppercase tracking-widest">
+                            <span className="hover:text-black cursor-pointer">Terms & Conditions</span>
+                            <span className="hover:text-black cursor-pointer">Privacy Policy</span>
+                            <span className="hover:text-black cursor-pointer">Cookies</span>
+                        </div>
+                        <p className="uppercase tracking-widest">© 2025. Truenapsh. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    )
+}
