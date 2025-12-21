@@ -15,27 +15,47 @@ export default function Hero() {
             <div className="container relative z-10 px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-8">
                     <div className="space-y-4">
-                        <h1 className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tighter">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                            className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tighter"
+                        >
                             CREATIVE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">DEVELOPER</span>
                             <br />
                             & DESIGNER
-                        </h1>
-                        <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl font-medium">
+                        </motion.h1>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                            className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl font-medium"
+                        >
                             I build exceptional digital experiences that live on the internet.
                             Specializing in crafting clean, functional, and user-centric websites.
-                        </p>
+                        </motion.p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                        className="flex flex-col sm:flex-row gap-4"
+                    >
                         <Button size="lg" className="rounded-full px-8 text-lg font-semibold">
                             Lihat Projek
                         </Button>
                         <Button size="lg" variant="outline" className="rounded-full px-8 text-lg font-semibold">
                             Hubungi Saya
                         </Button>
-                    </div>
+                    </motion.div>
 
-                    <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.5 }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                        className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 grayscale hover:grayscale-0 transition-all"
+                    >
                         {/* Placeholder for tech stack icons or stats */}
                         <div className="flex flex-col items-center">
                             <span className="text-3xl font-bold">5+</span>
@@ -53,7 +73,7 @@ export default function Hero() {
                             <span className="text-3xl font-bold">100%</span>
                             <span className="text-xs uppercase tracking-widest">Komitmen</span>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

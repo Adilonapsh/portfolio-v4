@@ -47,7 +47,7 @@ export const ScrollReveal = ({
             transition: {
                 duration,
                 delay,
-                ease: [0.25, 0.1, 0.25, 1], // Elegant cubic-bezier
+                ease: [0.25, 0.1, 0.25, 1],
                 staggerChildren,
             },
         },

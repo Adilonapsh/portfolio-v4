@@ -6,6 +6,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import { ScrollReveal } from "./scroll-reveal"
 
 const faqData = [
     {
@@ -44,36 +45,40 @@ const faqData = [
 
 export default function FAQ() {
     return (
-        <section id="faq" className="py-24 bg-[#0a0c10] text-white">
+        <section id="faq" className="py-24 bg-[#0a0c10] text-white overflow-hidden">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="grid lg:grid-cols-2 gap-12 items-start">
-                    <div className="space-y-6">
-                        <span className="text-[#a3ff12] font-bold tracking-widest uppercase text-sm">
-                            FAQ
-                        </span>
-                        <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">
-                            Punya Pertanyaan?<br />
-                            Berikut jawabannya
-                        </h2>
-                        <p className="text-gray-400 max-w-md leading-relaxed">
-                            Berikut beberapa pertanyaan yang sering ditanyakan pelanggan, beserta jawabannya untuk membantu Anda lebih memahami layanan.
-                        </p>
-                    </div>
+                    <ScrollReveal direction="right">
+                        <div className="space-y-6">
+                            <span className="text-[#a3ff12] font-bold tracking-widest uppercase text-sm">
+                                FAQ
+                            </span>
+                            <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">
+                                Punya Pertanyaan?<br />
+                                Berikut jawabannya
+                            </h2>
+                            <p className="text-gray-400 max-w-md leading-relaxed">
+                                Berikut beberapa pertanyaan yang sering ditanyakan pelanggan, beserta jawabannya untuk membantu Anda lebih memahami layanan.
+                            </p>
+                        </div>
+                    </ScrollReveal>
 
-                    <div className="w-full">
-                        <Accordion type="single" collapsible className="w-full border-t border-gray-800">
-                            {faqData.map((item, index) => (
-                                <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-800">
-                                    <AccordionTrigger className="text-left hover:no-underline hover:text-[#a3ff12] py-6 font-semibold">
-                                        {item.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="text-gray-400 leading-relaxed">
-                                        {item.answer}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
-                    </div>
+                    <ScrollReveal direction="left" delay={0.2}>
+                        <div className="w-full">
+                            <Accordion type="single" collapsible className="w-full border-t border-gray-800">
+                                {faqData.map((item, index) => (
+                                    <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-800">
+                                        <AccordionTrigger className="text-left hover:no-underline hover:text-[#a3ff12] py-6 font-semibold">
+                                            {item.question}
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-gray-400 leading-relaxed">
+                                            {item.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </div>
+                    </ScrollReveal>
                 </div>
             </div>
         </section>
