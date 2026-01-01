@@ -33,14 +33,14 @@ const faqData = [
         question: "Apakah truenapsh melayani klien dari luar kota atau luar negeri?",
         answer: "Ya, kami melayani klien secara remote dari mana saja, baik di dalam maupun di luar negeri."
     },
-    {
-        question: "Bagaimana sistem pembayaran di Truenapsh?",
-        answer: "Sistem pembayaran kami biasanya terbagi menjadi beberapa termin (DP dan pelunasan) untuk menjamin keamanan bersama."
-    },
-    {
-        question: "Bagaimana cara membeli produk digital truenapsh?",
-        answer: "Produk digital kami dapat dibeli langsung melalui platform resmi kami dengan proses yang instan."
-    }
+    // {
+    //     question: "Bagaimana sistem pembayaran di Truenapsh?",
+    //     answer: "Sistem pembayaran kami biasanya terbagi menjadi beberapa termin (DP dan pelunasan) untuk menjamin keamanan bersama."
+    // },
+    // {
+    //     question: "Bagaimana cara membeli produk digital truenapsh?",
+    //     answer: "Produk digital kami dapat dibeli langsung melalui platform resmi kami dengan proses yang instan."
+    // }
 ]
 
 export default function FAQ() {

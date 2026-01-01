@@ -7,8 +7,8 @@ export default function Footer() {
     return (
         <footer className="w-full">
             {/* MAIN FOOTER */}
-            <div className="flex flex-col lg:flex-row min-h-[500px]">
-                <div className="lg:w-2/5 bg-[#1a1c2e] p-12 lg:p-20 relative overflow-hidden flex flex-col justify-between text-white border-r border-gray-800">
+            <div className="flex flex-col lg:flex-row min-h-125">
+                <div className="lg:w-2/5 bg-[#0a0c10] p-12 lg:p-20 relative overflow-hidden flex flex-col justify-between text-white border-r border-gray-800">
                     <div className="absolute left-0 inset-0 opacity-10 pointer-events-none">
                         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <path d="M0,50 Q25,30 50,50 T100,50" fill="none" stroke="currentColor" strokeWidth="0.5" />
@@ -17,10 +17,10 @@ export default function Footer() {
                     </div>
 
                     <div className="relative z-10 space-y-8">
-                        <div className="h-16 w-16 bg-[#6d5dfc] rounded-2xl flex items-center justify-center">
+                        <div className="h-16 w-16 bg-[#54d912] rounded-2xl flex items-center justify-center">
                             <span className="text-3xl font-black italic">D</span>
                         </div>
-                        <h3 className="text-5xl md:text-7xl font-black flex flex-col uppercase leading-none tracking-tighter flex gap-5">
+                        <h3 className="text-5xl md:text-7xl font-black flex flex-col uppercase leading-none tracking-tighter gap-5">
                             <span>Creative</span>
                             <span>Realiable</span>
                             <span>Inovative</span>

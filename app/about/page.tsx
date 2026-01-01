@@ -6,13 +6,13 @@ const experiences = [
         title: "Fullstack Developer",
         company: "PT. Real Media Lab",
         period: "2020 - Sekarang",
-        description: "Pengalaman yang menarik disini, saat disini saya mulai fokus dalam hal Fullstack Developer, di perusahaan ini saya juga mengerjakan fullstack developer untuk website, serta juga saya memimpin dalam setiap perencanaan api dan database."
+        description: "Pengalaman yang menarik disini, saat disini saya mulai fokus dalam hal Fullstack Developer, di perusahaan ini saya juga mengerjakan webapp untuk berbagai klien, serta juga saya memimpin dalam setiap perencanaan api dan database."
     },
     {
         title: "Fullstack Developer",
         company: "Truenapsh",
         period: "2024 - Sekarang",
-        description: "Pengalaman yang menarik disini, saat disini saya mulai fokus dalam hal Fullstack Developer, di perusahaan ini saya juga mengerjakan fullstack developer untuk website, serta juga saya memimpin dalam setiap perencanaan api dan database."
+        description: "Pengalaman yang menarik disini, saat disini saya mulai fokus dalam hal Fullstack Developer, di perusahaan ini saya juga mengerjakan webapp untuk berbagai klien, serta juga saya memimpin seluruh proses pengembangan webapp."
     },
 ]
 
@@ -60,7 +60,7 @@ export default function AboutPage() {
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email saya</span>
-                                <span className="text-sm font-bold text-gray-700">risingadityahalim18@gmail.com</span>
+                                <span className="text-sm font-bold text-gray-700">hire@truenapsh.my.id</span>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ export default function AboutPage() {
                             Bangun Kreativitas dan Digitalisasi ke lingkungan kerja anda
                         </h3>
                         <p className="text-lg text-gray-400 font-medium leading-relaxed text-justify">
-                            Saya adalah seorang Frontend Developer dan UI/UX Designer yang berfokus pada pembuatan antarmuka web yang modern, responsif, dan mudah digunakan. Berpengalaman menggunakan Next.js, React, TypeScript, Laravel, PHP serta integrasi dengan teknologi backend seperti Lumen, tRPC, Prisma, dan NextAuth. Kombinasi antara kemampuan teknis dan estetika desain membantu saya menciptakan produk digital yang tidak hanya berfungsi baik, tetapi juga memiliki pengalaman pengguna yang menarik dan profesional. Saya senang bekerja dalam lingkungan yang kolaboratif, berpikir kritis terhadap solusi yang efisien, serta terus belajar teknologi baru untuk meningkatkan kualitas hasil kerja.
+                            Saya adalah seorang Fullstack Developer dan UI/UX Designer yang berfokus pada pembuatan antarmuka web yang modern, responsif, dan mudah digunakan. Berpengalaman menggunakan Next.js, React, TypeScript, Laravel, PHP serta integrasi dengan teknologi backend seperti Lumen, Prisma, dan NextAuth. Kombinasi antara kemampuan teknis dan estetika desain membantu saya menciptakan produk digital yang tidak hanya berfungsi baik, tetapi juga memiliki pengalaman pengguna yang menarik dan profesional. Saya senang bekerja dalam lingkungan yang kolaboratif, berpikir kritis terhadap solusi yang efisien, serta terus belajar teknologi baru untuk meningkatkan kualitas hasil kerja.
                         </p>
                     </div>
                 </div>

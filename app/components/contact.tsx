@@ -13,7 +13,7 @@ export default function Contact() {
                 <div className="grid lg:grid-cols-2 gap-12">
                     <div className="space-y-8">
                         <div className="space-y-4">
-                            <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase">MARI BICARA</h2>
+                            <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">MARI BICARA</h2>
                             <p className="text-muted-foreground text-lg">
                                 Punya ide proyek atau ingin sekadar menyapa? Jangan ragu untuk menghubungi saya!
                             </p>
@@ -26,7 +26,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Email</p>
-                                    <p className="font-bold underline">hire@truenapsh.my.id</p>
+                                    <a href="mailto:hire@truenapsh.my.id" className="font-bold">hire@truenapsh.my.id</a>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">

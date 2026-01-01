@@ -1,81 +1,75 @@
-"use client"
+import { Badge } from "@/components/ui/badge";
+import React from "react";
 
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
+const Hero: React.FC = () => {
+  const clients = [
+    { name: "StartUp Inc.", highlight: false },
+    { name: "Award Winner", highlight: true },
+    { name: "Enterprise Co", highlight: false },
+    { name: "Tech Giant", highlight: false },
+    { name: "Global Brand", highlight: false },
+    { name: "Creative Studio", highlight: false },
+  ];
 
-export default function Hero() {
-    return (
-        <section className="relative min-h-dvh flex items-center justify-center overflow-hidden pt-20">
-            {/* Background decorative elements */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px] animate-pulse delay-700" />
-            </div>
+  return (
+    <section className="w-full flex flex-col items-center h-screen justify-center">
+      {/* Hero Content */}
+      <div className="w-full max-w-5xl mx-auto flex flex-col items-center text-center pt-8 pb-16 relative z-10">
+        {/* Glow Effect */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-75 md:w-150 h-75 md:h-100 bg-primary/20 blur-[80px] md:blur-[100px] rounded-full -z-10 pointer-events-none"></div>
 
-            <div className="container relative z-10 px-4 md:px-6">
-                <div className="flex flex-col items-center text-center space-y-8">
-                    <div className="space-y-4">
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tighter"
-                        >
-                            CREATIVE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">DEVELOPER</span>
-                            <br />
-                            & DESIGNER
-                        </motion.h1>
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl font-medium"
-                        >
-                            I build exceptional digital experiences that live on the internet.
-                            Specializing in crafting clean, functional, and user-centric websites.
-                        </motion.p>
-                    </div>
+        <div className="mb-8">
+          <Badge>About Me</Badge>
+        </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                        className="flex flex-col sm:flex-row gap-4"
-                    >
-                        <Button size="lg" className="rounded-full px-8 text-lg font-semibold">
-                            Lihat Projek
-                        </Button>
-                        <Button size="lg" variant="outline" className="rounded-full px-8 text-lg font-semibold">
-                            Hubungi Saya
-                        </Button>
-                    </motion.div>
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-[#0a0c10] dark:text-white leading-[1.1] tracking-tighter mb-8">
+          I've been{" "}
+          <span className="relative inline-block mx-1 md:mx-2">
+            <span className="bg-[#0a0c10] text-white px-3 md:px-6 py-1 md:py-2 rounded-xl md:rounded-2xl inline-block transform -rotate-2 shadow-xl z-10 relative">
+              Designing
+            </span>
+          </span>
+          <br className="hidden md:block" />
+          Websites since{" "}
+          <span className="relative inline-block mx-1 md:mx-2">
+            <span className="bg-[#0a0c10] text-white px-3 md:px-6 py-1 md:py-2 rounded-xl md:rounded-2xl inline-block transform rotate-2 shadow-xl z-10 relative">
+              2019
+            </span>
+          </span>
+        </h1>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.5 }}
-                        transition={{ duration: 1, delay: 0.8 }}
-                        className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 grayscale hover:grayscale-0 transition-all"
-                    >
-                        {/* Placeholder for tech stack icons or stats */}
-                        <div className="flex flex-col items-center">
-                            <span className="text-3xl font-bold">5+</span>
-                            <span className="text-xs uppercase tracking-widest">Tahun Pengalaman</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-3xl font-bold">50+</span>
-                            <span className="text-xs uppercase tracking-widest">Projek Selesai</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-3xl font-bold">20+</span>
-                            <span className="text-xs uppercase tracking-widest">Klien Puas</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-3xl font-bold">100%</span>
-                            <span className="text-xs uppercase tracking-widest">Komitmen</span>
-                        </div>
-                    </motion.div>
-                </div>
-            </div>
-        </section>
-    )
-}
+        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed font-medium">
+          We start every new client interaction with an in-depth discovery call
+          where we get to know each other and recommend the best course of
+          action.
+        </p>
+      </div>
+
+      {/* Clients Section */}
+      {/* <div className="w-full max-w-6xl mx-auto px-2 mt-8 md:mt-12">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
+          <h3 className="text-xl font-black uppercase text-gray-400 w-full md:w-32 leading-tight">
+            Previously Worked On
+          </h3>
+          <div className="flex flex-wrap gap-3 md:gap-4 flex-1">
+            {clients.map((client, index) => (
+              <div
+                key={index}
+                className={`px-5 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all cursor-default
+                  ${
+                    client.highlight
+                      ? "bg-[#111] text-white border border-black transform -rotate-1 shadow-lg"
+                      : "border border-gray-300 bg-white text-gray-800 hover:bg-black hover:text-white hover:border-black"
+                  }`}
+              >
+                {client.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div> */}
+    </section>
+  );
+};
+
+export default Hero;
