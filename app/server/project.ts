@@ -28,7 +28,7 @@ export const get = async (): Promise<Project[]> => {
     const json = await data.json();
     return json.data;
 }
-export const detail = async (id: String): Promise<Project> => {
+export const detail = async (id: string): Promise<Project> => {
     const data = await fetch(`${baseURL}/project/${id}`, {
         method: 'GET',
     });

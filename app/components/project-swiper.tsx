@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
+import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -28,7 +28,13 @@ export default function ProjectSwiper({ images, title }: ProjectSwiperProps) {
                 spaceBetween={10}
                 navigation={true}
                 thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                modules={[FreeMode, Navigation, Thumbs]}
+                modules={[Autoplay, FreeMode, Navigation, Thumbs]}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true
+                }}
+                loop={true}
                 className="w-full aspect-video rounded-2xl border border-white/10 overflow-hidden bg-zinc-950 shadow-2xl"
             >
                 {images.map((image, index) => (
@@ -52,18 +58,20 @@ export default function ProjectSwiper({ images, title }: ProjectSwiperProps) {
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
+                autoplay={{ delay: 3000 }}
+                loop={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="thumbnail-swiper"
             >
                 {images.map((image, index) => (
                     <SwiperSlide key={index} className="cursor-pointer">
-                        <div className="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-transparent transition-all [.swiper-slide-thumb-active_&]:border-[#6d5dfc]">
+                        <div className="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-transparent transition-all in-[.swiper-slide-thumb-active]:border-[#6d5dfc]">
                             <Image
                                 src={image}
                                 alt={`${title} thumbnail ${index + 1}`}
                                 fill
-                                className="object-contain bg-zinc-900/50 opacity-60 transition-opacity hover:opacity-100 [.swiper-slide-thumb-active_&]:opacity-100"
+                                className="object-contain bg-zinc-900/50 opacity-60 transition-opacity hover:opacity-100 in-[.swiper-slide-thumb-active]:opacity-100"
                             />
                         </div>
                     </SwiperSlide>
@@ -72,14 +80,19 @@ export default function ProjectSwiper({ images, title }: ProjectSwiperProps) {
 
             <style jsx global>{`
                 .swiper-button-next, .swiper-button-prev {
-                    color: #fff;
-                    transition: color 0.3s ease;
+                    color: rgba(255, 255, 255, 0.5);
+                    transition: all 0.3s ease;
+                    width: 32px;
+                    height: 32px;
+                    background: transparent;
                 }
                 .swiper-button-next:hover, .swiper-button-prev:hover {
-                    color: #6d5dfc;
+                    color: #fff;
+                    transform: scale(1.1);
                 }
                 .swiper-button-next:after, .swiper-button-prev:after {
-                    font-size: 20px;
+                    font-size: 16px;
+                    font-weight: bold;
                 }
             `}</style>
         </div>

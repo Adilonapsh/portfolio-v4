@@ -55,7 +55,7 @@ export default function Contact() {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium uppercase tracking-wider">Pesan</label>
-                                <Textarea placeholder="Tulis pesan Anda di sini..." className="min-h-[150px] bg-muted/50 border-none rounded-2xl resize-none" />
+                                <Textarea placeholder="Tulis pesan Anda di sini..." className="min-h-37.5 bg-muted/50 border-none rounded-2xl resize-none" />
                             </div>
                             <Button className="w-full rounded-full h-12 text-lg font-bold gap-2">
                                 <Send className="h-5 w-5" /> Kirim Pesan

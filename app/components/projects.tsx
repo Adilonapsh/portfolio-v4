@@ -9,13 +9,13 @@ export default async function Projects() {
     const projects = allProjects.slice(0, 4) // Show up to 4 projects to fill the grid if needed, or 2 as per design? Design is grid-cols-2.
 
     return (
-        <section className="w-full mx-auto bg-[#0a0c10] rounded-[2.5rem] p-8 md:p-16 text-white overflow-hidden shadow-2xl my-24">
+        <section className="w-full max-w-7xl mx-auto bg-[#0a0c10] rounded-[2.5rem] p-8 md:p-16 text-white overflow-hidden shadow-2xl my-24">
             <div className="flex flex-col items-center text-center mb-16">
                 <div className="mb-6">
                     <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20">Recent Work</Badge>
                 </div>
                 <h2 className="max-w-3xl text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">
-                    Take a look at the latest projects I've done
+                    Take a look at the latest projects I&apos;ve done
                 </h2>
             </div>
 
@@ -26,7 +26,7 @@ export default async function Projects() {
                         href={`/projects/${project.slug}`}
                         className="group relative rounded-3xl overflow-hidden bg-[#202020] aspect-4/3 cursor-pointer ring-1 ring-white/10 hover:ring-primary/50 transition-all"
                     >
-                        <div className="absolute inset-0 bg-linear-to-trom-black/90 via-black/20 to-transparent z-10 pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent z-10 pointer-events-none"></div>
 
                         {/* Content */}
                         <div className="absolute bottom-0 left-0 right-0 p-8 z-20 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
@@ -56,7 +56,7 @@ export default async function Projects() {
                                     className="object-cover"
                                 />
                             ) : (
-                                <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                                <div className="w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                                     <span className="text-6xl text-gray-700 font-bold opacity-20">{project.name[0]}</span>
                                 </div>
                             )}

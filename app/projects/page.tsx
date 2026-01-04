@@ -46,7 +46,7 @@ const ProjectsPage = async () => {
                     <Link
                         key={index}
                         href={`/projects/${project.slug}`}
-                        className='relative min-h-[500px] lg:min-h-[600px] group/project rounded-lg p-10 overflow-hidden border border-border animate-card hover:drop-shadow transition-all duration-500 block'
+                        className='relative min-h-125 lg:min-h-150 group/project rounded-lg p-10 overflow-hidden border border-border animate-card hover:drop-shadow transition-all duration-500 block'
                     >
                         <div className='flex justify-between items-start mb-8'>
                             <Image
