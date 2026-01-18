@@ -30,8 +30,12 @@ export default function Footer() {
                     <div className="relative z-10 space-y-4">
                         <p className="text-sm font-medium opacity-60 uppercase tracking-widest">Catch me</p>
                         <div className="flex items-center gap-4">
-                            <div className="h-12 w-12 bg-gray-400 rounded-full overflow-hidden flex items-center justify-center text-xs font-bold text-black border-2 border-white/20">
-                                PHOTO
+                            <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-white/20">
+                                <img
+                                    src="https://yt3.googleusercontent.com/ytc/AIdro_kZWIthG23zlk1BAJzcNmw8lWhul9RFFIk_wabsiRd58g=s160-c-k-c0x00ffffff-no-rj"
+                                    alt="Adil Ivansyah L"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                             <span className="text-xl font-bold">Adil Ivansyah L</span>
                         </div>
@@ -39,7 +43,7 @@ export default function Footer() {
                 </div>
 
                 {/* Right Side - Detailed Links */}
-                <div className="lg:w-3/5 bg-white text-black p-12 lg:p-20 flex flex-col justify-between">
+                <div className="relative lg:w-3/5 bg-white text-black p-12 lg:p-20 flex flex-col justify-between overflow-hidden">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                         {/* Company Info */}
                         <div className="space-y-6 lg:col-span-1">
@@ -92,6 +96,10 @@ export default function Footer() {
                             <span className="hover:text-black cursor-pointer">Cookies</span>
                         </div>
                         <p className="uppercase tracking-widest">© 2025. Truenapsh. All rights reserved.</p>
+                    </div>
+
+                    <div className="absolute -bottom-0 right-0 text-[300px] font-black uppercase tracking-tighter opacity-5">
+                        TRUENAPSH
                     </div>
                 </div>
             </div>

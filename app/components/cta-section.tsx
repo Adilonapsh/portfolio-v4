@@ -13,8 +13,10 @@ export default function CTASection() {
                     <p className="text-gray-400 text-lg md:text-xl font-medium">
                         Mulai kolaborasi dengan truenapsh saya hari ini dan mari diskusikan bagaimana truenapsh dapat membantu Anda mencapai tujuan Anda.
                     </p>
-                    <Button size="lg" className="rounded-xl px-8 h-14 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 gap-2 text-lg">
-                        Hubungi Truenapsh <ArrowUpRight className="h-5 w-5" />
+                    <Button asChild size="lg" className="rounded-xl px-8 h-14 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 gap-2 text-lg">
+                        <a href="mailto:hire@truenapsh.my.id">
+                            Hubungi Truenapsh <ArrowUpRight className="h-5 w-5" />
+                        </a>
                     </Button>
                 </div>
             </ScrollReveal>

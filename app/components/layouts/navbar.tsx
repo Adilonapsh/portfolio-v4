@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Moon, Sun } from "lucide-react"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 
@@ -11,6 +12,13 @@ export default function Navbar() {
     const { theme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+
+    // Transisi utama untuk sinkronisasi layout dan efek visual
+    const transition = {
+        type: "tween",
+        ease: [0.4, 0, 0.2, 1],
+        duration: 0.6
+    } as const;
 
     useEffect(() => {
         setMounted(true)
@@ -41,12 +49,64 @@ export default function Navbar() {
                 )}
             >
                 <div className="flex h-16 items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="h-8 w-8 bg-[#6d5dfc] rounded-lg flex items-center justify-center text-white font-black group-hover:rotate-12 transition-transform italic">
-                            TN
-                        </div>
-                        <span className="font-bold text-xl tracking-tight uppercase">Truenapsh</span>
-                    </Link>
+                    <div className="flex-1 flex justify-start">
+                        <Link href="/" className="flex items-center gap-2 group">
+                            <motion.div
+                                layout
+                                transition={transition}
+                                className="flex items-center text-2xl font-bold tracking-tight uppercase text-foreground"
+                            >
+                                <motion.span layout transition={transition}>
+                                    T
+                                </motion.span>
+                                <AnimatePresence>
+                                    {!scrolled && (
+                                        <motion.span
+                                            key="rue"
+                                            initial={{ opacity: 0, width: 0, filter: 'blur(8px)' }}
+                                            animate={{ opacity: 1, width: 'auto', filter: 'blur(0px)' }}
+                                            exit={{
+                                                opacity: 0,
+                                                width: 0,
+                                                filter: 'blur(8px)',
+                                                transition: { ...transition, duration: 0.4 }
+                                            }}
+                                            transition={transition}
+                                            className="inline-block overflow-hidden whitespace-nowrap lowercase font-bold"
+                                        >
+                                            rue
+                                        </motion.span>
+                                    )}
+                                </AnimatePresence>
+                                <motion.span
+                                    layout
+                                    transition={transition}
+                                    className="inline-block"
+                                >
+                                    N
+                                </motion.span>
+                                <AnimatePresence>
+                                    {!scrolled && (
+                                        <motion.span
+                                            key="apsh"
+                                            initial={{ opacity: 0, width: 0, filter: 'blur(8px)' }}
+                                            animate={{ opacity: 1, width: 'auto', filter: 'blur(0px)' }}
+                                            exit={{
+                                                opacity: 0,
+                                                width: 0,
+                                                filter: 'blur(8px)',
+                                                transition: { ...transition, duration: 0.4 }
+                                            }}
+                                            transition={transition}
+                                            className="inline-block overflow-hidden whitespace-nowrap lowercase font-bold"
+                                        >
+                                            apsh
+                                        </motion.span>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        </Link>
+                    </div>
 
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link href="/" className="text-sm font-medium transition-colors hover:text-primary opacity-70 hover:opacity-100">
@@ -63,7 +123,7 @@ export default function Navbar() {
                         </Link>
                     </nav>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex-1 flex items-center justify-end space-x-2">
                         <Button
                             variant="ghost"
                             size="icon"

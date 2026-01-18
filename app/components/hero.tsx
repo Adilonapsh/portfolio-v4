@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
           I've been{" "}
           <span className="relative inline-block mx-1 md:mx-2">
             <span className="bg-[#0a0c10] text-white px-3 md:px-6 py-1 md:py-2 rounded-xl md:rounded-2xl inline-block transform -rotate-2 shadow-xl z-10 relative">
-              Designing
+              Developing
             </span>
           </span>
           <br className="hidden md:block" />
