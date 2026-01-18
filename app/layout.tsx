@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./components/providers";
 import Navbar from "./components/layouts/navbar";
 import Footer from "./components/footer";
+import { ScrollToTop } from "@/components/scroll-to-top";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <ScrollToTop />
           <Footer />
         </Providers>
       </body>

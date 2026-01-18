@@ -1,7 +1,8 @@
 "use client"
 
 import CTASection from "./cta-section"
-import { Github, Instagram, Dribbble, Globe, Twitter } from "lucide-react"
+import { Github, Instagram, Dribbble, Globe, Twitter, Figma } from "lucide-react"
+import Link from "next/link"
 
 export default function Footer() {
     return (
@@ -21,14 +22,14 @@ export default function Footer() {
                             <span className="text-3xl font-black italic">D</span>
                         </div>
                         <h3 className="text-5xl md:text-7xl font-black flex flex-col uppercase leading-none tracking-tighter gap-5">
-                            <span>Creative</span>
-                            <span>Realiable</span>
-                            <span>Inovative</span>
+                            <span>Dream</span>
+                            <span>Build</span>
+                            <span>Ship</span>
                         </h3>
                     </div>
 
-                    <div className="relative z-10 space-y-4">
-                        <p className="text-sm font-medium opacity-60 uppercase tracking-widest">Catch me</p>
+                    <div className="relative z-10 space-y-6 mt-5">
+                        {/* <p className="text-sm font-medium opacity-60 uppercase tracking-widest">Catch me</p> */}
                         <div className="flex items-center gap-4">
                             <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-white/20">
                                 <img
@@ -44,7 +45,7 @@ export default function Footer() {
 
                 {/* Right Side - Detailed Links */}
                 <div className="relative lg:w-3/5 bg-white text-black p-12 lg:p-20 flex flex-col justify-between overflow-hidden">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 z-10">
                         {/* Company Info */}
                         <div className="space-y-6 lg:col-span-1">
                             <div className="flex items-center gap-2 group cursor-pointer">
@@ -60,11 +61,24 @@ export default function Footer() {
                             </div>
 
                             <div className="flex gap-4 text-gray-400">
-                                <Instagram className="h-5 w-5 hover:text-black cursor-pointer" />
-                                <Twitter className="h-5 w-5 hover:text-black cursor-pointer" />
-                                <Github className="h-5 w-5 hover:text-black cursor-pointer" />
-                                <Dribbble className="h-5 w-5 hover:text-black cursor-pointer" />
-                                <Globe className="h-5 w-5 hover:text-black cursor-pointer" />
+                                <a href="https://instagram.com/noreplyao">
+                                    <Instagram className="h-5 w-5 hover:text-black cursor-pointer" />
+                                </a>
+                                <a href="https://twitter.com/adilonapsh">
+                                    <Twitter className="h-5 w-5 hover:text-black cursor-pointer" />
+                                </a>
+                                <a href="https://github.com/adilonapsh">
+                                    <Github className="h-5 w-5 hover:text-black cursor-pointer" />
+                                </a>
+                                <a href="https://dribbble.com/adilonapsh">
+                                    <Dribbble className="h-5 w-5 hover:text-black cursor-pointer" />
+                                </a>
+                                <a href="https://www.figma.com/@adilonapsh">
+                                    <Figma className="h-5 w-5 hover:text-black cursor-pointer" />
+                                </a>
+                                <a href="https://truenapsh.my.id">
+                                    <Globe className="h-5 w-5 hover:text-black cursor-pointer" />
+                                </a>
                             </div>
                         </div>
 
@@ -72,11 +86,11 @@ export default function Footer() {
                         <div className="space-y-6">
                             <h4 className="font-bold text-gray-400 uppercase tracking-widest text-xs">Services</h4>
                             <ul className="space-y-3 font-semibold text-gray-700">
-                                <li className="hover:text-black cursor-pointer">Home</li>
-                                <li className="hover:text-black cursor-pointer">Product</li>
-                                <li className="hover:text-black cursor-pointer">Portofolio</li>
-                                <li className="hover:text-black cursor-pointer">Pricing</li>
-                                <li className="hover:text-black cursor-pointer">About</li>
+                                <li className="hover:text-black cursor-pointer"><Link href="/" className="hover:text-black cursor-pointer">Home</Link></li>
+                                <li className="hover:text-black cursor-pointer"><Link href="/blog" className="hover:text-black cursor-pointer">Blog</Link></li>
+                                <li className="hover:text-black cursor-pointer"><Link href="/projects" className="hover:text-black cursor-pointer">Portofolio</Link></li>
+                                {/* <li className="hover:text-black cursor-pointer">Pricing</li> */}
+                                <li className="hover:text-black cursor-pointer"><Link href="/about" className="hover:text-black cursor-pointer">About</Link></li>
                             </ul>
                         </div>
 
@@ -89,7 +103,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div className="pt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-400">
+                    <div className="pt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-400 z-10">
                         <div className="flex gap-6 uppercase tracking-widest">
                             <span className="hover:text-black cursor-pointer">Terms & Conditions</span>
                             <span className="hover:text-black cursor-pointer">Privacy Policy</span>
@@ -98,7 +112,7 @@ export default function Footer() {
                         <p className="uppercase tracking-widest">© 2025. Truenapsh. All rights reserved.</p>
                     </div>
 
-                    <div className="absolute -bottom-0 right-0 text-[300px] font-black uppercase tracking-tighter opacity-5">
+                    <div className="absolute -bottom-0 right-0 text-[300px] font-black uppercase tracking-tighter opacity-5 ">
                         TRUENAPSH
                     </div>
                 </div>

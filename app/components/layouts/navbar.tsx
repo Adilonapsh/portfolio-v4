@@ -4,14 +4,22 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Moon, Sun } from "lucide-react"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
+import { usePathname } from "next/navigation"
 
 export default function Navbar() {
     const { theme, setTheme } = useTheme()
+    const pathname = usePathname()
     const [mounted, setMounted] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+    const { scrollYProgress } = useScroll()
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    })
 
     // Transisi utama untuk sinkronisasi layout dan efek visual
     const transition = {
@@ -42,7 +50,7 @@ export default function Navbar() {
         <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 py-4">
             <div
                 className={cn(
-                    "container transition-all duration-300 ease-in-out px-6",
+                    "container transition-all duration-300 ease-in-out px-6 relative overflow-hidden",
                     scrolled
                         ? "rounded-full shadow-lg max-w-4xl mt-2 backdrop-blur-md bg-background/80 border border-border"
                         : "bg-transparent border-b border-transparent",
@@ -109,21 +117,26 @@ export default function Navbar() {
                     </div>
 
                     <nav className="hidden md:flex items-center space-x-8">
-                        <Link href="/" className="text-sm font-medium transition-colors hover:text-primary opacity-70 hover:opacity-100">
-                            Home
-                        </Link>
-                        <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary opacity-70 hover:opacity-100">
-                            About
-                        </Link>
-                        <Link href="/projects" className="text-sm font-medium transition-colors hover:text-primary opacity-70 hover:opacity-100">
-                            Projects
-                        </Link>
-                        <Link href="/blog" className="text-sm font-medium transition-colors hover:text-primary opacity-70 hover:opacity-100">
-                            Blog
-                        </Link>
-                        <Link href="#contact" className="text-sm font-medium transition-colors hover:text-primary opacity-70 hover:opacity-100">
-                            Contact
-                        </Link>
+                        {[
+                            { name: "Home", href: "/" },
+                            { name: "About", href: "/about" },
+                            { name: "Projects", href: "/projects" },
+                            { name: "Blog", href: "/blog" },
+                            { name: "Contact", href: "#contact" },
+                        ].map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className={cn(
+                                    "text-sm font-medium transition-colors hover:text-primary",
+                                    pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href))
+                                        ? "text-primary opacity-100 font-bold"
+                                        : "opacity-70 hover:opacity-100"
+                                )}
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
                     </nav>
 
                     <div className="flex-1 flex items-center justify-end space-x-2">
@@ -142,6 +155,10 @@ export default function Navbar() {
                         </Button>
                     </div>
                 </div>
+                <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary/30 origin-left"
+                    style={{ scaleX }}
+                />
             </div>
         </header>
     )

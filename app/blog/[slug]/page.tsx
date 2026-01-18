@@ -1,10 +1,11 @@
-
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { detail } from "@/app/server/blog";
+import { Blog, detail, lists } from "@/app/server/blog";
 import { BlogHeader } from "@/components/blog/BlogHeader";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
+import { BlogFeaturedImage } from "@/components/blog/BlogFeaturedImage";
+import { BlogCard } from "@/components/blog/BlogCard";
 
 interface BlogDetailProps {
     params: Promise<{
@@ -15,18 +16,15 @@ interface BlogDetailProps {
 export default async function BlogDetail({ params }: BlogDetailProps) {
     const { slug } = await params;
 
-    // Assuming backend handles slug lookup or we might need to find by slug if endpoint only takes ID.
-    // However, the function signature in blog.ts is `detail(id: String)`.
-    // If slugs are supported by backend on same endpoint using ID param, we can pass slug.
-    // If not, we might need to filter from lists or backend needs update. 
-    // Based on `detail` signature taking `id`, I will try passing slug, if it fails I'll notify user.
-    // But typically public blog relies on slug.
-
-    let blog;
+    let blog: Blog | null = null;
+    let relatedBlogs: Blog[] = [];
     try {
         blog = await detail(slug);
+        const allBlogs = await lists();
+        // Filter out current blog and take first 3
+        relatedBlogs = allBlogs.filter(b => b.id !== blog?.id).slice(0, 3);
     } catch (e) {
-        console.error("Failed to fetch blog detail", e);
+        console.error("Failed to fetch blog detail or related lists", e);
     }
 
     if (!blog) {
@@ -41,24 +39,16 @@ export default async function BlogDetail({ params }: BlogDetailProps) {
                 <BlogHeader blog={blog} />
 
                 {/* Featured Image */}
-                <div className="mb-16 relative aspect-[21/9] w-full overflow-hidden rounded-3xl shadow-2xl">
-                    <Image
-                        src={"https://admin-porto.truenapsh.my.id/storage/19/f634d124-3a7d-4e36-a314-4b961dfdf268.jpg"}
-                        alt={blog.title}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </div>
+                <BlogFeaturedImage blog={blog} />
 
                 {/* Main Content Layout */}
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 mb-20">
 
-                    <div className="lg:col-span-8">
+                    <div className="lg:col-span-9">
                         <BlogContent blog={blog} />
                     </div>
 
-                    <div className="hidden lg:block lg:col-span-4">
+                    <div className="hidden lg:block lg:col-span-3">
                         <BlogSidebar blog={blog} />
                     </div>
 
@@ -67,6 +57,18 @@ export default async function BlogDetail({ params }: BlogDetailProps) {
                     </div>
 
                 </div>
+
+                {/* Related Blogs Section */}
+                {relatedBlogs.length > 0 && (
+                    <div className="border-t border-border pt-16">
+                        <h2 className="text-3xl font-bold mb-10 text-center uppercase tracking-tight">Related Articles</h2>
+                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                            {relatedBlogs.map((relatedBlog) => (
+                                <BlogCard key={relatedBlog.id} blog={relatedBlog} />
+                            ))}
+                        </div>
+                    </div>
+                )}
 
             </div>
         </div>
