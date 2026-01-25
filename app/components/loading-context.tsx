@@ -10,7 +10,7 @@ type LoadingContextType = {
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined)
 
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(process.env.NEXT_PUBLIC_ENABLE_SPLASH_SCREEN === "false")
 
     const finishLoading = useCallback(() => {
         setIsLoaded(true)

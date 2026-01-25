@@ -33,7 +33,7 @@ const ProjectsPage = async () => {
     const projects = await get();
 
     return (
-        <div className="container mx-auto px-6 pt-32 pb-12">
+        <div className="container mx-auto px-6 lg:px-12 pt-32 pb-12">
             <div className="max-w-4xl mb-16">
                 <h1 className='text-5xl lg:text-7xl font-black text-foreground uppercase tracking-tight mb-6'>Projects</h1>
                 <p className='text-lg opacity-70 leading-relaxed text-justify lg:text-left'>

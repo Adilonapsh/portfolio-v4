@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased`}
       >
         <Providers>
-          <SplashScreen />
+          {process.env.NEXT_PUBLIC_ENABLE_SPLASH_SCREEN !== "false" && <SplashScreen />}
           <Navbar />
           {children}
           <ScrollToTop />
