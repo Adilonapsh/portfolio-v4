@@ -4,78 +4,93 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MessageSquare, Send } from "lucide-react"
+import { Mail, MessageSquare, Send, Radio } from "lucide-react"
 import { motion } from "framer-motion"
+import { ScrollReveal } from "./scroll-reveal"
 
 export default function Contact() {
     return (
-        <section id="contact" className="py-24 bg-muted/30">
-            <div className="container px-4 md:px-6 mx-auto">
-                <div className="grid lg:grid-cols-2 gap-12">
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="space-y-8"
-                    >
-                        <div className="space-y-4">
-                            <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">MARI BICARA</h2>
-                            <p className="text-muted-foreground text-lg">
-                                Punya ide proyek atau ingin sekadar menyapa? Jangan ragu untuk menghubungi saya!
-                            </p>
-                        </div>
+        <section id="contact" className="py-32 relative overflow-hidden bg-background font-sans">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+            <div className="absolute inset-0 coord-grid opacity-30 pointer-events-none" />
 
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-4">
-                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                                    <Mail className="h-6 w-6" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Email</p>
-                                    <a href="mailto:hire@truenapsh.my.id" className="font-bold">hire@truenapsh.my.id</a>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                                    <MessageSquare className="h-6 w-6" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Sosial Media</p>
-                                    <p className="font-bold">@Noreplyao</p>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
+            {/* Background Title */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center opacity-5">
+                <motion.h2
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5 }}
+                    className="text-outline text-[30vw] font-black uppercase whitespace-nowrap"
+                >
+                    CONTACT
+                </motion.h2>
+            </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <Card className="border-none shadow-xl bg-background/50 backdrop-blur-sm">
-                            <CardContent className="p-8 space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium uppercase tracking-wider">Nama</label>
-                                        <Input placeholder="John Doe" className="bg-muted/50 border-none rounded-xl" />
+            <div className="container px-6 md:px-12 mx-auto relative z-10">
+                <div className="grid lg:grid-cols-2 gap-20">
+                    <ScrollReveal direction="right">
+                        <div className="space-y-12">
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-4 mb-2">
+                                    <div className="h-px w-12 bg-primary/30" />
+                                    <span className="section-label">Jalin_Koneksi</span>
+                                </div>
+                                <h2 className="text-5xl md:text-7xl font-black leading-none tracking-tighter uppercase text-foreground">
+                                    MARI <br /> <span className="text-primary italic">BERDISKUSI</span>
+                                </h2>
+                                <p className="text-muted-foreground text-xl leading-relaxed max-w-md font-medium opacity-80">
+                                    Mari diskusikan proyek impian Anda. Kirim pesan melalui formulir di samping dan saya akan segera menghubungi Anda.
+                                </p>
+                            </div>
+
+                            <div className="space-y-8">
+                                <div className="flex items-center gap-6 group">
+                                    <div className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
+                                        <Mail className="h-6 w-6" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium uppercase tracking-wider">Email</label>
-                                        <Input placeholder="john@example.com" className="bg-muted/50 border-none rounded-xl" />
+                                    <div className="space-y-1 text-foreground">
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Email_Saya</p>
+                                        <a href="mailto:hire@truenapsh.my.id" className="text-xl font-bold tracking-tight hover:text-primary transition-colors">hire@truenapsh.my.id</a>
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium uppercase tracking-wider">Pesan</label>
-                                    <Textarea placeholder="Tulis pesan Anda di sini..." className="min-h-37.5 bg-muted/50 border-none rounded-2xl resize-none" />
+
+                                <div className="flex items-center gap-6 group">
+                                    <div className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
+                                        <Radio className="h-6 w-6" />
+                                    </div>
+                                    <div className="space-y-1 text-foreground">
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Sosial_Media</p>
+                                        <p className="text-xl font-bold tracking-tight">@Noreplyao</p>
+                                    </div>
                                 </div>
-                                <Button className="w-full rounded-full h-12 text-lg font-bold gap-2">
-                                    <Send className="h-5 w-5" /> Kirim Pesan
+                            </div>
+                        </div>
+                    </ScrollReveal>
+
+                    <ScrollReveal direction="left" delay={0.2}>
+                        <div className="glass-card p-2 rounded-[3.5rem] border-primary/10 shadow-3xl">
+                            <div className="bg-card/50 backdrop-blur-xl rounded-[3rem] p-10 space-y-8">
+                                <div className="grid sm:grid-cols-2 gap-8 text-foreground">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Nama_Lengkap</label>
+                                        <Input placeholder="SIAPA NAMA ANDA?" className="h-16 bg-white/5 border-none rounded-2xl px-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30" />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Alamat_Email</label>
+                                        <Input placeholder="EMAIL@SYSTEM.COM" className="h-16 bg-white/5 border-none rounded-2xl px-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30" />
+                                    </div>
+                                </div>
+                                <div className="space-y-3 text-foreground">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Pesan_Anda</label>
+                                    <Textarea placeholder="TULIS PESAN ANDA DI SINI..." className="min-h-[160px] bg-white/5 border-none rounded-3xl p-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30 resize-none" />
+                                </div>
+                                <Button className="w-full h-20 rounded-[1.5rem] text-sm font-black uppercase tracking-[0.4em] gap-4 bg-primary text-primary-foreground hover:scale-[1.02] transition-transform shadow-2xl shadow-primary/20">
+                                    <Send className="h-5 w-5" /> Kirim_Pesan
                                 </Button>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
+                            </div>
+                        </div>
+                    </ScrollReveal>
                 </div>
             </div>
         </section>

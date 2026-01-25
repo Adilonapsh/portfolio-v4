@@ -115,27 +115,61 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.text-outline {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+  color: transparent;
+}
+
+.dark .text-outline {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+}
+
 /* Hero Section Utilities */
 .coord-grid {
   background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.1) 1px, transparent 0);
-  background-size: 30px 30px;
+  background-size: 40px 40px;
   width: 100%;
   height: 100%;
 }
 
 .dark .coord-grid {
-  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
 }
 
-.outline-text {
-  -webkit-text-stroke: 1px currentColor;
-  color: currentColor;
+.glass-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.glass-tag {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+}
+
+.premium-glow {
+  position: relative;
+}
+
+.premium-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(45deg, transparent, rgba(var(--primary), 0.2), transparent);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.premium-glow:hover::after {
+  opacity: 1;
+}
+
+.section-label {
+  @apply text-[10px] font-black uppercase tracking-[0.4em] text-primary/50;
 }
 
 @keyframes orbit {

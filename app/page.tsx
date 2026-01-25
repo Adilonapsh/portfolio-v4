@@ -8,12 +8,10 @@ import Projects from "./components/projects";
 export default function Home() {
     return (
         <div className="flex flex-col min-h-screen">
-            <main className="w-fullmx-auto">
+            <main className="w-full">
                 <Hero />
-                <div className="container mx-auto">
-                    <About />
-                    <Projects />
-                </div>
+                <About />
+                <Projects />
                 <FAQ />
                 <Contact />
                 <CTASection />

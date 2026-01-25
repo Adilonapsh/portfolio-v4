@@ -4,72 +4,114 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
 import { ScrollReveal } from "./scroll-reveal"
+import { useLoading } from "@/app/components/loading-context"
 
 const skills = [
-    "TypeScript", "React", "Next.js", "Tailwind CSS",
+    "TypeScript", "React", " Laravel", "PHP", "Next.js", "Tailwind CSS",
     "Node.js", "PostgreSQL", "Prisma", "Framer Motion",
     "UI Design", "Responsive Layouts", "API Development"
 ]
 
 export default function About() {
+    const { isLoaded } = useLoading();
+
     return (
-        <section id="about" className="py-24 bg-muted/30">
-            <div className="container px-4 md:px-6">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+        <section id="about" className="py-32 relative overflow-hidden bg-background font-sans">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+            <div className="absolute inset-0 coord-grid opacity-50 pointer-events-none" />
+
+            {/* Background Title */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center opacity-5">
+                <motion.h2
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5 }}
+                    className="text-outline text-[30vw] font-black uppercase whitespace-nowrap"
+                >
+                    ABOUT
+                </motion.h2>
+            </div>
+
+            <div className="container px-6 md:px-12 mx-auto relative z-10">
+                <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <ScrollReveal direction="right">
                         <div className="relative group">
-                            <div className="absolute -inset-1 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <div className="relative aspect-square overflow-hidden rounded-2xl border bg-background flex items-center justify-center">
-                                {/* In a real project, use an Image component here */}
-                                <div className="text-8xl font-black text-muted/30 select-none">PICTURE</div>
+                            {/* Decorative Frame */}
+                            <div className="absolute -inset-4 border border-primary/10 rounded-[2.5rem] pointer-events-none" />
+                            <div className="absolute -inset-1 bg-gradient-to-tr from-primary/20 to-transparent rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-1000" />
+
+                            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border/50 bg-card/50 backdrop-blur-sm flex items-center justify-center">
+                                <div className="text-4xl font-black text-primary/10 select-none uppercase tracking-tighter rotate-12">
+                                    Visual Profile
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                             </div>
+
+                            {/* Status Tag */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl border border-primary/20 shadow-2xl"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest leading-none">Ready for Projects</span>
+                                </div>
+                            </motion.div>
                         </div>
                     </ScrollReveal>
 
-                    <div className="space-y-8">
-                        <ScrollReveal direction="left" delay={0.2}>
-                            <div className="space-y-4">
-                                <h2 className="text-5xl md:text-7xl lg:text-7xl font-black text-foreground tracking-tight">SIAPA SAYA?</h2>
-                                <p className="text-muted-foreground text-lg leading-relaxed text-justify lg:text-left">
-                                    Saya adalah seorang pengembang perangkat lunak yang bersemangat dengan fokus pada menciptakan pengalaman pengguna yang berkesan. Dengan latar belakang dalam desain dan pengembangan, saya menjembatani kesenjangan antara estetika dan fungsionalitas.
-                                </p>
-                            </div>
-                        </ScrollReveal>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <ScrollReveal direction="up" delay={0.4}>
-                                <Card className="bg-background/50 backdrop-blur-sm border-none shadow-none">
-                                    <CardContent className="p-4 space-y-2">
-                                        <h3 className="font-bold text-lg">Pendidikan</h3>
-                                        <p className="text-sm text-muted-foreground font-medium">Teknik Komputer (D3)</p>
-                                    </CardContent>
-                                </Card>
+                    <div className="space-y-12">
+                        <div className="space-y-6">
+                            <ScrollReveal direction="up">
+                                <div className="flex items-center gap-4 mb-2">
+                                    <div className="h-px w-12 bg-primary/30" />
+                                    <span className="section-label">Kisah Singkat</span>
+                                </div>
+                                <h2 className="text-5xl md:text-7xl font-black text-foreground tracking-tighter leading-none uppercase">
+                                    SIAPA <br /> <span className="text-primary italic">SAYA?</span>
+                                </h2>
                             </ScrollReveal>
-                            <ScrollReveal direction="up" delay={0.5}>
-                                <Card className="bg-background/50 backdrop-blur-sm border-none shadow-none">
-                                    <CardContent className="p-4 space-y-2">
-                                        <h3 className="font-bold text-lg">Lokasi</h3>
-                                        <p className="text-sm text-muted-foreground font-medium">Bogor, Indonesia<br />Tersedia untuk remote</p>
-                                    </CardContent>
-                                </Card>
+
+                            <ScrollReveal direction="up" delay={0.2}>
+                                <p className="text-muted-foreground text-xl leading-relaxed text-justify lg:text-left font-medium opacity-80">
+                                    Saya adalah <span className="text-foreground font-bold">Software Developer</span> yang bersemangat menciptakan pengalaman digital premium. Berfokus pada integrasi estetika tinggi dengan performa teknis yang solid.
+                                </p>
                             </ScrollReveal>
                         </div>
 
-                        <ScrollReveal direction="up" delay={0.6} staggerChildren={0.05}>
-                            <div className="space-y-4">
-                                <h3 className="font-bold text-xl uppercase tracking-wider">Teknologi & Produk</h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {skills.map((skill) => (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <ScrollReveal direction="up" delay={0.4}>
+                                <div className="glass-card p-8 rounded-3xl space-y-3">
+                                    <div className="text-[10px] font-bold text-primary/40 uppercase tracking-widest">Education</div>
+                                    <h3 className="font-black text-xl tracking-tight uppercase">Teknik Komputer</h3>
+                                    <p className="text-xs text-muted-foreground font-bold uppercase tracking-tighter">Diploma Degree (D3)</p>
+                                </div>
+                            </ScrollReveal>
+                            <ScrollReveal direction="up" delay={0.5}>
+                                <div className="glass-card p-8 rounded-3xl space-y-3">
+                                    <div className="text-[10px] font-bold text-primary/40 uppercase tracking-widest">Base_Ops</div>
+                                    <h3 className="font-black text-xl tracking-tight uppercase">Bogor, ID</h3>
+                                    <p className="text-xs text-muted-foreground font-bold uppercase tracking-tighter">Available for Global Remote</p>
+                                </div>
+                            </ScrollReveal>
+                        </div>
+
+                        <ScrollReveal direction="up" delay={0.6}>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-4">
+                                    <span className="section-label">Teknologi Utama</span>
+                                    <div className="h-px flex-1 bg-primary/10" />
+                                </div>
+                                <div className="flex flex-wrap gap-3">
+                                    {skills.map((skill, i) => (
                                         <motion.div
                                             key={skill}
-                                            variants={{
-                                                hidden: { opacity: 0, scale: 0.8 },
-                                                visible: { opacity: 1, scale: 1 }
-                                            }}
+                                            whileHover={{ y: -5, scale: 1.05 }}
+                                            className="px-5 py-2 rounded-full glass-card text-[11px] font-black uppercase tracking-widest text-foreground/70 hover:text-primary hover:border-primary/30 transition-all cursor-default"
                                         >
-                                            <Badge variant="secondary" className="px-3 py-1 text-sm font-medium">
-                                                {skill}
-                                            </Badge>
+                                            {skill}
                                         </motion.div>
                                     ))}
                                 </div>

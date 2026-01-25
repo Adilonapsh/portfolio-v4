@@ -15,8 +15,8 @@ export default function Footer() {
                     </div>
 
                     <div className="relative z-10 space-y-8">
-                        <div className="h-16 w-16 bg-[#54d912] rounded-2xl flex items-center justify-center">
-                            <span className="text-3xl font-black italic">D</span>
+                        <div className="h-16 w-16 bg-[#28c791] rounded-2xl flex items-center justify-center">
+                            <span className="text-3xl font-black italic">TN</span>
                         </div>
                         <h3 className="text-5xl md:text-7xl font-black flex flex-col uppercase leading-none tracking-tighter gap-5">
                             <span>Dream</span>

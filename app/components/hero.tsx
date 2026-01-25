@@ -93,9 +93,9 @@ const Hero: React.FC = () => {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
                 <motion.h2
                     initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isLoaded ? { opacity: 0.1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                    animate={isLoaded ? { opacity: 0.07, scale: 1 } : { opacity: 0, scale: 0.8 }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
-                    className="outline-text text-[25vw] font-black uppercase whitespace-nowrap"
+                    className="text-outline text-[25vw] font-black uppercase whitespace-nowrap"
                 >
                     PORTFOLIO
                 </motion.h2>
