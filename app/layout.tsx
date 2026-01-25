@@ -5,6 +5,8 @@ import { Providers } from "./components/providers";
 import Navbar from "./components/layouts/navbar";
 import Footer from "./components/footer";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { CookieConsent } from "@/components/CookieConsent";
+import { SplashScreen } from "@/components/SplashScreen";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,9 +29,11 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased`}
       >
         <Providers>
+          <SplashScreen />
           <Navbar />
           {children}
           <ScrollToTop />
+          <CookieConsent />
           <Footer />
         </Providers>
       </body>

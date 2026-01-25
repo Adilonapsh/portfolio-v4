@@ -8,9 +8,11 @@ import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { usePathname } from "next/navigation"
+import { useLoading } from "@/app/components/loading-context"
 
 export default function Navbar() {
     const { theme, setTheme } = useTheme()
+    const { isLoaded } = useLoading()
     const pathname = usePathname()
     const [mounted, setMounted] = useState(false)
     const [scrolled, setScrolled] = useState(false)
@@ -47,7 +49,12 @@ export default function Navbar() {
     if (!mounted) return null
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 py-4">
+        <motion.header
+            initial={{ y: -100, opacity: 0 }}
+            animate={isLoaded ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.5 }}
+            className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 py-4"
+        >
             <div
                 className={cn(
                     "container transition-all duration-300 ease-in-out px-6 relative overflow-hidden",
@@ -68,7 +75,7 @@ export default function Navbar() {
                                     T
                                 </motion.span>
                                 <AnimatePresence>
-                                    {!scrolled && (
+                                    {!scrolled && isLoaded && (
                                         <motion.span
                                             key="rue"
                                             initial={{ opacity: 0, width: 0, filter: 'blur(8px)' }}
@@ -79,7 +86,7 @@ export default function Navbar() {
                                                 filter: 'blur(8px)',
                                                 transition: { ...transition, duration: 0.4 }
                                             }}
-                                            transition={transition}
+                                            transition={{ ...transition, delay: 1.2 }}
                                             className="inline-block overflow-hidden whitespace-nowrap lowercase font-bold"
                                         >
                                             rue
@@ -88,13 +95,13 @@ export default function Navbar() {
                                 </AnimatePresence>
                                 <motion.span
                                     layout
-                                    transition={transition}
+                                    transition={{ ...transition, delay: 1.2 }}
                                     className="inline-block"
                                 >
                                     N
                                 </motion.span>
                                 <AnimatePresence>
-                                    {!scrolled && (
+                                    {!scrolled && isLoaded && (
                                         <motion.span
                                             key="apsh"
                                             initial={{ opacity: 0, width: 0, filter: 'blur(8px)' }}
@@ -105,7 +112,7 @@ export default function Navbar() {
                                                 filter: 'blur(8px)',
                                                 transition: { ...transition, duration: 0.4 }
                                             }}
-                                            transition={transition}
+                                            transition={{ ...transition, delay: 1.2 }}
                                             className="inline-block overflow-hidden whitespace-nowrap lowercase font-bold"
                                         >
                                             apsh
@@ -160,6 +167,6 @@ export default function Navbar() {
                     style={{ scaleX }}
                 />
             </div>
-        </header>
+        </motion.header>
     )
 }

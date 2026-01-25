@@ -44,6 +44,7 @@ export default function ProjectSwiper({ images, title }: ProjectSwiperProps) {
                                 src={image}
                                 alt={`${title} screenshot ${index + 1}`}
                                 fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 896px"
                                 className="object-contain"
                                 priority={index === 0}
                             />
@@ -71,6 +72,7 @@ export default function ProjectSwiper({ images, title }: ProjectSwiperProps) {
                                 src={image}
                                 alt={`${title} thumbnail ${index + 1}`}
                                 fill
+                                sizes="(max-width: 768px) 25vw, 224px"
                                 className="object-contain bg-zinc-900/50 opacity-60 transition-opacity hover:opacity-100 in-[.swiper-slide-thumb-active]:opacity-100"
                             />
                         </div>

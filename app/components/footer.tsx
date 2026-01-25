@@ -11,10 +11,7 @@ export default function Footer() {
             <div className="flex flex-col lg:flex-row min-h-125">
                 <div className="lg:w-2/5 bg-[#0a0c10] p-12 lg:p-20 relative overflow-hidden flex flex-col justify-between text-white border-r border-gray-800">
                     <div className="absolute left-0 inset-0 opacity-10 pointer-events-none">
-                        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <path d="M0,50 Q25,30 50,50 T100,50" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                            <path d="M0,70 Q25,50 50,70 T100,70" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                        </svg>
+                        <img src="/images/footer.webp" alt="Footer background" className="w-full h-full object-cover" />
                     </div>
 
                     <div className="relative z-10 space-y-8">
@@ -112,7 +109,7 @@ export default function Footer() {
                         <p className="uppercase tracking-widest">© 2025. Truenapsh. All rights reserved.</p>
                     </div>
 
-                    <div className="absolute -bottom-0 right-0 text-[300px] font-black uppercase tracking-tighter opacity-5 ">
+                    <div className="absolute -bottom-0 -right-10 lg:bottom-0 lg:right-0 text-[150px] lg:text-[300px] font-black uppercase tracking-tighter opacity-5 select-none pointer-events-none [writing-mode:vertical-rl] lg:[writing-mode:horizontal-tb]">
                         TRUENAPSH
                     </div>
                 </div>

@@ -1,75 +1,195 @@
-import { Badge } from "@/components/ui/badge";
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLoading } from "@/app/components/loading-context";
 
 const Hero: React.FC = () => {
-  const clients = [
-    { name: "StartUp Inc.", highlight: false },
-    { name: "Award Winner", highlight: true },
-    { name: "Enterprise Co", highlight: false },
-    { name: "Tech Giant", highlight: false },
-    { name: "Global Brand", highlight: false },
-    { name: "Creative Studio", highlight: false },
-  ];
+    const { isLoaded } = useLoading();
+    const [statuses, setStatuses] = useState([
+        { id: 0, text: "System Booting //" }
+    ]);
 
-  return (
-    <section className="w-full flex flex-col items-center h-screen justify-center">
-      {/* Hero Content */}
-      <div className="w-full max-w-5xl mx-auto flex flex-col items-center text-center pt-8 pb-16 relative z-10">
-        {/* Glow Effect */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-75 md:w-150 h-75 md:h-100 bg-primary/20 blur-[80px] md:blur-[100px] rounded-full -z-10 pointer-events-none"></div>
+    useEffect(() => {
+        if (!isLoaded) return;
 
-        <div className="mb-8">
-          <Badge>About Me</Badge>
-        </div>
+        const messages = [
+            "Syncing Data...",
+            "Checking Integrity",
+            "LATENCY_CHECK",
+            "Buffer_Linked",
+            "Data_Stream_Active",
+            "Security_Verified"
+        ];
+        let counter = 1;
+        const cachedLatency = { current: null as number | null };
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-[#0a0c10] dark:text-white leading-[1.1] tracking-tighter mb-8">
-          I've been{" "}
-          <span className="relative inline-block mx-1 md:mx-2">
-            <span className="bg-[#0a0c10] text-white px-3 md:px-6 py-1 md:py-2 rounded-xl md:rounded-2xl inline-block transform -rotate-2 shadow-xl z-10 relative">
-              Developing
-            </span>
-          </span>
-          <br className="hidden md:block" />
-          Websites since{" "}
-          <span className="relative inline-block mx-1 md:mx-2">
-            <span className="bg-[#0a0c10] text-white px-3 md:px-6 py-1 md:py-2 rounded-xl md:rounded-2xl inline-block transform rotate-2 shadow-xl z-10 relative">
-              2019
-            </span>
-          </span>
-        </h1>
+        const getRealLatency = async () => {
+            if (cachedLatency.current !== null) return cachedLatency.current;
 
-        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed font-medium">
-          We start every new client interaction with an in-depth discovery call
-          where we get to know each other and recommend the best course of
-          action.
-        </p>
-      </div>
+            const start = performance.now();
+            try {
+                await fetch(window.location.origin + "/favicon.ico", {
+                    method: 'HEAD',
+                    cache: 'no-store',
+                    mode: 'no-cors'
+                });
+                cachedLatency.current = Math.round(performance.now() - start);
+            } catch {
+                cachedLatency.current = Math.round(performance.now() - start);
+            }
+            return cachedLatency.current;
+        };
 
-      {/* Clients Section */}
-      {/* <div className="w-full max-w-6xl mx-auto px-2 mt-8 md:mt-12">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
-          <h3 className="text-xl font-black uppercase text-gray-400 w-full md:w-32 leading-tight">
-            Previously Worked On
-          </h3>
-          <div className="flex flex-wrap gap-3 md:gap-4 flex-1">
-            {clients.map((client, index) => (
-              <div
-                key={index}
-                className={`px-5 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all cursor-default
-                  ${
-                    client.highlight
-                      ? "bg-[#111] text-white border border-black transform -rotate-1 shadow-lg"
-                      : "border border-gray-300 bg-white text-gray-800 hover:bg-black hover:text-white hover:border-black"
-                  }`}
-              >
-                {client.name}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
-    </section>
-  );
+        const interval = setInterval(async () => {
+            let nextMsg = messages[Math.floor(Math.random() * messages.length)];
+
+            if (nextMsg === "LATENCY_CHECK") {
+                const lat = await getRealLatency();
+                nextMsg = `Latency: ${lat}ms`;
+            }
+
+            setStatuses(prev => {
+                const newStatus = { id: counter++, text: nextMsg };
+                return [newStatus, ...prev].slice(0, 3);
+            });
+        }, 5000);
+
+        const handleInteraction = (type: string, target: string) => {
+            const cleanTarget = target.trim().slice(0, 20) || "Unknown";
+            setStatuses(prev => {
+                const newStatus = { id: counter++, text: `${type}_Event: ${cleanTarget}` };
+                return [newStatus, ...prev].slice(0, 3);
+            });
+        };
+
+        const handleClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            handleInteraction("Click", target.innerText || target.tagName);
+        };
+
+        const handleHover = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
+                const text = target.innerText || target.getAttribute('aria-label') || "Interactive_Element";
+                handleInteraction("Hover", text);
+            }
+        };
+
+        window.addEventListener('click', handleClick);
+        window.addEventListener('mouseover', handleHover);
+
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('click', handleClick);
+            window.removeEventListener('mouseover', handleHover);
+        };
+    }, [isLoaded]);
+
+    return (
+        <section className="min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden relative bg-background">
+            <div className="absolute inset-0 coord-grid pointer-events-none z-0" />
+
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+                <motion.h2
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isLoaded ? { opacity: 0.1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="outline-text text-[25vw] font-black uppercase whitespace-nowrap"
+                >
+                    PORTFOLIO
+                </motion.h2>
+            </div>
+
+            <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] border border-primary/10 rounded-full pointer-events-none opacity-40"
+            >
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-primary rounded-full blur-sm" />
+            </motion.div>
+
+            <div className="relative z-10 text-center">
+                <motion.h1
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="text-6xl md:text-[8vw] font-extrabold tracking-tighter leading-[0.85] text-foreground uppercase"
+                >
+                    DIGITAL <br /> <span className="text-primary italic">ALCHEMIST</span>
+                </motion.h1>
+
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={isLoaded ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ duration: 1, delay: 0.8 }}
+                    className="mt-16 flex flex-col md:flex-row items-center justify-center gap-12"
+                >
+                    <div className="text-center md:text-left group">
+                        <div className="text-[10px] font-bold opacity-30 uppercase tracking-widest mb-1 group-hover:opacity-60 transition-opacity">Email</div>
+                        <a href="mailto:hire@truenapsh.my.id" className="font-mono text-sm hover:text-primary transition-colors">
+                            hire@truenapsh.my.id
+                        </a>
+                    </div>
+
+                    <div className="w-px h-10 bg-foreground/10 hidden md:block" />
+
+                    <div className="text-center md:text-right group">
+                        <div className="text-[10px] font-bold opacity-30 uppercase tracking-widest mb-1 group-hover:opacity-60 transition-opacity">Dibuat Oleh</div>
+                        <div className="font-bold text-sm tracking-tighter uppercase">Adil Ivansyah</div>
+                    </div>
+                </motion.div>
+            </div>
+
+            <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                className="absolute bottom-10 right-10 hidden md:block text-right"
+            >
+                <div className="text-[10px] font-bold opacity-40 uppercase tracking-widest mb-1">Lokasi</div>
+                <div className="text-xs font-medium tracking-tight">BOGOR, INDONESIA</div>
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="absolute bottom-10 left-10 flex items-start gap-4 text-left w-64 h-16 pointer-events-none select-none z-50"
+            >
+                <motion.div
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-2.5 h-2.5 bg-emerald-500 mt-[1px] shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.5)]"
+                />
+                <div className="flex flex-col relative w-full h-full overflow-hidden">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                        {isLoaded && statuses.map((item, index) => (
+                            <motion.div
+                                key={item.id}
+                                layout
+                                initial={{ opacity: 0, x: -20, clipPath: 'inset(0 100% 0 0)' }}
+                                animate={{
+                                    opacity: 1 - index * 0.4,
+                                    x: 0,
+                                    y: index * 16,
+                                    clipPath: 'inset(0 0% 0 0)',
+                                    transition: {
+                                        layout: { duration: 0.5, ease: "easeOut" }
+                                    }
+                                }}
+                                exit={{ opacity: 0, x: 10, transition: { duration: 0.2 } }}
+                                className="text-[10px] font-bold uppercase tracking-widest text-foreground absolute top-0 left-0 whitespace-nowrap"
+                            >
+                                {item.text}
+                                {index === 0 && <motion.span animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className="ml-1 text-emerald-500 font-black">_</motion.span>}
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </div>
+            </motion.div>
+        </section>
+    );
 };
 
 export default Hero;

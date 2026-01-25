@@ -1,8 +1,9 @@
-import { getProjectBySlug } from "@/lib/projects";
+import { getProjectBySlug, getAllProjectSlugs } from "@/lib/projects";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { Metadata } from "next";
 
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
@@ -14,6 +15,32 @@ import StickyWrapper from "@/app/components/sticky-wrapper";
 
 interface ProjectPageProps {
     params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+    const slugs = await getAllProjectSlugs();
+    return slugs.map((item) => item.params);
+}
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
+
+    if (!project) {
+        return {
+            title: 'Project Not Found',
+        }
+    }
+
+    return {
+        title: `${project.title} | Portfolio`,
+        description: project.description,
+        openGraph: {
+            title: project.title,
+            description: project.description,
+            images: project.logo ? [project.logo] : [],
+        },
+    }
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
@@ -52,6 +79,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                 src={project.logo}
                                 alt={`${project.title} logo`}
                                 fill
+                                sizes="96px"
                                 className="object-contain p-4 bg-background"
                             />
                         ) : (
@@ -143,7 +171,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                             alt={imgProps.alt || ""}
                                             width={imgProps.width || 1920}
                                             height={imgProps.height || 1080}
-                                            className="max-w-full w-full h-auto rounded-xl sm:rounded-2xl border border-white/10 my-8 sm:my-12"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
+                                            className="w-full h-auto rounded-xl sm:rounded-2xl border border-white/10 my-8 sm:my-12"
                                         />
                                     )
                                 },

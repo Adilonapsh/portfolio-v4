@@ -115,6 +115,43 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Hero Section Utilities */
+.coord-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.1) 1px, transparent 0);
+  background-size: 30px 30px;
+  width: 100%;
+  height: 100%;
+}
+
+.dark .coord-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+}
+
+.outline-text {
+  -webkit-text-stroke: 1px currentColor;
+  color: currentColor;
+}
+
+.glass-tag {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbit-animation {
+  animation: orbit 20s linear infinite;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
