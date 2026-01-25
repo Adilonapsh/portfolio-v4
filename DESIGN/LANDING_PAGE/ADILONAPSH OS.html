@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADIL_OS v2.6.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --term-green: #00ff41;
+            --term-dim: #003b00;
+            --term-bg: #0a0a0a;
+        }
+
+        body {
+            background-color: var(--term-bg);
+            color: var(--term-green);
+            font-family: 'Fira Code', monospace;
+            margin: 0;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* CRT Flicker */
+        @keyframes flicker {
+            0% {
+                opacity: 0.97;
+            }
+
+            5% {
+                opacity: 0.95;
+            }
+
+            10% {
+                opacity: 0.9;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .crt {
+            animation: flicker 0.1s infinite;
+        }
+
+        .terminal-container {
+            height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background: var(--term-green);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            from,
+            to {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .system-btn {
+            border: 1px solid var(--term-green);
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .system-btn:hover {
+            background: var(--term-green);
+            color: black;
+            box-shadow: 0 0 15px var(--term-green);
+        }
+
+        #boot-screen {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 10000;
+            padding: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--term-green);
+        }
+    </style>
+</head>
+
+<body class="crt">
+
+    <!-- Screen Booting -->
+    <div id="boot-screen">
+        <div id="boot-log"></div>
+    </div>
+
+    <!-- Main UI -->
+    <div class="terminal-container" id="main-ui">
+        <header class="mb-8 border-b border-[#00ff4133] pb-4 flex justify-between items-start">
+            <div>
+                <div class="text-2xl font-bold">ADIL_IVANSYAH_CORE_OS [v2.6]</div>
+                <div class="text-[10px] opacity-70">STATUS: SISTEM_BERJALAN // LOKASI: 127.0.0.1</div>
+            </div>
+            <div id="clock" class="text-right font-bold">00:00:00</div>
+        </header>
+
+        <section id="output-area" class="flex-grow space-y-4">
+            <div id="intro-text">
+                <p class="mb-2">>>> SELAMAT DATANG DI RUANG KERJA DIGITAL ADIL.</p>
+                <p class="mb-4 opacity-60 italic">KETIK PERINTAH ATAU PILIH MODUL DI BAWAH:</p>
+            </div>
+        </section>
+
+        <footer class="mt-8">
+            <div class="flex flex-wrap mb-4">
+                <div class="system-btn" onclick="execute('whoami')">[01] SIAPA_SAYA</div>
+                <div class="system-btn" onclick="execute('projects')">[02] ARSIP_PROYEK</div>
+                <div class="system-btn" onclick="execute('stack')">[03] STACK_TEKNIS</div>
+                <div class="system-btn" onclick="execute('contact')">[04] HUBUNGI_SAYA</div>
+                <div class="system-btn" onclick="execute('clear')">[05] BERSIHKAN</div>
+            </div>
+            <div class="flex items-center text-xl">
+                <span class="mr-2">ADIL@ROOT:~$</span>
+                <span id="current-input"></span><span class="cursor"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const bootLog = document.getElementById('boot-log');
+        const outputArea = document.getElementById('output-area');
+        const clockEl = document.getElementById('clock');
+
+        // Data Proyek & Info
+        const info = {
+            whoami: `
+                <div class="bg-[#00ff4111] p-4 border-l-4 border-white">
+                    <p class="font-bold text-white mb-2">PROFIL_PENGGUNA:</p>
+                    <p>NAMA: ADIL IVANSYAH</p>
+                    <p>PERAN: FULL-STACK ENGINEER / ARCHITECT</p>
+                    <p>BIO: MENGUBAH KOPI MENJADI SISTEM SKALABEL SEJAK 2019.</p>
+                </div>`,
+            projects: `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-dashed p-4">
+                        <p class="font-bold underline">TRUEMAPS GIS</p>
+                        <p class="text-xs opacity-70 mt-2">PLATFORM GEOSPASIAL REAL-TIME UNTUK ANALISIS DATA MASIF.</p>
+                        <p class="text-xs text-white mt-2">TECH: NEXT.JS, AMMO.JS, POSTGRES</p>
+                    </div>
+                    <div class="border border-dashed p-4">
+                        <p class="font-bold underline">CORE_API_V3</p>
+                        <p class="text-xs opacity-70 mt-2">RESTFUL ENGINE DENGAN THROUGHPUT 10K REQ/SEC.</p>
+                        <p class="text-xs text-white mt-2">TECH: GO, REDIS, KUBERNETES</p>
+                    </div>
+                </div>`,
+            stack: `
+                <div class="flex flex-wrap gap-8 py-4">
+                    <div>
+                        <p class="font-bold border-b mb-2">FRONTEND_LAYER</p>
+                        <p>+ REACT / NEXT.JS</p>
+                        <p>+ TAILWIND_CSS</p>
+                        <p>+ THREE_JS / CANVAS</p>
+                    </div>
+                    <div>
+                        <p class="font-bold border-b mb-2">BACKEND_LAYER</p>
+                        <p>+ NODE_JS / EXPRESS</p>
+                        <p>+ GOLANG</p>
+                        <p>+ POSTGRES / MONGODB</p>
+                    </div>
+                </div>`,
+            contact: `
+                <div class="animate-pulse">
+                    <p>>>> JALUR_KOMUNIKASI_TERSEDIA:</p>
+                    <p class="mt-2 text-white">EMAIL: HELLO@ADIL.ID</p>
+                    <p class="text-white">GITHUB: @ADILIVANSYAH</p>
+                    <p class="text-white">LINKEDIN: /IN/ADILIVAN</p>
+                </div>`
+        };
+
+        // Animasi Booting
+        const bootMessages = [
+            "INITIALIZING BIOS...",
+            "CPU: ADIL-CORE v9.0 DETECTED",
+            "RAM: 64GB OK",
+            "LOADING KERNEL...",
+            "ESTABLISHING CONNECTION TO REMOTE_DATABASE...",
+            "SECURE_SHELL: SUCCESS",
+            "MAPPING PORTFOLIO_MODULES...",
+            "PREPARING INTERFACE...",
+            "SISTEM SIAP."
+        ];
+
+        async function boot() {
+            for (let msg of bootMessages) {
+                const p = document.createElement('p');
+                p.textContent = `[OK] ${msg}`;
+                bootLog.appendChild(p);
+                await new Promise(r => setTimeout(r, Math.random() * 300));
+            }
+            gsap.to("#boot-screen", {
+                opacity: 0, duration: 1, onComplete: () => {
+                    document.getElementById('boot-screen').classList.add('hidden');
+                }
+            });
+        }
+
+        // Jalankan Perintah
+        function execute(cmd) {
+            const inputDisplay = document.getElementById('current-input');
+            inputDisplay.innerText = cmd;
+
+            setTimeout(() => {
+                if (cmd === 'clear') {
+                    outputArea.innerHTML = '';
+                } else if (info[cmd]) {
+                    const div = document.createElement('div');
+                    div.className = "mb-8 opacity-0";
+                    div.innerHTML = `<p class="text-white opacity-50 text-[10px] mb-2">EXECUTING: ${cmd}.exe</p>${info[cmd]}`;
+                    outputArea.appendChild(div);
+                    gsap.to(div, { opacity: 1, y: -10, duration: 0.5 });
+                    outputArea.scrollTop = outputArea.scrollHeight;
+                }
+                inputDisplay.innerText = '';
+            }, 300);
+        }
+
+        // Clock Update
+        setInterval(() => {
+            const now = new Date();
+            clockEl.innerText = now.toTimeString().split(' ')[0];
+        }, 1000);
+
+        // Start Everything
+        window.onload = boot;
+
+        // Keyboard Support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '1') execute('whoami');
+            if (e.key === '2') execute('projects');
+            if (e.key === '3') execute('stack');
+            if (e.key === '4') execute('contact');
+            if (e.key === '5') execute('clear');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Lost in Space</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 400px;
+            cursor: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 5vh;
+        }
+
+        .game-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .glitch-link {
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .glitch-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #3b82f6;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .glitch-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        #score-display {
+            position: absolute;
+            top: -30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: #3b82f6;
+            font-weight: 800;
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+
+    <div class="content">
+        <p class="text-blue-500 font-bold tracking-[0.4em] text-[10px] mb-4 uppercase">Error 404</p>
+        <h1 class="text-4xl font-extrabold mb-2 tracking-tighter uppercase">Paddles Ready?</h1>
+        <p class="text-gray-500 text-xs mb-12 opacity-60 italic">Kalahkan AI untuk membuktikan Anda tidak tersesat...
+        </p>
+
+        <div class="game-container">
+            <div id="score-display">
+                <span>YOU: <span id="player-score">0</span></span>
+                <span>CPU: <span id="cpu-score">0</span></span>
+            </div>
+            <div class="game-over-overlay" id="game-over">
+                <p class="text-white font-black text-2xl mb-2" id="result-text">GAME OVER</p>
+                <p class="text-gray-500 text-[10px] mb-6 tracking-widest uppercase" id="sub-result">AI MENANG KALI INI.
+                </p>
+                <button onclick="resetGame()"
+                    class="bg-white text-black px-8 py-3 rounded-full text-[10px] font-bold tracking-widest uppercase hover:scale-105 transition-transform">Rematch</button>
+            </div>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div class="mt-12 flex justify-center gap-12">
+            <a href="index.html" class="glitch-link text-[10px] font-bold tracking-[0.2em] uppercase py-2">
+                Kembali ke Utama
+            </a>
+            <a href="mailto:support@adil.id"
+                class="glitch-link text-[10px] font-bold tracking-[0.2em] uppercase py-2 opacity-50">
+                Hubungi Admin
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const pScoreEl = document.getElementById('player-score');
+        const cScoreEl = document.getElementById('cpu-score');
+        const gameOverEl = document.getElementById('game-over');
+        const resultText = document.getElementById('result-text');
+        const subResult = document.getElementById('sub-result');
+
+        let animationId;
+        let gameActive = true;
+
+        const paddleWidth = 10;
+        const paddleHeight = 80;
+        const ballSize = 10;
+
+        const player = {
+            x: 20,
+            y: 0,
+            score: 0
+        };
+
+        const cpu = {
+            x: 0, // Akan diatur di resize
+            y: 0,
+            score: 0,
+            speed: 3.5
+        };
+
+        const ball = {
+            x: 0,
+            y: 0,
+            dx: 5,
+            dy: 5,
+            speed: 5
+        };
+
+        function resize() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = 400;
+            player.y = canvas.height / 2 - paddleHeight / 2;
+            cpu.x = canvas.width - 30;
+            cpu.y = canvas.height / 2 - paddleHeight / 2;
+            resetBall();
+        }
+
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = (Math.random() > 0.5 ? 1 : -1) * ball.speed;
+            ball.dy = (Math.random() - 0.5) * 8;
+        }
+
+        function drawRect(x, y, w, h, color, glow = false) {
+            if (glow) {
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = color;
+            }
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, w, h);
+            ctx.shadowBlur = 0;
+        }
+
+        function update() {
+            if (!gameActive) return;
+
+            // Gerakan Bola
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Pantulan Dinding (Atas/Bawah)
+            if (ball.y <= 0 || ball.y + ballSize >= canvas.height) {
+                ball.dy *= -1;
+            }
+
+            // AI Logic (Smooth movement)
+            const cpuCenter = cpu.y + paddleHeight / 2;
+            if (cpuCenter < ball.y - 10) {
+                cpu.y += cpu.speed;
+            } else if (cpuCenter > ball.y + 10) {
+                cpu.y -= cpu.speed;
+            }
+
+            // Batasan Paddle agar tidak keluar layar
+            player.y = Math.max(0, Math.min(canvas.height - paddleHeight, player.y));
+            cpu.y = Math.max(0, Math.min(canvas.height - paddleHeight, cpu.y));
+
+            // Collision Detection Paddle Player
+            if (ball.x <= player.x + paddleWidth &&
+                ball.y + ballSize >= player.y &&
+                ball.y <= player.y + paddleHeight) {
+                ball.dx = Math.abs(ball.dx) * 1.05; // Increase speed
+                ball.dy += (ball.y - (player.y + paddleHeight / 2)) * 0.2; // Angle change
+                ball.x = player.x + paddleWidth;
+            }
+
+            // Collision Detection Paddle CPU
+            if (ball.x + ballSize >= cpu.x &&
+                ball.y + ballSize >= cpu.y &&
+                ball.y <= cpu.y + paddleHeight) {
+                ball.dx = -Math.abs(ball.dx) * 1.05;
+                ball.dy += (ball.y - (cpu.y + paddleHeight / 2)) * 0.2;
+                ball.x = cpu.x - ballSize;
+            }
+
+            // Scoring
+            if (ball.x < 0) {
+                cpu.score++;
+                cScoreEl.innerText = cpu.score;
+                checkWin();
+                resetBall();
+            } else if (ball.x > canvas.width) {
+                player.score++;
+                pScoreEl.innerText = player.score;
+                checkWin();
+                resetBall();
+            }
+
+            draw();
+            animationId = requestAnimationFrame(update);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Center Line
+            ctx.setLineDash([10, 15]);
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.strokeStyle = "rgba(255,255,255,0.05)";
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw Players & Ball
+            drawRect(player.x, player.y, paddleWidth, paddleHeight, '#fff');
+            drawRect(cpu.x, cpu.y, paddleWidth, paddleHeight, '#3b82f6', true);
+            drawRect(ball.x, ball.y, ballSize, ballSize, '#fff', true);
+        }
+
+        function checkWin() {
+            if (player.score >= 5 || cpu.score >= 5) {
+                gameActive = false;
+                gameOverEl.style.display = 'flex';
+                if (player.score >= 5) {
+                    resultText.innerText = "SISTEM TERHUBUNG";
+                    subResult.innerText = "ANDA BERHASIL MENGALAHKAN KEBUNTUAN.";
+                } else {
+                    resultText.innerText = "AKSES DITOLAK";
+                    subResult.innerText = "AI MASIH TERLALU TANGGUH UNTUK ANDA.";
+                }
+            }
+        }
+
+        function resetGame() {
+            player.score = 0;
+            cpu.score = 0;
+            pScoreEl.innerText = 0;
+            cScoreEl.innerText = 0;
+            gameActive = true;
+            gameOverEl.style.display = 'none';
+            ball.speed = 5;
+            resetBall();
+            update();
+        }
+
+        // Controls
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            player.y = e.clientY - rect.top - paddleHeight / 2;
+        });
+
+        // Mobile touch
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            player.y = e.touches[0].clientY - rect.top - paddleHeight / 2;
+        }, { passive: false });
+
+        window.addEventListener('resize', resize);
+
+        resize();
+        update();
+    </script>
+</body>
+
+</html>

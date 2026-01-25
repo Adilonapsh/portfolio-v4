@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Cyber Decryptor Advanced</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 5vh;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .log-container {
+            height: 240px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 0.75rem;
+            scrollbar-width: none;
+        }
+
+        .log-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .digit-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .digit-input.active {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .key {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .key:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .key:active {
+            transform: scale(0.95);
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 6px;
+        }
+
+        .dot-correct {
+            background: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        .dot-present {
+            background: #eab308;
+            box-shadow: 0 0 10px #eab308;
+        }
+
+        .dot-wrong {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.98);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+
+    <div class="content px-4">
+        <p class="text-blue-500 font-bold tracking-[0.4em] text-[10px] mb-4 uppercase">Security Breach 404</p>
+        <h1 class="text-3xl font-extrabold mb-2 tracking-tighter uppercase">Cyber Decryptor</h1>
+        <p class="text-gray-500 text-[10px] mb-6 opacity-60 italic uppercase tracking-widest">Pecahkan 4 digit kode
+            akses...</p>
+
+        <div class="log-container mono" id="log">
+            <div class="text-blue-400 opacity-50 mb-2">> System initialized...</div>
+            <div class="text-blue-400 opacity-50 mb-2">> Waiting for decryption key...</div>
+        </div>
+
+        <div class="input-grid">
+            <div class="digit-input active" id="slot-0">-</div>
+            <div class="digit-input" id="slot-1">-</div>
+            <div class="digit-input" id="slot-2">-</div>
+            <div class="digit-input" id="slot-3">-</div>
+        </div>
+
+        <div class="keypad mb-6">
+            <button class="key" onclick="pressKey(1)">1</button>
+            <button class="key" onclick="pressKey(2)">2</button>
+            <button class="key" onclick="pressKey(3)">3</button>
+            <button class="key" onclick="pressKey(4)">4</button>
+            <button class="key" onclick="pressKey(5)">5</button>
+            <button class="key" onclick="pressKey(6)">6</button>
+            <button class="key" onclick="pressKey(7)">7</button>
+            <button class="key" onclick="pressKey(8)">8</button>
+            <button class="key" onclick="pressKey(9)">9</button>
+            <button class="key" onclick="pressKey(0)">0</button>
+        </div>
+
+        <button onclick="submitGuess()" id="submit-btn"
+            class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-lg uppercase tracking-[0.3em] text-xs transition-all disabled:opacity-30">
+            Execute Decryption
+        </button>
+
+        <div class="game-over-overlay" id="game-over">
+            <div id="win-content" class="hidden text-center">
+                <p class="text-green-500 font-black text-2xl mb-2">ACCESS GRANTED</p>
+                <p class="text-gray-500 text-[10px] mb-6 tracking-widest uppercase">KODE BERHASIL DIPECAHKAN.</p>
+            </div>
+            <div id="lose-content" class="hidden text-center">
+                <p class="text-red-500 font-black text-2xl mb-2">LOCKOUT INITIATED</p>
+                <p class="text-gray-500 text-[10px] mb-6 tracking-widest uppercase">TERLALU BANYAK PERCOBAAN GAGAL.</p>
+            </div>
+            <button onclick="initGame()"
+                class="bg-white text-black px-8 py-3 rounded-full text-[10px] font-bold tracking-widest uppercase hover:scale-105 transition-transform">Reboot
+                System</button>
+        </div>
+
+        <div class="mt-8 flex justify-center gap-12">
+            <a href="index.html" class="text-[10px] font-bold tracking-[0.2em] uppercase py-2 border-b border-blue-500">
+                Kembali ke Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let targetCode = [];
+        let currentGuess = ['', '', '', ''];
+        let activeSlot = 0;
+        let attempts = 0;
+        const maxAttempts = 10;
+
+        const logEl = document.getElementById('log');
+        const slots = [
+            document.getElementById('slot-0'),
+            document.getElementById('slot-1'),
+            document.getElementById('slot-2'),
+            document.getElementById('slot-3')
+        ];
+
+        function initGame() {
+            // Logika baru: Memberikan kemungkinan angka ganda lebih tinggi untuk tantangan
+            targetCode = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
+
+            // Cek jika ada angka ganda untuk log awal (easter egg)
+            const hasDuplicates = new Set(targetCode).size !== targetCode.length;
+
+            currentGuess = ['', '', '', ''];
+            activeSlot = 0;
+            attempts = 0;
+
+            logEl.innerHTML = `
+                <div class="text-blue-400 opacity-50 mb-1">> System rebooted...</div>
+                <div class="text-blue-400 opacity-50 mb-1">> New key generated...</div>
+                ${hasDuplicates ? '<div class="text-yellow-500/50 text-[9px] mb-2 uppercase tracking-tighter">> Warning: Duplicate digits detected in sequence.</div>' : ''}
+            `;
+            updateUI();
+
+            document.getElementById('game-over').style.display = 'none';
+            document.getElementById('win-content').classList.add('hidden');
+            document.getElementById('lose-content').classList.add('hidden');
+        }
+
+        function pressKey(num) {
+            if (activeSlot < 4) {
+                currentGuess[activeSlot] = num;
+                updateUI();
+                if (activeSlot < 3) activeSlot++;
+                updateActiveSlot();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') pressKey(parseInt(e.key));
+            if (e.key === 'Backspace') {
+                if (currentGuess[activeSlot] === '' && activeSlot > 0) activeSlot--;
+                currentGuess[activeSlot] = '';
+                updateUI();
+                updateActiveSlot();
+            }
+            if (e.key === 'Enter') submitGuess();
+        });
+
+        function updateUI() {
+            currentGuess.forEach((val, i) => {
+                slots[i].textContent = val === '' ? '-' : val;
+            });
+        }
+
+        function updateActiveSlot() {
+            slots.forEach((slot, i) => {
+                slot.classList.toggle('active', i === activeSlot);
+            });
+        }
+
+        function submitGuess() {
+            if (currentGuess.includes('')) return;
+
+            attempts++;
+            const result = checkGuess(currentGuess, targetCode);
+            addLogEntry(currentGuess, result);
+
+            if (result.correct === 4) {
+                endGame(true);
+            } else if (attempts >= maxAttempts) {
+                endGame(false);
+            }
+
+            currentGuess = ['', '', '', ''];
+            activeSlot = 0;
+            updateUI();
+            updateActiveSlot();
+        }
+
+        function checkGuess(guess, target) {
+            let correct = 0;
+            let present = 0;
+
+            let tempTarget = target.map(Number);
+            let tempGuess = guess.map(Number);
+
+            let targetUsed = new Array(4).fill(false);
+            let guessUsed = new Array(4).fill(false);
+
+            // Tahap 1: Cek Hijau (Posisi & Angka Benar)
+            for (let i = 0; i < 4; i++) {
+                if (tempGuess[i] === tempTarget[i]) {
+                    correct++;
+                    targetUsed[i] = true;
+                    guessUsed[i] = true;
+                }
+            }
+
+            // Tahap 2: Cek Kuning (Ada tapi salah posisi)
+            // Hanya menghitung angka yang belum terpakai oleh "Hijau"
+            for (let i = 0; i < 4; i++) {
+                if (guessUsed[i]) continue;
+                for (let j = 0; j < 4; j++) {
+                    if (!targetUsed[j] && tempGuess[i] === tempTarget[j]) {
+                        present++;
+                        targetUsed[j] = true;
+                        break;
+                    }
+                }
+            }
+
+            return { correct, present };
+        }
+
+        function addLogEntry(guess, result) {
+            const entry = document.createElement('div');
+            entry.className = 'mb-2 flex items-center justify-between border-b border-white/5 pb-1';
+
+            let dots = '';
+            // Hijau
+            for (let i = 0; i < result.correct; i++)
+                dots += '<span class="status-dot dot-correct"></span>';
+            // Kuning
+            for (let i = 0; i < result.present; i++)
+                dots += '<span class="status-dot dot-present"></span>';
+            // Abu-abu (Salah)
+            const wrong = 4 - (result.correct + result.present);
+            for (let i = 0; i < wrong; i++)
+                dots += '<span class="status-dot dot-wrong"></span>';
+
+            entry.innerHTML = `
+                <span>[${attempts}/${maxAttempts}] ${guess.join('')}</span>
+                <div class="flex items-center">${dots}</div>
+            `;
+
+            logEl.prepend(entry);
+        }
+
+        function endGame(won) {
+            document.getElementById('game-over').style.display = 'flex';
+            if (won) {
+                document.getElementById('win-content').classList.remove('hidden');
+            } else {
+                document.getElementById('lose-content').classList.remove('hidden');
+                const revealEntry = document.createElement('div');
+                revealEntry.className = 'text-red-500 font-bold mb-2';
+                revealEntry.textContent = `> ACCESS DENIED. KEY: ${targetCode.join('')}`;
+                logEl.prepend(revealEntry);
+            }
+        }
+
+        initGame();
+    </script>
+</body>
+
+</html>

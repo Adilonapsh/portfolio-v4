@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Gravity Defier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        canvas {
+            display: block;
+            background: rgba(255, 255, 255, 0.01);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 0 auto;
+            touch-action: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 5vh;
+        }
+
+        #score-display {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: #3b82f6;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .controls-hint {
+            margin-top: 15px;
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+
+    <div class="content">
+        <p class="text-blue-500 font-bold tracking-[0.4em] text-[10px] mb-4 uppercase">Error 404</p>
+        <h1 class="text-3xl font-extrabold mb-2 tracking-tighter uppercase">Gravity Defier</h1>
+        <p class="text-gray-500 text-xs mb-8 opacity-60 italic">Melayang pelan di ruang hampa sistem...</p>
+
+        <div class="relative inline-block w-full max-w-[600px]">
+            <div id="score-display">STABILITY_INDEX: <span id="score">0</span></div>
+            <div class="game-over-overlay" id="game-over">
+                <p class="text-white font-black text-2xl mb-2">SISTEM TERHEMPAS</p>
+                <p class="text-gray-500 text-[10px] mb-6 tracking-widest uppercase">KONTROL GRAVITASI GAGAL.</p>
+                <button onclick="resetGame()"
+                    class="bg-white text-black px-8 py-3 rounded-full text-[10px] font-bold tracking-widest uppercase hover:scale-105 transition-transform">Inisialisasi
+                    Ulang</button>
+            </div>
+            <canvas id="gameCanvas"></canvas>
+            <div class="controls-hint">Tap atau Spasi untuk melayang pelan</div>
+        </div>
+
+        <div class="mt-8 flex justify-center gap-12">
+            <a href="index.html" class="text-[10px] font-bold tracking-[0.2em] uppercase py-2 border-b border-blue-500">
+                Kembali ke Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const gameOverEl = document.getElementById('game-over');
+
+        let animationId;
+        let gameActive = true;
+        let score = 0;
+
+        // Karakter (Si Nol dari 404)
+        const bird = {
+            x: 60,
+            y: 200,
+            w: 28,
+            h: 28,
+            gravity: 0.15, // Dibuat sangat ringan (Moon Gravity)
+            velocity: 0,
+            jump: -4.2 // Lompatan kecil agar tetap halus
+        };
+
+        // Rintangan (Angka 4 dari 404)
+        let pipes = [];
+        const pipeWidth = 50;
+        const pipeGap = 210; // Celah ekstra lebar untuk kemudahan maksimal
+        const pipeSpeed = 1.5; // Pergerakan horisontal diperlambat lagi
+
+        function initPipes() {
+            pipes = [];
+            addPipe();
+        }
+
+        function addPipe() {
+            const minHeight = 50;
+            const maxHeight = canvas.height - pipeGap - minHeight;
+            const height = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+
+            pipes.push({
+                x: canvas.width,
+                top: height,
+                bottom: canvas.height - height - pipeGap,
+                passed: false
+            });
+        }
+
+        function resize() {
+            canvas.width = Math.min(window.innerWidth - 40, 600);
+            canvas.height = 400;
+            bird.y = canvas.height / 2;
+            initPipes();
+        }
+
+        function drawBird() {
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = "#3b82f6";
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 3;
+
+            // Menggambar lingkaran "0"
+            ctx.beginPath();
+            ctx.arc(bird.x + bird.w / 2, bird.y + bird.h / 2, bird.w / 2, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Inti biru menyala
+            ctx.fillStyle = "#3b82f6";
+            ctx.beginPath();
+            ctx.arc(bird.x + bird.w / 2, bird.y + bird.h / 2, bird.w / 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawPipes() {
+            pipes.forEach((p, index) => {
+                p.x -= pipeSpeed;
+
+                ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+                ctx.strokeStyle = "rgba(255, 0, 85, 0.4)";
+                ctx.lineWidth = 1;
+
+                // Render Pipa Atas
+                ctx.fillRect(p.x, 0, pipeWidth, p.top);
+                ctx.strokeRect(p.x, 0, pipeWidth, p.top);
+
+                // Render Pipa Bawah
+                ctx.fillRect(p.x, canvas.height - p.bottom, pipeWidth, p.bottom);
+                ctx.strokeRect(p.x, canvas.height - p.bottom, pipeWidth, p.bottom);
+
+                // Ornamen angka "4"
+                ctx.fillStyle = "#ff0055";
+                ctx.font = "bold 18px Courier New";
+                ctx.textAlign = "center";
+                ctx.fillText("4", p.x + pipeWidth / 2, p.top - 15);
+                ctx.fillText("4", p.x + pipeWidth / 2, canvas.height - p.bottom + 35);
+
+                // Hitbox sangat toleran (diperkecil lagi)
+                const hitMargin = 10;
+                if (
+                    bird.x + bird.w - hitMargin > p.x &&
+                    bird.x + hitMargin < p.x + pipeWidth &&
+                    (bird.y + hitMargin < p.top || bird.y + bird.h - hitMargin > canvas.height - p.bottom)
+                ) {
+                    endGame();
+                }
+
+                // Skor
+                if (!p.passed && p.x + pipeWidth < bird.x) {
+                    p.passed = true;
+                    score++;
+                    scoreEl.innerText = score;
+                }
+
+                if (p.x + pipeWidth < -50) pipes.splice(index, 1);
+            });
+
+            // Jarak antar pipa sangat jauh (400px)
+            if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 400) {
+                addPipe();
+            }
+        }
+
+        function update() {
+            if (!gameActive) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Fisika melayang
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // Batas layar (tapi beri sedikit ruang di atas)
+            if (bird.y + bird.h > canvas.height || bird.y < -50) {
+                endGame();
+            }
+
+            drawPipes();
+            drawBird();
+
+            animationId = requestAnimationFrame(update);
+        }
+
+        function jump() {
+            if (gameActive) {
+                bird.velocity = bird.jump;
+                // Animasi halus
+                gsap.to(bird, { duration: 0.15, scale: 1.1, yoyo: true, repeat: 1 });
+            }
+        }
+
+        function endGame() {
+            gameActive = false;
+            cancelAnimationFrame(animationId);
+            gameOverEl.style.display = 'flex';
+        }
+
+        function resetGame() {
+            score = 0;
+            scoreEl.innerText = score;
+            bird.y = canvas.height / 2;
+            bird.velocity = 0;
+            initPipes();
+            gameActive = true;
+            gameOverEl.style.display = 'none';
+            update();
+        }
+
+        // Kontrol Multi-input
+        window.addEventListener('keydown', e => {
+            if (e.key === ' ' || e.key === 'ArrowUp') jump();
+        });
+        canvas.addEventListener('mousedown', jump);
+        canvas.addEventListener('touchstart', e => {
+            e.preventDefault();
+            jump();
+        }, { passive: false });
+
+        window.addEventListener('resize', resize);
+        resize();
+        update();
+    </script>
+</body>
+
+</html>

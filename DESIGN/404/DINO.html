@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Lost in Space</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 300px;
+            cursor: pointer;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 5vh;
+        }
+
+        .game-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glitch-link {
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .glitch-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #3b82f6;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .glitch-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        #score-display {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: #3b82f6;
+            font-weight: 800;
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+
+    <div class="content">
+        <p class="text-blue-500 font-bold tracking-[0.4em] text-[10px] mb-4 uppercase">Error 404</p>
+        <h1 class="text-4xl font-extrabold mb-2 tracking-tighter">HALAMAN TIDAK DITEMUKAN</h1>
+        <p class="text-gray-500 text-xs mb-12 opacity-60 italic">Lompati rintangan sambil menunggu sistem pulih...</p>
+
+        <div class="game-container">
+            <div id="score-display">DISTANCE: 00000</div>
+            <div class="game-over-overlay" id="game-over">
+                <p class="text-white font-black text-2xl mb-4">CRASHED.</p>
+                <button onclick="resetGame()"
+                    class="bg-white text-black px-6 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase hover:scale-105 transition-transform">Main
+                    Lagi</button>
+            </div>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div class="mt-12 flex justify-center gap-12">
+            <a href="index.html" class="glitch-link text-[10px] font-bold tracking-[0.2em] uppercase py-2">
+                Kembali ke Utama
+            </a>
+            <a href="mailto:support@adil.id"
+                class="glitch-link text-[10px] font-bold tracking-[0.2em] uppercase py-2 opacity-50">
+                Hubungi Admin
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score-display');
+        const gameOverEl = document.getElementById('game-over');
+
+        let animationId;
+        let score = 0;
+        let isJumping = false;
+        let jumpVelocity = 0;
+        const gravity = 0.6;
+
+        const player = {
+            x: 50,
+            y: 0,
+            w: 30,
+            h: 30,
+            color: '#3b82f6'
+        };
+
+        let obstacles = [];
+        let gameActive = true;
+        let speed = 5;
+
+        function resize() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = 200;
+            player.y = canvas.height - player.h;
+        }
+
+        function createObstacle() {
+            if (gameActive && Math.random() < 0.02) {
+                obstacles.push({
+                    x: canvas.width,
+                    y: canvas.height - 40,
+                    w: 20,
+                    h: 40,
+                    color: '#ff0055'
+                });
+            }
+        }
+
+        function drawPlayer() {
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = player.color;
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.shadowBlur = 0;
+        }
+
+        function drawObstacles() {
+            obstacles.forEach((obs, index) => {
+                obs.x -= speed;
+                ctx.fillStyle = '#333';
+                ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+
+                // Collision Detection
+                if (
+                    player.x < obs.x + obs.w &&
+                    player.x + player.w > obs.x &&
+                    player.y < obs.y + obs.h &&
+                    player.y + player.h > obs.y
+                ) {
+                    endGame();
+                }
+
+                if (obs.x + obs.w < 0) obstacles.splice(index, 1);
+            });
+        }
+
+        function update() {
+            if (!gameActive) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Jump Physics
+            if (isJumping) {
+                player.y += jumpVelocity;
+                jumpVelocity += gravity;
+                if (player.y >= canvas.height - player.h) {
+                    player.y = canvas.height - player.h;
+                    isJumping = false;
+                }
+            }
+
+            score++;
+            scoreEl.innerText = `DISTANCE: ${score.toString().padStart(5, '0')}`;
+            if (score % 500 === 0) speed += 0.5;
+
+            createObstacle();
+            drawObstacles();
+            drawPlayer();
+
+            animationId = requestAnimationFrame(update);
+        }
+
+        function jump() {
+            if (!isJumping && gameActive) {
+                isJumping = true;
+                jumpVelocity = -12;
+            }
+        }
+
+        function endGame() {
+            gameActive = false;
+            cancelAnimationFrame(animationId);
+            gameOverEl.style.display = 'flex';
+        }
+
+        function resetGame() {
+            score = 0;
+            speed = 5;
+            obstacles = [];
+            gameActive = true;
+            gameOverEl.style.display = 'none';
+            player.y = canvas.height - player.h;
+            update();
+        }
+
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') jump(); });
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); jump(); });
+        canvas.addEventListener('mousedown', jump);
+        window.addEventListener('resize', resize);
+
+        resize();
+        update();
+    </script>
+</body>
+
+</html>

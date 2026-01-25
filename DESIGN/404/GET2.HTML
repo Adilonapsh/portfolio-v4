@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Memory Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 5vh;
+        }
+
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 320px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border-color 0.3s;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        /* Keadaan ketika kartu dibalik atau sudah cocok */
+        .card.flipped,
+        .card.matched {
+            transform: rotateY(180deg);
+        }
+
+        .card.flipped {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+
+        .card.matched {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            cursor: default;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+        }
+
+        .card-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            color: #3b82f6;
+        }
+
+        .card.matched .card-back {
+            color: #22c55e;
+        }
+
+        #status-display {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: #3b82f6;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+
+    <div class="content">
+        <p class="text-blue-500 font-bold tracking-[0.4em] text-[10px] mb-4 uppercase">Error 404</p>
+        <h1 class="text-3xl font-extrabold mb-2 tracking-tighter uppercase">Memory Matrix</h1>
+        <p class="text-gray-500 text-xs mb-8 opacity-60 italic">Pulihkan fragment data yang hilang dari memori sistem...
+        </p>
+
+        <div id="status-display">Percobaan: <span id="moves">0</span> | Cocok: <span id="matches">0/8</span></div>
+
+        <div id="game-container">
+            <!-- Kartu akan diinjeksi di sini -->
+        </div>
+
+        <div class="game-over-overlay" id="game-over">
+            <p class="text-white font-black text-2xl mb-2">MEMORI PULIH</p>
+            <p class="text-gray-500 text-[10px] mb-6 tracking-widest uppercase">SISTEM KEMBALI STABIL.</p>
+            <button onclick="initGame()"
+                class="bg-white text-black px-8 py-3 rounded-full text-[10px] font-bold tracking-widest uppercase hover:scale-105 transition-transform">Reset
+                Matrix</button>
+        </div>
+
+        <div class="mt-12 flex justify-center gap-12">
+            <a href="index.html" class="text-[10px] font-bold tracking-[0.2em] uppercase py-2 border-b border-blue-500">
+                Kembali ke Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('game-container');
+        const movesEl = document.getElementById('moves');
+        const matchesEl = document.getElementById('matches');
+        const gameOverEl = document.getElementById('game-over');
+
+        const symbols = ['4', '0', '4', '{ }', '< >', '[ ]', '!', '?'];
+        let flippedCards = [];
+        let matchedCount = 0;
+        let moves = 0;
+        let isLock = false;
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function createCard(symbol) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.symbol = symbol;
+
+            card.innerHTML = `
+                <div class="card-inner card-front"></div>
+                <div class="card-inner card-back">${symbol}</div>
+            `;
+
+            card.addEventListener('click', () => flipCard(card));
+            return card;
+        }
+
+        function flipCard(card) {
+            if (isLock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                movesEl.textContent = moves;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            isLock = true;
+            const [card1, card2] = flippedCards;
+            const isMatch = card1.dataset.symbol === card2.dataset.symbol;
+
+            if (isMatch) {
+                // Beri sedikit jeda agar animasi rotasi kartu kedua selesai terlihat
+                setTimeout(() => {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+
+                    // Efek visual saat berhasil
+                    gsap.to([card1, card2], { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
+
+                    matchedCount++;
+                    matchesEl.textContent = `${matchedCount}/8`;
+                    flippedCards = [];
+                    isLock = false;
+
+                    if (matchedCount === 8) {
+                        setTimeout(() => {
+                            gameOverEl.style.display = 'flex';
+                        }, 600);
+                    }
+                }, 400); // Jeda agar ubin kedua muncul dulu hurufnya
+            } else {
+                // Jika tidak cocok, balikkan kembali
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    isLock = false;
+                }, 1000);
+            }
+        }
+
+        function initGame() {
+            container.innerHTML = '';
+            flippedCards = [];
+            matchedCount = 0;
+            moves = 0;
+            isLock = false;
+
+            if (movesEl) movesEl.textContent = '0';
+            if (matchesEl) matchesEl.textContent = '0/8';
+            if (gameOverEl) gameOverEl.style.display = 'none';
+
+            const deck = shuffle([...symbols, ...symbols]);
+            deck.forEach((symbol) => {
+                container.appendChild(createCard(symbol));
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+
+</html>

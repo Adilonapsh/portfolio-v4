@@ -34,7 +34,7 @@ export function SnakeGame() {
 
     // Generate food
     const generateFood = useCallback(() => {
-        let newFood
+        let newFood: Point
         do {
             newFood = {
                 x: Math.floor(Math.random() * GRID_SIZE),
