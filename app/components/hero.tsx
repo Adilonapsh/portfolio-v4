@@ -4,9 +4,12 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLoading } from "@/app/components/loading-context";
 import { Sparkles, Activity, Cpu } from "lucide-react";
+import SpotifyCard from "./spotify-card";
+import { useSpotify } from "@/app/hooks/use-spotify";
 
 const Hero: React.FC = () => {
     const { isLoaded } = useLoading();
+    const { spotify, progress } = useSpotify();
     const [statuses, setStatuses] = useState([
         { id: 0, text: "System Booting //" }
     ]);
@@ -162,25 +165,49 @@ const Hero: React.FC = () => {
                         </motion.h1>
                     </div>
 
-                    {/* Floating Right Panel - Brought closer to center */}
+                    {/* Floating Right Panel - Reverted to stable y, internal slide instead */}
                     <motion.div
-                        initial={{ opacity: 0, x: 20, y: 20 }}
-                        animate={isLoaded ? { opacity: 1, x: -20, y: 20 } : {}}
-                        transition={{ duration: 1, delay: 0.7 }}
+                        layout
+                        initial={{ opacity: 0, x: -20, y: 20 }}
+                        animate={isLoaded ? {
+                            opacity: 1,
+                            x: -20,
+                            y: 20
+                        } : {}}
+                        transition={{
+                            duration: 0.8,
+                            delay: isLoaded ? 0 : 0.7,
+                            layout: { duration: 0.8, ease: [0.23, 1, 0.32, 1] }
+                        }}
                         className="absolute right-0 hidden 2xl:flex flex-col items-end gap-2"
                     >
-                        <div className="flex items-center gap-3">
-                            <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Processing</span>
-                            <Cpu className="w-4 h-4 text-primary" />
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="flex gap-1 h-3 items-end">
-                                {[1, 2, 3].map(i => (
-                                    <div key={i} className="w-1 bg-primary/40 rounded-full h-full" />
-                                ))}
+                        <motion.div
+                            animate={{ y: spotify ? -20 : 0 }}
+                            transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                            className="flex flex-col items-end gap-2"
+                        >
+                            <div className="flex items-center gap-3">
+                                <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Processing</span>
+                                <Cpu className="w-4 h-4 text-primary" />
                             </div>
-                            <div className="text-xl font-black italic">V3_STABLE</div>
-                        </div>
+                            <div className="flex items-center gap-4">
+                                <div className="flex gap-1 h-3 items-end">
+                                    {[1, 2, 3].map(i => (
+                                        <motion.div
+                                            key={i}
+                                            animate={spotify ? { height: ["100%", "40%", "100%"] } : { height: "100%" }}
+                                            transition={spotify ? { duration: 0.6, repeat: Infinity, delay: i * 0.1 } : {}}
+                                            className="w-1 bg-primary/40 rounded-full"
+                                        />
+                                    ))}
+                                </div>
+                                <div className="text-xl font-black italic">V3_STABLE</div>
+                            </div>
+                        </motion.div>
+
+                        <AnimatePresence>
+                            <SpotifyCard externalSpotify={spotify} externalProgress={progress} />
+                        </AnimatePresence>
                     </motion.div>
                 </div>
 
