@@ -165,9 +165,8 @@ const Hero: React.FC = () => {
                         </motion.h1>
                     </div>
 
-                    {/* Floating Right Panel - Reverted to stable y, internal slide instead */}
+                    {/* Floating Right Panel - Refined for Smooth Transition */}
                     <motion.div
-                        layout
                         initial={{ opacity: 0, x: -20, y: 20 }}
                         animate={isLoaded ? {
                             opacity: 1,
@@ -177,13 +176,13 @@ const Hero: React.FC = () => {
                         transition={{
                             duration: 0.8,
                             delay: isLoaded ? 0 : 0.7,
-                            layout: { duration: 0.8, ease: [0.23, 1, 0.32, 1] }
                         }}
                         className="absolute right-0 hidden 2xl:flex flex-col items-end gap-2"
                     >
+                        {/* Internal Slide Container for Processing Info */}
                         <motion.div
-                            animate={{ y: spotify ? -20 : 0 }}
-                            transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                            animate={{ y: spotify ? -15 : 0 }}
+                            transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
                             className="flex flex-col items-end gap-2"
                         >
                             <div className="flex items-center gap-3">
@@ -205,9 +204,7 @@ const Hero: React.FC = () => {
                             </div>
                         </motion.div>
 
-                        <AnimatePresence>
-                            <SpotifyCard externalSpotify={spotify} externalProgress={progress} />
-                        </AnimatePresence>
+                        <SpotifyCard externalSpotify={spotify} externalProgress={progress} />
                     </motion.div>
                 </div>
 

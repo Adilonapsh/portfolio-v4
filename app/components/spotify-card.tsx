@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Music } from "lucide-react";
 import { useSpotify, SpotifyData } from "@/app/hooks/use-spotify";
 
 interface SpotifyCardProps {
@@ -12,20 +13,19 @@ interface SpotifyCardProps {
 const SpotifyCard: React.FC<SpotifyCardProps> = ({ externalSpotify, externalProgress }) => {
     const internal = useSpotify();
 
-    // Use external state if provided, otherwise use internal hook (for flexibility)
     const spotify = externalSpotify !== undefined ? externalSpotify : internal.spotify;
     const progress = externalProgress !== undefined ? externalProgress : internal.progress;
 
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {spotify && (
                 <motion.div
-                    key="spotify-card"
-                    initial={{ opacity: 0, y: 10, x: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 10, x: 100, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, x: 0, scale: 0.95 }}
+                    key="spotify-card-content"
+                    initial={{ opacity: 0, x: 20, y: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 100, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 20, y: 0, scale: 0.95 }}
                     transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-                    className="glass-card p-4 w-72 flex items-center gap-4 relative overflow-hidden mt-4 group border-primary/10 self-end"
+                    className="glass-card p-4 w-72 flex items-center gap-4 relative overflow-hidden group border-primary/10 self-end mt-2"
                 >
                     {/* Spotify Glow Effect */}
                     <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#1DB954] opacity-[0.05] blur-3xl pointer-events-none group-hover:opacity-10 transition-opacity duration-700" />
