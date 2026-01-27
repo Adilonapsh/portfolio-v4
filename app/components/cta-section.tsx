@@ -4,19 +4,20 @@ import { Button } from "@/components/ui/button"
 import { ArrowUpRight, Zap } from "lucide-react"
 import { ScrollReveal } from "./scroll-reveal"
 import { motion } from "framer-motion"
+import { useLoading } from "@/app/components/loading-context"
 
 export default function CTASection() {
+    const { isLoaded } = useLoading();
     return (
         <section className="relative py-40 overflow-hidden bg-background font-sans">
             <div className="absolute inset-0 coord-grid opacity-20 pointer-events-none" />
 
             {/* Background Title */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center opacity-5">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center">
                 <motion.h2
                     initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5 }}
+                    animate={isLoaded ? { opacity: 0.15, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                     className="text-outline text-[40vw] font-black uppercase whitespace-nowrap"
                 >
                     LINK

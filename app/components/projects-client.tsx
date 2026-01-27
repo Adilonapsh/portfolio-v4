@@ -6,8 +6,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight, Code2 } from "lucide-react"
 import { motion, Variants } from "framer-motion"
+import { useLoading } from "@/app/components/loading-context"
 
 export default function ProjectsClient({ projects }: { projects: Project[] }) {
+    const { isLoaded } = useLoading();
     const container: Variants = {
         hidden: { opacity: 0 },
         show: {
@@ -26,12 +28,11 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
             <div className="absolute inset-0 coord-grid opacity-30 pointer-events-none" />
 
             {/* Background Title */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center opacity-5">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center">
                 <motion.h2
                     initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5 }}
+                    animate={isLoaded ? { opacity: 0.15, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                     className="text-outline text-[30vw] font-black uppercase whitespace-nowrap"
                 >
                     WORKS
@@ -47,7 +48,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                         className="flex items-center gap-4 mb-6"
                     >
                         <div className="h-px w-8 bg-primary/30" />
-                        <span className="section-label">Pilihan Karya</span>
+                        <span className="section-label">Pilihan_Karya</span>
                         <div className="h-px w-8 bg-primary/30" />
                     </motion.div>
 

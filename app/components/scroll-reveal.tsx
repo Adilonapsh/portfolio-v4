@@ -2,6 +2,7 @@
 
 import { motion, useInView, Variants } from "framer-motion"
 import { useRef, ReactNode } from "react"
+import { useLoading } from "@/app/components/loading-context"
 
 interface ScrollRevealProps {
     children: ReactNode
@@ -24,6 +25,7 @@ export const ScrollReveal = ({
     once = true,
     staggerChildren = 0
 }: ScrollRevealProps) => {
+    const { isLoaded } = useLoading()
     const ref = useRef(null)
     const isInView = useInView(ref, { once })
 
@@ -58,7 +60,7 @@ export const ScrollReveal = ({
             <motion.div
                 variants={variants}
                 initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
+                animate={(isInView && isLoaded) ? "visible" : "hidden"}
             >
                 {children}
             </motion.div>

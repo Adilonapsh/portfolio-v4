@@ -6,6 +6,7 @@ import { FiFigma } from 'react-icons/fi'
 import { IoFileTrayFull } from 'react-icons/io5'
 import { RiNextjsFill, RiNodejsFill } from 'react-icons/ri'
 import { SiPostgresql } from 'react-icons/si'
+import { ScrollReveal } from '@/app/components/scroll-reveal'
 
 const TechIcons = ({ techstack, className = "flex gap-2" }: { techstack: string[], className?: string }) => {
     return (
@@ -34,12 +35,14 @@ const ProjectsPage = async () => {
 
     return (
         <div className="container mx-auto px-6 lg:px-12 pt-32 pb-12">
-            <div className="max-w-4xl mb-16">
-                <h1 className='text-5xl lg:text-7xl font-black text-foreground uppercase tracking-tight mb-6'>Projects</h1>
-                <p className='text-lg opacity-70 leading-relaxed text-justify lg:text-left'>
-                    Here are some of my recent projects, showcasing my skills and creativity.
-                </p>
-            </div>
+            <ScrollReveal direction="right" delay={0.2}>
+                <div className="max-w-4xl mb-16">
+                    <h1 className='text-5xl lg:text-7xl font-black text-foreground uppercase tracking-tight mb-6'>Projects</h1>
+                    <p className='text-lg opacity-70 leading-relaxed text-justify lg:text-left'>
+                        Here are some of my recent projects, showcasing my skills and creativity.
+                    </p>
+                </div>
+            </ScrollReveal>
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
                 {projects.map((project, index) => (

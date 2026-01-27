@@ -21,12 +21,11 @@ export default function About() {
             <div className="absolute inset-0 coord-grid opacity-50 pointer-events-none" />
 
             {/* Background Title */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center opacity-5">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center">
                 <motion.h2
                     initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5 }}
+                    animate={isLoaded ? { opacity: 0.15, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                     className="text-outline text-[30vw] font-black uppercase whitespace-nowrap"
                 >
                     ABOUT
@@ -67,7 +66,7 @@ export default function About() {
                             <ScrollReveal direction="up">
                                 <div className="flex items-center gap-4 mb-2">
                                     <div className="h-px w-12 bg-primary/30" />
-                                    <span className="section-label">Kisah Singkat</span>
+                                    <span className="section-label">Kisah_Singkat</span>
                                 </div>
                                 <h2 className="text-5xl md:text-7xl font-black text-foreground tracking-tighter leading-none uppercase">
                                     SIAPA <br /> <span className="text-primary italic">SAYA?</span>

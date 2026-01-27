@@ -1,5 +1,11 @@
+"use client"
+
+import React from "react"
 import Image from 'next/image'
-import { Mail } from 'lucide-react'
+import { motion } from "framer-motion"
+import { Mail, Briefcase, Calendar, MapPin, Sparkles, Orbit } from 'lucide-react'
+import { ScrollReveal } from "@/app/components/scroll-reveal"
+import { useLoading } from "@/app/components/loading-context"
 
 const experiences = [
     {
@@ -17,97 +23,282 @@ const experiences = [
 ]
 
 export default function AboutPage() {
+    const { isLoaded } = useLoading();
+
     return (
-        <div className="min-h-screen font-sans">
-            {/* Intro Section */}
-            <section className="container mx-auto px-6 pt-32 pb-16 lg:pt-48 lg:pb-32 flex flex-col lg:flex-row items-center justify-between gap-12">
-                <div className="max-w-2xl text-center lg:text-left">
-                    <p className="text-[#a3e635] font-bold text-sm uppercase tracking-widest mb-6">Profile Saya</p>
-                    <h1 className="text-5xl lg:text-8xl font-black mb-4 leading-tight">
-                        Hello folks, I'm
-                    </h1>
-                    <h2 className="text-5xl lg:text-8xl font-black text-[#a3e635] mb-8 leading-tight">
-                        Fullstack Developer
-                    </h2>
-                    <p className="text-lg text-gray-400 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-                        Membangun aplikasi yang sukses adalah sebuah tantangan. Saya sangat bersemangat dalam menghadirkan pengalaman pengguna yang luar biasa, antarmuka yang intuitif, dan pengembangan web yang skalabel.
-                    </p>
+        <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+            {/* Background Patterns */}
+            <div className="fixed inset-0 coord-grid opacity-30 pointer-events-none z-0" />
+
+            {/* Intro Section (v3 - Simplified) */}
+            <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-16 px-6 overflow-hidden">
+                {/* Orbital Rings - Simplified */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+                    <motion.div
+                        initial={{ opacity: 0, rotate: 0 }}
+                        animate={isLoaded ? { opacity: 1, rotate: 360 } : { opacity: 0 }}
+                        transition={{
+                            opacity: { duration: 1 },
+                            rotate: { duration: 40, repeat: Infinity, ease: "linear" }
+                        }}
+                        className="absolute w-[600px] h-[600px] md:w-[900px] md:h-[900px] border border-primary/5 rounded-full"
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, rotate: 0 }}
+                        animate={isLoaded ? { opacity: 1, rotate: -360 } : { opacity: 0 }}
+                        transition={{
+                            opacity: { duration: 1 },
+                            rotate: { duration: 30, repeat: Infinity, ease: "linear" }
+                        }}
+                        className="absolute w-[400px] h-[400px] md:w-[600px] md:h-[600px] border border-primary/10 rounded-full"
+                    />
                 </div>
 
-                <div className="relative group">
-                    <div className="w-64 h-64 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-gray-800 relative z-10 bg-gray-900 shadow-2xl">
-                        {/* Placeholder for Profile Image */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold opacity-20">PROFILE</div>
+                {/* Background Large Text - Identity Focused */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={isLoaded ? { opacity: 0.1, y: 0 } : { opacity: 0, y: 100 }}
+                        transition={{ duration: 2, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                        className="text-outline text-[40vw] font-black uppercase tracking-tighter leading-none"
+                    >
+                        ADIL IVAN
+                    </motion.h2>
+                </div>
+
+                <div className="container mx-auto relative z-10">
+                    <div className="grid lg:grid-cols-12 gap-12 items-center">
+                        {/* Asymmetrical Content Layout */}
+                        <div className="lg:col-span-7 space-y-12 order-2 lg:order-1">
+                            <ScrollReveal direction="right" delay={0.4}>
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-[1px] bg-primary/40" />
+                                        <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-primary/60">IDENTITY // ADIL IVANSYAH LUBIS</span>
+                                    </div>
+                                    <h1 className="text-7xl md:text-[10vw] font-black leading-[0.75] tracking-tighter uppercase">
+                                        DIGITAL <br />
+                                        <span className="text-primary italic">ALCHEMIST</span>
+                                    </h1>
+                                </div>
+                            </ScrollReveal>
+
+                            <div className="grid md:grid-cols-2 gap-8 items-start">
+                                <ScrollReveal direction="up" delay={0.6}>
+                                    <p className="text-xl md:text-2xl text-muted-foreground font-medium leading-tight opacity-90 border-l-2 border-primary/20 pl-6">
+                                        Meresolusi kompleksitas menjadi <span className="text-foreground italic">elegansi teknis.</span>
+                                    </p>
+                                </ScrollReveal>
+                                <ScrollReveal direction="up" delay={0.7}>
+                                    <p className="text-sm text-muted-foreground font-medium max-w-xs leading-relaxed opacity-70">
+                                        Integrasi arsitektur data dengan pengalaman estetik. Membangun fondasi digital yang skalabel.
+                                    </p>
+                                </ScrollReveal>
+                            </div>
+
+                            <ScrollReveal direction="up" delay={0.8}>
+                                <div className="flex flex-wrap gap-4 pt-6">
+                                    <div className="flex items-center gap-3 glass-card px-6 py-3 rounded-2xl border-primary/10">
+                                        <MapPin className="w-4 h-4 text-primary" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-primary/70">BOGOR, ID</span>
+                                    </div>
+                                    {/* <div className="flex items-center gap-3 glass-card px-6 py-3 rounded-2xl border-emerald-500/20 text-emerald-500">
+                                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                        SYSTEM_READY
+                                    </div> */}
+                                </div>
+                            </ScrollReveal>
+                        </div>
+
+                        {/* Visual Asset */}
+                        <div className="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2">
+                            <ScrollReveal direction="left" delay={0.6}>
+                                <div className="relative group">
+                                    <div className="absolute -inset-10 bg-primary/20 rounded-full blur-[100px] opacity-0 group-hover:opacity-40 transition-opacity duration-1000" />
+
+                                    <div className="relative w-80 h-80 md:w-[450px] md:h-[450px] rounded-[4rem] overflow-hidden glass-card border-primary/20 shadow-3xl p-8 flex items-center justify-center">
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-background/50 z-0" />
+                                    </div>
+
+                                    {/* Floating Badge */}
+                                    {/* <motion.div
+                                        animate={{ y: [0, 8, 0] }}
+                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                        className="absolute -bottom-6 -right-6 glass-card p-6 rounded-3xl border border-primary/30 shadow-2xl z-20 backdrop-blur-3xl"
+                                    >
+                                        <Sparkles className="w-8 h-8 text-primary mb-2 animate-pulse" />
+                                        <div className="text-[10px] font-black uppercase tracking-widest leading-none">V_04 // ALPHA</div>
+                                    </motion.div> */}
+                                </div>
+                            </ScrollReveal>
+                        </div>
                     </div>
-                    {/* Decorative Shapes */}
-                    <div className="absolute top-0 right-0 w-8 h-8 bg-[#fbbf24] rounded-full -translate-y-4 translate-x-4 blur-sm opacity-80" />
-                    <div className="absolute bottom-10 right-0 w-12 h-12 bg-[#cbd5e1] rounded-full translate-x-12 blur-sm opacity-50" />
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#a3e635] rounded-full blur-3xl opacity-20 animate-pulse" />
                 </div>
             </section>
 
-            {/* About Me Card */}
-            <section className="container mx-auto px-6 py-16">
-                <div className="bg-foreground backdrop-blur-sm rounded-[2.5rem] p-8 lg:p-16 flex flex-col lg:flex-row items-center gap-12 text-[#1e293b]">
-                    <div className="lg:w-1/3 flex flex-col items-center gap-6">
-                        <div className="w-64 h-64 lg:w-80 lg:h-80 relative flex items-center justify-center bg-gray-100 rounded-3xl overflow-hidden shadow-inner">
-                            {/* Placeholder for Memoji/Avatar Illustration */}
-                            <div className="text-6xl font-black opacity-10 uppercase italic -rotate-12">Avatar</div>
-                        </div>
-                        <div className="bg-white rounded-2xl p-4 shadow-xl flex items-center gap-4 w-full max-w-sm border border-gray-100">
-                            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                                <Mail className="w-6 h-6 text-[#6d5dfc]" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email saya</span>
-                                <span className="text-sm font-bold text-gray-700">hire@truenapsh.my.id</span>
-                            </div>
-                        </div>
-                    </div>
+            {/* About Narrative Section (Bio) */}
+            <section className="relative py-48 px-6 overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center z-0">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isLoaded ? { opacity: 0.05, y: 0 } : { opacity: 0, y: 20 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 2, delay: 0.3 }}
+                        className="text-outline text-[20vw] font-black uppercase whitespace-nowrap"
+                    >
+                        ADIL IVANSYAH LUBIS
+                    </motion.h2>
+                </div>
 
-                    <div className="lg:w-2/3 space-y-6">
-                        <p className="text-[#6d5dfc] font-bold text-sm uppercase tracking-widest">About Me</p>
-                        <h3 className="text-4xl lg:text-6xl text-background font-black leading-tight tracking-tight uppercase">
-                            Bangun Kreativitas dan Digitalisasi ke lingkungan kerja anda
-                        </h3>
-                        <p className="text-lg text-gray-400 font-medium leading-relaxed text-justify">
-                            Saya adalah seorang Fullstack Developer dan UI/UX Designer yang berfokus pada pembuatan antarmuka web yang modern, responsif, dan mudah digunakan. Berpengalaman menggunakan Next.js, React, TypeScript, Laravel, PHP serta integrasi dengan teknologi backend seperti Lumen, Prisma, dan NextAuth. Kombinasi antara kemampuan teknis dan estetika desain membantu saya menciptakan produk digital yang tidak hanya berfungsi baik, tetapi juga memiliki pengalaman pengguna yang menarik dan profesional. Saya senang bekerja dalam lingkungan yang kolaboratif, berpikir kritis terhadap solusi yang efisien, serta terus belajar teknologi baru untuk meningkatkan kualitas hasil kerja.
-                        </p>
+                <div className="container mx-auto relative z-10">
+                    <div className="grid lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-5 relative">
+                            <ScrollReveal direction="right">
+                                <div className="relative z-10 space-y-12">
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-px w-12 bg-primary/30" />
+                                            <span className="section-label italic">Visi_Misi</span>
+                                        </div>
+                                        <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.9] uppercase">
+                                            The <br /> <span className="text-primary not-italic">Manifesto</span>
+                                        </h2>
+                                    </div>
+
+                                    <div className="glass-card p-8 rounded-[2.5rem] border-primary/10 relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        <div className="relative z-10 space-y-6">
+                                            <div className="flex items-center gap-6">
+                                                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                                                    <Sparkles className="w-6 h-6" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">Core_Engine</p>
+                                                    <h4 className="text-xl font-black uppercase tracking-tight">Kreativitas & Skalabilitas</h4>
+                                                </div>
+                                            </div>
+                                            <p className="text-sm font-medium text-muted-foreground leading-relaxed">
+                                                Setiap proyek adalah eksperimen dalam mengubah kode mentah menjadi emas digital yang fungsional.
+                                            </p>
+                                            <div className="pt-4 flex items-center gap-4">
+                                                <div className="h-10 w-10 rounded-full border border-primary/20 flex items-center justify-center">
+                                                    <Mail className="w-4 h-4 text-primary" />
+                                                </div>
+                                                <span className="text-xs font-black font-mono tracking-tight opacity-60">hire@truenapsh.my.id</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ScrollReveal>
+
+                            {/* Decorative element */}
+                            <div className="absolute -top-12 -left-12 w-64 h-64 bg-primary/5 rounded-full blur-[100px] z-0" />
+                        </div>
+
+                        <div className="lg:col-span-7">
+                            <ScrollReveal direction="up" delay={0.3}>
+                                <div className="space-y-12 lg:pl-16">
+                                    <div className="relative">
+                                        <span className="absolute -left-12 top-0 text-[120px] font-black text-primary/5 select-none leading-none">"</span>
+                                        <h3 className="text-3xl md:text-5xl font-black leading-[1.2] tracking-tight uppercase">
+                                            Membangun aplikasi yang sukses <br /> adalah <span className="text-primary italic underline decoration-primary/20 underline-offset-8">sebuah tantangan</span> yang saya nikmati setiap harinya.
+                                        </h3>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-10">
+                                        <div className="space-y-4">
+                                            <div className="h-px w-full bg-primary/10" />
+                                            <p className="text-xl text-muted-foreground font-medium leading-[1.6] italic opacity-90 text-justify">
+                                                Saya adalah seorang Fullstack Developer dan UI/UX Designer yang berfokus pada pembuatan antarmuka web yang modern, responsif, dan mudah digunakan.
+                                            </p>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <div className="h-px w-full bg-primary/10" />
+                                            <p className="text-lg text-muted-foreground font-medium leading-[1.6] opacity-70 text-justify">
+                                                Berpengalaman menggunakan Next.js, React, TypeScript, Laravel, PHP serta integrasi dengan teknologi backend seperti Lumen, Prisma, dan NextAuth. Kombinasi ini membantu saya menciptakan produk digital yang tidak hanya berfungsi baik, tetapi juga memiliki pengalaman pengguna yang menarik.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="glass-card p-6 rounded-3xl border-primary/5 flex items-center justify-between group">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-2 h-10 bg-primary/40 rounded-full group-hover:h-12 transition-all duration-500" />
+                                            <div>
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-primary/50">Status_Update</p>
+                                                <p className="text-sm font-bold uppercase transition-colors group-hover:text-primary">Berpikir kritis & Solusi Efisien</p>
+                                            </div>
+                                        </div>
+                                        <Orbit className="w-6 h-6 text-primary/30 group-hover:rotate-180 transition-transform duration-1000" />
+                                    </div>
+                                </div>
+                            </ScrollReveal>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* Experience Section */}
-            <section className="container mx-auto px-6 py-24">
-                <div className="flex flex-col lg:flex-row gap-12 mb-16">
-                    <div className="lg:w-1/3">
-                        <p className="text-[#6d5dfc] font-bold text-sm uppercase tracking-widest mb-6">Experience</p>
-                        <h4 className="text-5xl lg:text-7xl font-black uppercase tracking-tight mb-4">Tentang Karier saya</h4>
-                        <p className="text-gray-400 font-medium opacity-80">ini adalah beberapa pengalaman saya selama berkarir dibidang IT</p>
-                    </div>
+            <section className="relative py-48 px-6 overflow-hidden bg-background/50 backdrop-blur-sm">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center z-0">
+                    <motion.h2
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 0.1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.5 }}
+                        className="text-outline text-[30vw] font-black uppercase whitespace-nowrap"
+                    >
+                        HISTORY
+                    </motion.h2>
+                </div>
 
-                    <div className="lg:w-2/3 space-y-12 relative">
-                        {/* Timeline Line */}
-                        <div className="absolute left-1 top-2 bottom-0 w-0.5 bg-gray-800" />
-
-                        {experiences.map((exp, index) => (
-                            <div key={index} className="relative pl-12 group">
-                                <div className="absolute left-0 top-3 w-3 h-3 bg-[#6d5dfc] rounded-full shadow-[0_0_10px_#6d5dfc] z-10 transition-transform group-hover:scale-150" />
-
-                                <div className="space-y-4">
-                                    <div className="flex flex-wrap items-center justify-between gap-4">
-                                        <h5 className="text-2xl lg:text-3xl font-bold text-[#a3e635] tracking-tight">{exp.title}</h5>
-                                        <span className="px-4 py-1.5 bg-[#4f46e5] text-xs font-bold rounded-full text-white uppercase tracking-widest">
-                                            {exp.period}
-                                        </span>
+                <div className="container mx-auto relative z-10">
+                    <div className="flex flex-col lg:flex-row gap-20 items-start">
+                        <div className="lg:w-1/3 lg:sticky lg:top-32">
+                            <ScrollReveal direction="right">
+                                <div className="space-y-8">
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-px w-12 bg-primary/30" />
+                                        <span className="section-label">LINI_MASA</span>
                                     </div>
-                                    <p className="text-lg font-bold text-gray-600 opacity-80 uppercase tracking-wide">{exp.company}</p>
-                                    <p className="text-gray-400 font-medium leading-relaxed max-w-3xl">
-                                        {exp.description}
+                                    <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none uppercase">
+                                        JEJAK <br /> <span className="text-primary italic">KARIER</span>
+                                    </h2>
+                                    <p className="text-xl text-muted-foreground font-medium opacity-80 leading-relaxed max-w-sm">
+                                        Evolusi profesional saya dalam industri teknologi digital selama 5 tahun terakhir.
                                     </p>
                                 </div>
-                            </div>
-                        ))}
+                            </ScrollReveal>
+                        </div>
+
+                        <div className="lg:w-2/3 space-y-12">
+                            {experiences.map((exp, index) => (
+                                <ScrollReveal key={index} direction="up" delay={index * 0.2}>
+                                    <div className="glass-card p-10 lg:p-12 rounded-[2.5rem] border-primary/5 hover:border-primary/20 transition-all duration-500 group relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 p-8 text-primary/10 group-hover:text-primary/20 transition-colors">
+                                            <Calendar className="w-16 h-16" />
+                                        </div>
+
+                                        <div className="relative z-10 space-y-6">
+                                            <div className="flex flex-wrap items-center justify-between gap-6">
+                                                <div className="space-y-2">
+                                                    <h3 className="text-3xl font-black uppercase tracking-tight group-hover:text-primary transition-colors italic leading-none">{exp.title}</h3>
+                                                    <p className="text-xs font-black uppercase tracking-[0.3em] text-primary/50">{exp.company}</p>
+                                                </div>
+                                                <div className="px-6 py-2 bg-primary text-[10px] font-black rounded-full text-primary-foreground uppercase tracking-widest shadow-xl shadow-primary/20">
+                                                    {exp.period}
+                                                </div>
+                                            </div>
+
+                                            <div className="h-px w-full bg-primary/10" />
+
+                                            <p className="text-lg text-muted-foreground font-medium leading-relaxed opacity-80">
+                                                {exp.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </ScrollReveal>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

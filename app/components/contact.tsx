@@ -7,20 +7,21 @@ import { Textarea } from "@/components/ui/textarea"
 import { Mail, MessageSquare, Send, Radio } from "lucide-react"
 import { motion } from "framer-motion"
 import { ScrollReveal } from "./scroll-reveal"
+import { useLoading } from "@/app/components/loading-context"
 
 export default function Contact() {
+    const { isLoaded } = useLoading();
     return (
         <section id="contact" className="py-32 relative overflow-hidden bg-background font-sans">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             <div className="absolute inset-0 coord-grid opacity-30 pointer-events-none" />
 
             {/* Background Title */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center opacity-5">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none overflow-hidden w-full flex justify-center">
                 <motion.h2
                     initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5 }}
+                    animate={isLoaded ? { opacity: 0.15, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                     className="text-outline text-[30vw] font-black uppercase whitespace-nowrap"
                 >
                     CONTACT
