@@ -3,13 +3,17 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { ScrollReveal } from "./scroll-reveal"
 import { useLoading } from "@/app/components/loading-context"
 
-const skills = [
-    "TypeScript", "React", " Laravel", "PHP", "Next.js", "Tailwind CSS",
-    "Node.js", "PostgreSQL", "Prisma", "Framer Motion",
-    "UI Design", "Responsive Layouts", "API Development"
+const frontendSkills = [
+    "TypeScript", "React", "Next.js", "Tailwind CSS",
+    "Framer Motion", "UI Design", "Responsive Layouts"
+]
+
+const backendSkills = [
+    "Laravel", "PHP", "Node.js", "PostgreSQL", "Prisma", "API Development"
 ]
 
 export default function About() {
@@ -36,18 +40,47 @@ export default function About() {
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <ScrollReveal direction="right">
                         <div className="relative group">
-                            {/* Decorative Frame */}
+
                             <div className="absolute -inset-4 border border-primary/10 rounded-[2.5rem] pointer-events-none" />
                             <div className="absolute -inset-1 bg-gradient-to-tr from-primary/20 to-transparent rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-1000" />
 
-                            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border/50 bg-card/50 backdrop-blur-sm flex items-center justify-center">
-                                <div className="text-4xl font-black text-primary/10 select-none uppercase tracking-tighter rotate-12">
-                                    Visual Profile
+                            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border/50 bg-card/50 backdrop-blur-sm">
+
+                                {/* <div className="absolute inset-0 z-0">
+                                    <Image
+                                        src="/images/landing/background.png"
+                                        alt="Background"
+                                        fill
+                                        className="object-cover brightness-50"
+                                    />
+                                </div> */}
+
+                                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80 z-[10]" />
+
+                                <div className="absolute inset-0 z-[20]">
+                                    <Image
+                                        src="/images/landing/me_dark.png"
+                                        alt="Adil Ivansyah - Dark"
+                                        fill
+                                        className="object-cover"
+                                    />
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+
+                                <motion.div
+                                    className="absolute inset-0 z-[30]"
+                                    initial={{ opacity: 0 }}
+                                    whileHover={{ opacity: 1 }}
+                                    transition={{ duration: 0.5 }}
+                                >
+                                    <Image
+                                        src="/images/landing/me_light.png"
+                                        alt="Adil Ivansyah - Light"
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </motion.div>
                             </div>
 
-                            {/* Status Tag */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -66,17 +99,22 @@ export default function About() {
                             <ScrollReveal direction="up">
                                 <div className="flex items-center gap-4 mb-2">
                                     <div className="h-px w-12 bg-primary/30" />
-                                    <span className="section-label">Kisah_Singkat</span>
+                                    <span className="section-label">Ringkasan</span>
                                 </div>
                                 <h2 className="text-5xl md:text-7xl font-black text-foreground tracking-tighter leading-none uppercase">
-                                    SIAPA <br /> <span className="text-primary italic">SAYA?</span>
+                                    About
                                 </h2>
                             </ScrollReveal>
 
                             <ScrollReveal direction="up" delay={0.2}>
-                                <p className="text-muted-foreground text-xl leading-relaxed text-justify lg:text-left font-medium opacity-80">
-                                    Saya adalah <span className="text-foreground font-bold">Software Developer</span> yang bersemangat menciptakan pengalaman digital premium. Berfokus pada integrasi estetika tinggi dengan performa teknis yang solid.
-                                </p>
+                                <div className="space-y-4">
+                                    <p className="text-muted-foreground text-xl leading-relaxed text-justify lg:text-left font-medium opacity-100 brightness-110">
+                                        Saya adalah <span className="text-foreground font-bold">Fullstack Developer & UI/UX Specialist</span> dengan keahlian mendalam dalam membangun infrastruktur web yang scalable dan antarmuka yang high-end. Berfokus pada ekosistem <span className="text-primary font-bold">Next.js</span> dan <span className="text-primary font-bold">Laravel</span>.
+                                    </p>
+                                    <p className="text-muted-foreground text-lg leading-relaxed text-justify lg:text-left opacity-80 brightness-110">
+                                        Misi saya sederhana: mengonversi ide kompleks menjadi produk digital yang efisien, performant, dan memiliki standar estetika industri tertinggi. Saya percaya bahwa kode yang bersih dan dokumentasi yang baik adalah fondasi dari setiap proyek yang sukses.
+                                    </p>
+                                </div>
                             </ScrollReveal>
                         </div>
 
@@ -98,27 +136,49 @@ export default function About() {
                         </div>
 
                         <ScrollReveal direction="up" delay={0.6}>
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-4">
-                                    <span className="section-label">Teknologi Utama</span>
-                                    <div className="h-px flex-1 bg-primary/10" />
+                            <div className="grid sm:grid-cols-2 gap-12">
+                                {/* Frontend Stack */}
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-4">
+                                        <span className="section-label">Frontend Stack</span>
+                                        <div className="h-px flex-1 bg-primary/10" />
+                                    </div>
+                                    <div className="flex flex-wrap gap-3">
+                                        {frontendSkills.map((skill, i) => (
+                                            <motion.div
+                                                key={skill}
+                                                whileHover={{ y: -5, scale: 1.05 }}
+                                                className="px-5 py-2 rounded-full glass-card text-[11px] font-black uppercase tracking-widest text-foreground/70 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                                            >
+                                                {skill}
+                                            </motion.div>
+                                        ))}
+                                    </div>
                                 </div>
-                                <div className="flex flex-wrap gap-3">
-                                    {skills.map((skill, i) => (
-                                        <motion.div
-                                            key={skill}
-                                            whileHover={{ y: -5, scale: 1.05 }}
-                                            className="px-5 py-2 rounded-full glass-card text-[11px] font-black uppercase tracking-widest text-foreground/70 hover:text-primary hover:border-primary/30 transition-all cursor-default"
-                                        >
-                                            {skill}
-                                        </motion.div>
-                                    ))}
+
+                                {/* Backend Stack */}
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-4">
+                                        <span className="section-label">Backend Stack</span>
+                                        <div className="h-px flex-1 bg-primary/10" />
+                                    </div>
+                                    <div className="flex flex-wrap gap-3">
+                                        {backendSkills.map((skill, i) => (
+                                            <motion.div
+                                                key={skill}
+                                                whileHover={{ y: -5, scale: 1.05 }}
+                                                className="px-5 py-2 rounded-full glass-card text-[11px] font-black uppercase tracking-widest text-foreground/70 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                                            >
+                                                {skill}
+                                            </motion.div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </ScrollReveal>
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     )
 }

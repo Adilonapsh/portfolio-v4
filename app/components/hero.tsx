@@ -163,6 +163,18 @@ const Hero: React.FC = () => {
                             <span className="italic">True</span>
                             <span className="text-foreground">Napsh</span>
                         </motion.h1>
+
+                        {/* Role Description */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                            transition={{ duration: 0.8, delay: 0.6 }}
+                            className="mt-6 md:mt-10"
+                        >
+                            <span className="text-[10px] md:text-sm font-black uppercase tracking-[0.4em] text-primary/60">
+                                Fullstack Developer & UI/UX Specialist
+                            </span>
+                        </motion.div>
                     </div>
 
                     {/* Floating Right Panel - Refined for Smooth Transition */}

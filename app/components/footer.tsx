@@ -58,22 +58,22 @@ export default function Footer() {
                             </div>
 
                             <div className="flex gap-4 text-gray-400">
-                                <a href="https://instagram.com/noreplyao">
+                                <a href="https://instagram.com/noreplyao" target="_blank">
                                     <Instagram className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
-                                <a href="https://twitter.com/adilonapsh">
+                                <a href="https://twitter.com/adilonapsh" target="_blank">
                                     <Twitter className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
-                                <a href="https://github.com/adilonapsh">
+                                <a href="https://github.com/adilonapsh" target="_blank">
                                     <Github className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
-                                <a href="https://dribbble.com/adilonapsh">
+                                <a href="https://dribbble.com/adilonapsh" target="_blank">
                                     <Dribbble className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
-                                <a href="https://www.figma.com/@adilonapsh">
+                                <a href="https://www.figma.com/@adilonapsh" target="_blank">
                                     <Figma className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
-                                <a href="https://truenapsh.my.id">
+                                <a href="https://truenapsh.my.id" target="_blank">
                                     <Globe className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
                             </div>

@@ -12,28 +12,28 @@ import { useLoading } from "@/app/components/loading-context"
 
 const faqData = [
     {
-        question: "Apa itu Truenapsh?",
-        answer: "Truenapsh adalah studio kreatif yang berfokus pada pengembangan solusi digital berkualitas tinggi."
+        question: "Kenapa saya harus merekrut Anda dibanding kandidat lain?",
+        answer: "Saya tidak hanya menulis kode, tapi membangun solusi yang scalable dan berorientasi pada hasil bisnis. Dengan kombinasi skill Fullstack (Next.js/Laravel) dan mata untuk UI/UX premium, saya memastikan produk memiliki performa teknis yang solid sekaligus user experience yang memanjakan pengguna."
     },
     {
-        question: "Produk apa saja yang tersedia di Truenapsh?",
-        answer: "Kami menyediakan berbagai layanan mulai dari desain UI/UX, pengembangan website modern, hingga pembuatan produk digital siap pakai."
+        question: "Bagaimana workflow kerja Anda dalam sebuah tim?",
+        answer: "Saya terbiasa dengan metodologi Agile/Scrum. Komunikasi transparan, dokumentasi kode yang bersih, serta penggunaan Git (Github/Gitlab) untuk kolaborasi adalah standar minimal saya. Saya percaya bahwa kesuksesan proyek berawal dari sinkronisasi visi tim yang kuat."
     },
     {
-        question: "Apakah saya bisa memesan jasa custom?",
-        answer: "Ya, kami menerima pesanan jasa custom sesuai dengan kebutuhan spesifik proyek Anda."
+        question: "Sejauh mana penguasaan Tech-Stack Anda?",
+        answer: "Saya sangat kuat di ekosistem JavaScript/TypeScript (React, Next.js, Node.js) dan PHP (Laravel). Saya juga memahami manajemen database (PostgreSQL/MySQL) serta optimasi performa frontend menggunakan Framer Motion untuk animasi yang fluid namun tetap ringan."
     },
     {
-        question: "Apakah Truenapsh menerima kerja sama atau proyek kolaborasi?",
-        answer: "Kami sangat terbuka untuk peluang kerja sama dan kolaborasi proyek yang menarik."
+        question: "Bagaimana Anda menangani deadline ketat atau bug kritis?",
+        answer: "Prioritas adalah kunci. Saya menggunakan teknik triase untuk menangani bug paling kritikal terlebih dahulu tanpa mengorbankan kualitas jangka panjang. Untuk deadline, saya berfokus pada MVP (Minimum Viable Product) yang fungsional sebelum melakukan iterasi pada fitur secondary."
     },
     {
-        question: "Bagaimana cara mengajukan kerja sama?",
-        answer: "Anda dapat menghubungi kami melalui formulir kontak di bawah atau melalui email resmi kami."
+        question: "Apakah Anda tersedia untuk Full-time atau Remote?",
+        answer: "Ya, saya terbuka untuk kesempatan kerja Full-time, baik secara Remote maupun Hybrid. Saya memiliki setup kerja profesional yang memastikan produktivitas maksimal meskipun bekerja dari jarak jauh."
     },
     {
-        question: "Apakah truenapsh melayani klien dari luar kota atau luar negeri?",
-        answer: "Ya, kami melayani klien secara remote dari mana saja, baik di dalam maupun di luar negeri."
+        question: "Apa kontribusi nyata Anda dalam proyek sebelumnya?",
+        answer: "Di setiap proyek, saya selalu fokus pada peningkatan efisiensi. Baik itu melalui optimalisasi query database, peningkatan kecepatan load page (LCP/FID), atau sekadar merancang UI yang mengurangi friction pengguna saat melakukan transaksi/konversi."
     }
 ]
 
@@ -70,7 +70,7 @@ export default function FAQ() {
                             </h2>
 
                             <p className="text-muted-foreground text-xl leading-relaxed max-w-md font-medium opacity-80">
-                                Temukan jawaban dari pertanyaan yang sering diajukan untuk membantu Anda memahami layanan kami dengan lebih baik.
+                                Temukan jawaban dari pertanyaan yang sering diajukan untuk membantu Anda memahami layanan saya dengan lebih baik.
                             </p>
 
                             {/* <div className="relative p-10 rounded-[2.5rem] glass-card border-primary/5 overflow-hidden group/support">

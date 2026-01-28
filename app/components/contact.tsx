@@ -99,7 +99,7 @@ export default function Contact() {
                                     </div>
                                     <div className="space-y-1 text-foreground">
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Sosial_Media</p>
-                                        <p className="text-xl font-bold tracking-tight">@Noreplyao</p>
+                                        <p className="text-xl font-bold tracking-tight">@adilonapsh</p>
                                     </div>
                                 </div>
                             </div>
