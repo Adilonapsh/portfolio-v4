@@ -46,16 +46,16 @@ export default function About() {
 
                             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border/50 bg-card/50 backdrop-blur-sm">
 
-                                {/* <div className="absolute inset-0 z-0">
+                                <div className="absolute inset-0 z-0 dark:hidden">
                                     <Image
                                         src="/images/landing/background.png"
                                         alt="Background"
                                         fill
                                         className="object-cover brightness-50"
                                     />
-                                </div> */}
+                                </div>
 
-                                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80 z-[10]" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-background/20 via-transparent to-transparent opacity-0 group-hover:opacity-80 z-[10] transition-opacity duration-1000" />
 
                                 <div className="absolute inset-0 z-[20]">
                                     <Image
@@ -70,6 +70,7 @@ export default function About() {
                                     className="absolute inset-0 z-[30]"
                                     initial={{ opacity: 0 }}
                                     whileHover={{ opacity: 1 }}
+                                    whileTap={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
                                 >
                                     <Image
