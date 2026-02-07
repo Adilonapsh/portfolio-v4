@@ -67,12 +67,12 @@ export default function Footer() {
                                 <a href="https://github.com/adilonapsh" target="_blank">
                                     <Github className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
-                                <a href="https://dribbble.com/adilonapsh" target="_blank">
+                                {/* <a href="https://dribbble.com/adilonapsh" target="_blank">
                                     <Dribbble className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
                                 <a href="https://www.figma.com/@adilonapsh" target="_blank">
                                     <Figma className="h-5 w-5 hover:text-black cursor-pointer" />
-                                </a>
+                                </a> */}
                                 <a href="https://truenapsh.my.id" target="_blank">
                                     <Globe className="h-5 w-5 hover:text-black cursor-pointer" />
                                 </a>
@@ -88,14 +88,15 @@ export default function Footer() {
                                 <li className="hover:text-black cursor-pointer"><Link href="/projects" className="hover:text-black cursor-pointer">Portofolio</Link></li>
                                 {/* <li className="hover:text-black cursor-pointer">Pricing</li> */}
                                 <li className="hover:text-black cursor-pointer"><Link href="/about" className="hover:text-black cursor-pointer">About</Link></li>
+                                <li className="hover:text-black cursor-pointer"><Link href="/stream" className="hover:text-black cursor-pointer">Stream</Link></li>
                             </ul>
                         </div>
 
                         <div className="space-y-6">
                             <h4 className="font-bold text-gray-400 uppercase tracking-widest text-xs">About Truenapsh</h4>
                             <ul className="space-y-3 font-semibold text-gray-700">
-                                <li className="hover:text-black cursor-pointer">About</li>
-                                <li className="hover:text-black cursor-pointer">Meet the creator</li>
+                                <li className="hover:text-black cursor-pointer"><Link href="/about" className="hover:text-black cursor-pointer">About</Link></li>
+                                <li className="hover:text-black cursor-pointer"><Link href="/about" className="hover:text-black cursor-pointer">Meet the creator</Link></li>
                             </ul>
                         </div>
                     </div>

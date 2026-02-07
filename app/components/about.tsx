@@ -62,6 +62,9 @@ export default function About() {
                                         src="/images/landing/me_dark.png"
                                         alt="Adil Ivansyah - Dark"
                                         fill
+                                        priority
+                                        quality={100}
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
                                         className="object-cover"
                                     />
                                 </div>
@@ -72,11 +75,15 @@ export default function About() {
                                     whileHover={{ opacity: 1 }}
                                     whileTap={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
+
                                 >
                                     <Image
                                         src="/images/landing/me_light.png"
                                         alt="Adil Ivansyah - Light"
                                         fill
+                                        priority
+                                        quality={100}
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
                                         className="object-cover"
                                     />
                                 </motion.div>

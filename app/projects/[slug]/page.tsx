@@ -133,32 +133,37 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm, remarkBreaks]}
                             components={{
-                                h1: ({ node, ...props }) => <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-6 sm:mb-8" {...props} />,
-                                h2: ({ node, ...props }) => <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-4 sm:mb-6" {...props} />,
-                                h3: ({ node, ...props }) => <h3 className="text-xl sm:text-2xl md:text-3xl font-black uppercase mb-3 sm:mb-4" {...props} />,
-                                h4: ({ node, ...props }) => <h4 className="text-lg sm:text-xl md:text-2xl font-black uppercase mb-2" {...props} />,
-                                h5: ({ node, ...props }) => <h5 className="text-base sm:text-lg md:text-xl font-black uppercase mb-2" {...props} />,
-                                h6: ({ node, ...props }) => <h6 className="text-sm sm:text-base md:text-lg font-black uppercase mb-2" {...props} />,
-                                p: ({ node, ...props }) => <p className="mb-4 sm:mb-6 last:mb-0" {...props} />,
-                                pre: ({ node, ...props }) => <pre className="mb-4 sm:mb-6 last:mb-0 overflow-x-auto" {...props} />,
-                                ol: ({ node, ...props }) => <ol className="list-decimal ml-5 sm:ml-6 mb-4 sm:mb-6 space-y-1 sm:space-y-2" {...props} />,
-                                li: ({ node, ...props }) => <li className="pl-1 sm:pl-2" {...props} />,
+                                h1: ({ node, ...props }) => <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase mb-12 mt-16 first:mt-0" {...props} />,
+                                h2: ({ node, ...props }) => <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-8 mt-12 first:mt-0" {...props} />,
+                                h3: ({ node, ...props }) => <h3 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-6 mt-10 first:mt-0" {...props} />,
+                                h4: ({ node, ...props }) => <h4 className="text-xl sm:text-2xl md:text-3xl font-black uppercase mb-4 mt-8" {...props} />,
+                                p: ({ node, ...props }) => <p className="mb-6 sm:mb-8 last:mb-0 leading-relaxed text-lg" {...props} />,
+                                pre: ({ node, ...props }) => <pre className="mb-6 sm:mb-8 last:mb-0 overflow-x-auto rounded-xl" {...props} />,
+                                ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-6 sm:mb-8 space-y-2 marker:text-[#6d5dfc]" {...props} />,
+                                ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-6 sm:mb-8 space-y-2 marker:text-[#6d5dfc]" {...props} />,
+                                li: ({ node, ...props }) => <li className="pl-2" {...props} />,
                                 table: ({ node, ...props }) => (
-                                    <div className="my-6 sm:my-8 overflow-x-auto border border-white/10 rounded-xl">
-                                        <table {...props} />
+                                    <div className="my-10 overflow-x-auto border border-white/10 rounded-2xl bg-white/[0.02] shadow-2xl">
+                                        <table className="w-full border-collapse text-left" {...props} />
                                     </div>
                                 ),
+                                thead: ({ node, ...props }) => <thead className="bg-white/5 border-b border-white/10" {...props} />,
+                                th: ({ node, ...props }) => <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400" {...props} />,
+                                td: ({ node, ...props }) => <td className="px-6 py-4 text-sm border-t border-white/5 align-top" {...props} />,
+                                tr: ({ node, ...props }) => <tr className="hover:bg-white/[0.02] transition-colors" {...props} />,
                                 code({ node, className, children, ...props }) {
                                     const match = /language-(\w+)/.exec(className || "")
                                     return match ? (
-                                        <CodeBlock
-                                            language={match[1]}
-                                            value={String(children).replace(/\n$/, "")}
-                                            className={className}
-                                            {...props}
-                                        />
+                                        <div className="my-8 rounded-xl overflow-hidden border border-white/10">
+                                            <CodeBlock
+                                                language={match[1]}
+                                                value={String(children).replace(/\n$/, "")}
+                                                className={className}
+                                                {...props}
+                                            />
+                                        </div>
                                     ) : (
-                                        <code className={"px-1 py-0.5 bg-gray-200 dark:bg-gray-800 rounded text-xs sm:text-sm"} {...props}>
+                                        <code className={"px-2 py-0.5 bg-gray-200 dark:bg-gray-800 rounded font-mono text-xs sm:text-sm text-[#6d5dfc]"} {...props}>
                                             {children}
                                         </code>
                                     )
@@ -166,14 +171,21 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                 image({ node, ...props }) {
                                     const imgProps = props as { src?: string; alt?: string; width?: number; height?: number }
                                     return (
-                                        <Image
-                                            src={imgProps.src || ""}
-                                            alt={imgProps.alt || ""}
-                                            width={imgProps.width || 1920}
-                                            height={imgProps.height || 1080}
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
-                                            className="w-full h-auto rounded-xl sm:rounded-2xl border border-white/10 my-8 sm:my-12"
-                                        />
+                                        <div className="my-12 sm:my-16 group relative">
+                                            <Image
+                                                src={imgProps.src || ""}
+                                                alt={imgProps.alt || ""}
+                                                width={imgProps.width || 1920}
+                                                height={imgProps.height || 1080}
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1024px"
+                                                className="w-full h-auto rounded-3xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                                            />
+                                            {imgProps.alt && (
+                                                <p className="mt-4 text-center text-xs font-black uppercase tracking-[0.2em] text-gray-500">
+                                                    {imgProps.alt}
+                                                </p>
+                                            )}
+                                        </div>
                                     )
                                 },
                             }}

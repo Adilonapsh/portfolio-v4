@@ -5,11 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLoading } from "@/app/components/loading-context";
 import { Sparkles, Activity, Cpu } from "lucide-react";
 import SpotifyCard from "./spotify-card";
-import { useSpotify } from "@/app/hooks/use-spotify";
+import { useLanyard } from "@/app/hooks/use-lanyard";
+import StreamingCard from "./streaming-card";
 
 const Hero: React.FC = () => {
     const { isLoaded } = useLoading();
-    const { spotify, progress } = useSpotify();
+    const { spotify, progress, isStreaming, streaming } = useLanyard();
+
     const [statuses, setStatuses] = useState([
         { id: 0, text: "System Booting //" }
     ]);
@@ -59,9 +61,13 @@ const Hero: React.FC = () => {
             }
 
             setStatuses(prev => {
-                const newStatus = { id: counter++, text: nextMsg };
+                const nextMsgWithStream = isStreaming && !prev.some(s => s.text === "LIVE_STREAM_ACTIVE")
+                    ? "LIVE_STREAM_ACTIVE"
+                    : nextMsg;
+                const newStatus = { id: counter++, text: nextMsgWithStream };
                 return [newStatus, ...prev].slice(0, 3);
             });
+
         }, 5000);
 
         const handleInteraction = (type: string, target: string) => {
@@ -132,25 +138,27 @@ const Hero: React.FC = () => {
                     transition={{ duration: 0.8 }}
                     className="flex justify-center items-center gap-3 text-primary mb-12"
                 >
-                    {/* <Sparkles className="w-4 h-4" /> */}
                     <span className="section-label group-hover:text-primary transition-colors">THE_NEXT_GEN_EXPERIENCE</span>
-                    {/* <Sparkles className="w-4 h-4" /> */}
                 </motion.div>
 
                 <div className="relative w-full flex items-center justify-center">
                     {/* Floating Left Panel - Brought closer to center */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20, y: -20 }}
-                        animate={isLoaded ? { opacity: 1, x: 20, y: -20 } : {}}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="absolute left-0 hidden 2xl:flex flex-col gap-2"
-                    >
-                        <div className="flex items-center gap-3">
-                            <Activity className="w-4 h-4 text-primary" />
-                            <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Response_Time</span>
-                        </div>
-                        <div className="text-3xl font-black italic">{responseTime}ms</div>
-                    </motion.div>
+                    <div>
+                        <motion.div
+                            initial={{ opacity: 0, x: -20, y: -20 }}
+                            animate={isLoaded ? { opacity: 1, x: 20, y: -20 } : {}}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            className="absolute left-0 hidden 2xl:flex flex-col gap-2"
+                        >
+                            <div>
+                                <div className="flex items-center gap-3">
+                                    <Activity className="w-4 h-4 text-primary" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Response_Time</span>
+                                </div>
+                                <div className="text-3xl font-black italic">{responseTime}ms</div>
+                            </div>
+                        </motion.div>
+                    </div>
 
                     {/* Main Title */}
                     <div className="text-center group">
@@ -212,11 +220,15 @@ const Hero: React.FC = () => {
                                         />
                                     ))}
                                 </div>
-                                <div className="text-xl font-black italic">V3_STABLE</div>
+                                <div className="text-xl font-black italic">V4_STABLE</div>
                             </div>
                         </motion.div>
 
                         <SpotifyCard externalSpotify={spotify} externalProgress={progress} />
+
+                        <a href = {streaming?.url} target="_blank" rel="noopener noreferrer">
+                            <StreamingCard externalStreaming={streaming} />
+                        </a>
                     </motion.div>
                 </div>
 

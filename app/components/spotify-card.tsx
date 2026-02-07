@@ -3,7 +3,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music } from "lucide-react";
-import { useSpotify, SpotifyData } from "@/app/hooks/use-spotify";
+import { useLanyard } from "@/app/hooks/use-lanyard";
+import { SpotifyData } from "@/app/hooks/use-spotify";
 
 interface SpotifyCardProps {
     externalSpotify?: SpotifyData | null;
@@ -11,7 +12,8 @@ interface SpotifyCardProps {
 }
 
 const SpotifyCard: React.FC<SpotifyCardProps> = ({ externalSpotify, externalProgress }) => {
-    const internal = useSpotify();
+    const internal = useLanyard();
+
 
     const spotify = externalSpotify !== undefined ? externalSpotify : internal.spotify;
     const progress = externalProgress !== undefined ? externalProgress : internal.progress;
