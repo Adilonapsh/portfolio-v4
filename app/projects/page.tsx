@@ -30,6 +30,8 @@ const TechIcons = ({ techstack, className = "flex gap-2" }: { techstack: string[
     )
 }
 
+export const revalidate = 60
+
 const ProjectsPage = async () => {
     const projects = await get();
 
@@ -75,7 +77,6 @@ const ProjectsPage = async () => {
                             <TechIcons techstack={project.techstack} />
                         </div>
 
-                        {/* Background / Hover Decoration */}
                         <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex justify-center items-center pointer-events-none'>
                             <Image
                                 src={project.logo}
@@ -86,7 +87,6 @@ const ProjectsPage = async () => {
                             />
                         </div>
 
-                        {/* Visual Preview */}
                         <div className="absolute inset-x-0 bottom-0 px-6 translate-y-20 group-hover/project:translate-y-0 transition-transform duration-700 ease-out z-20">
                             <Image
                                 src={project?.thumbnail}
@@ -97,7 +97,6 @@ const ProjectsPage = async () => {
                             />
                         </div>
 
-                        {/* Description Overlay on Hover */}
                         <div className='absolute bottom-0 left-0 w-full p-8 bg-background/95 backdrop-blur-sm border-t border-border translate-y-full group-hover/project:translate-y-0 transition-transform duration-500 z-30'>
                             <div className="flex flex-col gap-2">
                                 <span className="text-xs font-bold uppercase tracking-widest text-primary">Description</span>

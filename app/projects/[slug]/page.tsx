@@ -54,7 +54,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     return (
         <div className="min-h-screen font-sans">
             <div className="w-full max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-24">
-                {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start gap-8 mt-16 lg:mt-0 mb-16 md:mb-24">
                     <div className="max-w-3xl space-y-6">
                         <Link
@@ -72,7 +71,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                         </p>
                     </div>
 
-                    {/* Project Logo Placeholder */}
                     <div className="relative h-32 w-32 shrink-0 bg-[#6d5dfc]/20 rounded-2xl flex items-center justify-center overflow-hidden">
                         {project.logo ? (
                             <Image
@@ -92,9 +90,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </div>
                 </div>
 
-                {/* Content Grid */}
                 <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,4fr)] gap-16 md:gap-24">
-                    {/* Sidebar */}
                     <StickyWrapper stickyClassName="space-y-5 lg:sticky" stuckOffset="lg:top-34" defaultOffset="lg:top-0">
                         <div className="space-y-2">
                             <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Client</p>
@@ -121,7 +117,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                         </div>
                     </StickyWrapper>
 
-                    {/* Main Content */}
                     <article className="w-full max-w-4xl mx-auto lg:mx-0 overflow-hidden wrap-break-word
                         prose prose-invert prose-sm sm:prose-base md:prose-lg
                         prose-headings:uppercase prose-headings:font-black prose-headings:tracking-tight
