@@ -24,6 +24,10 @@ const baseURL = process.env.NEXT_URL_API;
 export const get = async (): Promise<Project[]> => {
     const data = await fetch(`${baseURL}/project`, {
         method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
     });
     const json = await data.json();
     return json.data;
@@ -31,6 +35,10 @@ export const get = async (): Promise<Project[]> => {
 export const detail = async (id: string): Promise<Project> => {
     const data = await fetch(`${baseURL}/project/${id}`, {
         method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
     });
     const json = await data.json();
     return json.data;

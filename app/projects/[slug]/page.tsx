@@ -73,14 +73,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </div>
 
                     {/* Project Logo Placeholder */}
-                    <div className="relative h-24 w-24 shrink-0 bg-[#6d5dfc]/20 rounded-2xl flex items-center justify-center overflow-hidden">
+                    <div className="relative h-32 w-32 shrink-0 bg-[#6d5dfc]/20 rounded-2xl flex items-center justify-center overflow-hidden">
                         {project.logo ? (
                             <Image
                                 src={project.logo}
                                 alt={`${project.title} logo`}
                                 fill
-                                sizes="96px"
-                                className="object-contain p-4 bg-background"
+                                className="object-contain p-2 bg-background"
                             />
                         ) : (
                             <div className="flex items-center justify-center w-full h-full">
@@ -143,14 +142,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                 ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-6 sm:mb-8 space-y-2 marker:text-[#6d5dfc]" {...props} />,
                                 li: ({ node, ...props }) => <li className="pl-2" {...props} />,
                                 table: ({ node, ...props }) => (
-                                    <div className="my-10 overflow-x-auto border border-white/10 rounded-2xl bg-white/[0.02] shadow-2xl">
+                                    <div className="my-10 overflow-x-auto border border-gray-200 dark:border-white/10 rounded-2xl bg-gray-50 dark:bg-white/[0.02]">
                                         <table className="w-full border-collapse text-left" {...props} />
                                     </div>
                                 ),
-                                thead: ({ node, ...props }) => <thead className="bg-white/5 border-b border-white/10" {...props} />,
+                                thead: ({ node, ...props }) => <thead className="bg-gray-100 dark:bg-white/5 border-b border-gray-200 dark:border-white/10" {...props} />,
                                 th: ({ node, ...props }) => <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400" {...props} />,
-                                td: ({ node, ...props }) => <td className="px-6 py-4 text-sm border-t border-white/5 align-top" {...props} />,
-                                tr: ({ node, ...props }) => <tr className="hover:bg-white/[0.02] transition-colors" {...props} />,
+                                td: ({ node, ...props }) => <td className="px-6 py-4 text-sm border-t border-gray-200 dark:border-white/5 align-top" {...props} />,
+                                tr: ({ node, ...props }) => <tr className="hover:bg-gray-100 dark:hover:bg-white/[0.02] transition-colors" {...props} />,
                                 code({ node, className, children, ...props }) {
                                     const match = /language-(\w+)/.exec(className || "")
                                     return match ? (

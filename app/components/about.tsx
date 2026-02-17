@@ -63,7 +63,6 @@ export default function About() {
                                         alt="Adil Ivansyah - Dark"
                                         fill
                                         priority
-                                        quality={100}
                                         sizes="(max-width: 1024px) 100vw, 50vw"
                                         className="object-cover"
                                     />
@@ -82,7 +81,6 @@ export default function About() {
                                         alt="Adil Ivansyah - Light"
                                         fill
                                         priority
-                                        quality={100}
                                         sizes="(max-width: 1024px) 100vw, 50vw"
                                         className="object-cover"
                                     />

@@ -52,13 +52,15 @@ const ProjectsPage = async () => {
                         className='relative min-h-125 lg:min-h-150 group/project rounded-lg p-10 overflow-hidden border border-border animate-card hover:drop-shadow transition-all duration-500 block'
                     >
                         <div className='flex justify-between items-start mb-8'>
-                            <Image
-                                src={project.logo}
-                                className='w-12 h-12 rounded-lg object-contain'
-                                width={100}
-                                height={100}
-                                alt={`${project.name} Logo`}
-                            />
+                            <div className='w-20 h-20 rounded-lg bg-background/90 dark:bg-foreground/5 p-3 flex items-center justify-center'>
+                                <Image
+                                    src={project.logo}
+                                    className='w-full h-full object-contain'
+                                    width={600}
+                                    height={600}
+                                    alt={`${project.name} Logo`}
+                                />
+                            </div>
                             <TechIcons techstack={project.techstack} className="hidden lg:flex gap-3 justify-end items-center" />
                         </div>
 
