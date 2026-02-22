@@ -70,7 +70,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                     viewport={{ once: true, margin: "-100px" }}
                     className="grid md:grid-cols-2 gap-10 lg:gap-12"
                 >
-                    {projects.map((project, index) => (
+                    {projects.slice(0, 4).map((project, index) => (
                         <motion.div key={index} variants={item}>
                             <Link
                                 href={`/projects/${project.slug}`}

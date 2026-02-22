@@ -1,14 +1,13 @@
 "use client"
 
+import { useLoading } from "@/app/components/loading-context"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MessageSquare, Send, Radio, Loader2, CheckCircle2, AlertCircle } from "lucide-react"
 import { motion } from "framer-motion"
-import { ScrollReveal } from "./scroll-reveal"
-import { useLoading } from "@/app/components/loading-context"
+import { AlertCircle, CheckCircle2, Loader2, Mail, Radio, SendHorizontal } from "lucide-react"
 import { useState } from "react"
+import { ScrollReveal } from "./scroll-reveal"
 
 export default function Contact() {
     const { isLoaded } = useLoading();
@@ -142,21 +141,35 @@ export default function Contact() {
                                         className="min-h-[160px] bg-white/5 border-none rounded-3xl p-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30 resize-none"
                                     />
                                 </div>
-                                <Button
-                                    disabled={status === "loading" || status === "success"}
-                                    className={`w-full h-20 rounded-[1.5rem] text-sm font-black uppercase tracking-[0.4em] gap-4 transition-all shadow-2xl ${status === "success" ? "bg-emerald-500 hover:bg-emerald-600" :
-                                        status === "error" ? "bg-red-500 hover:bg-red-600" : "bg-primary hover:scale-[1.02]"
-                                        } text-primary-foreground shadow-primary/20`}
+                                <motion.div
+                                    whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.99 }}
+                                    className="relative group rounded-[1rem] overflow-hidden"
                                 >
-                                    {status === "loading" ? <Loader2 className="h-5 w-5 animate-spin" /> :
-                                        status === "success" ? <CheckCircle2 className="h-5 w-5" /> :
-                                            status === "error" ? <AlertCircle className="h-5 w-5" /> :
-                                                <Send className="h-5 w-5" />}
+                                    <Button
+                                        disabled={status === "loading" || status === "success"}
+                                        className={`relative w-full h-16 rounded-[1rem] bg-foreground/5 backdrop-blur-xl border border-foreground/10 group-hover:border-foreground/20 text-sm font-bold uppercase tracking-[0.2em] gap-3 transition-all duration-500 ${status === "success" ? "text-emerald-500 border-emerald-500/30" :
+                                            status === "error" ? "text-red-500 border-red-500/30" : "text-foreground"
+                                            } overflow-hidden hover:bg-foreground/[0.08] shadow-none`}
+                                    >
+                                        {/* Linear Shimmer Sweep */}
+                                        <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-foreground/[0.05] to-transparent pointer-events-none" />
 
-                                    {status === "loading" ? "Mengirim..." :
-                                        status === "success" ? "Berhasil_Terkirim" :
-                                            status === "error" ? "Gagal_Mengirim" : "Kirim_Pesan"}
-                                </Button>
+                                        <div className="flex items-center justify-center gap-3 z-10">
+                                            {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin text-primary" /> :
+                                                status === "success" ? <CheckCircle2 className="h-4 w-4" /> :
+                                                    status === "error" ? <AlertCircle className="h-4 w-4" /> :
+                                                        <SendHorizontal className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                                            }
+
+                                            <span className="opacity-80 group-hover:opacity-100 transition-opacity">
+                                                {status === "loading" ? "Mengirim..." :
+                                                    status === "success" ? "Berhasil Terkirim" :
+                                                        status === "error" ? "Gagal Mengirim" : "Kirim Pesan"}
+                                            </span>
+                                        </div>
+                                    </Button>
+                                </motion.div>
                             </div>
                         </form>
                     </ScrollReveal>
