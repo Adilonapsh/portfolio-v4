@@ -2,10 +2,11 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
 import Image from "next/image"
 import { ScrollReveal } from "./scroll-reveal"
 import { useLoading } from "@/app/components/loading-context"
+import { useRef } from "react"
 
 const frontendSkills = [
     "TypeScript", "React", "Next.js", "Tailwind CSS",
@@ -18,9 +19,35 @@ const backendSkills = [
 
 export default function About() {
     const { isLoaded } = useLoading();
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+    const photoOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
+    const rawHoverProgress = useTransform(scrollYProgress, [0.35, 0.4], [0, 1]);
+    const hoverValue = useMotionValue(0);
+    const combinedProgress = useTransform(
+        [rawHoverProgress, hoverValue],
+        ([s, h]) => Math.max(s, h)
+    );
+    const springHoverProgress = useSpring(combinedProgress, { stiffness: 100, damping: 25 });
+
+    const gradientOpacity = useTransform(
+        [springHoverProgress],
+        ([h]) => h
+    );
+    const overlayOpacity = useTransform(
+        [springHoverProgress],
+        ([h]) => h * 0.8
+    );
+    const lightPhotoOpacity = useTransform(
+        [springHoverProgress],
+        ([h]) => h
+    );
 
     return (
-        <section id="about" className="py-32 relative overflow-hidden bg-background font-sans">
+        <section id="about" ref={containerRef} className="py-32 relative overflow-hidden bg-background font-sans">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             <div className="absolute inset-0 coord-grid opacity-50 pointer-events-none" />
 
@@ -39,10 +66,17 @@ export default function About() {
             <div className="container px-6 md:px-12 mx-auto relative z-10">
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <ScrollReveal direction="right">
-                        <div className="relative group">
+                        <motion.div 
+                            style={{ opacity: photoOpacity }}
+                            className="relative group"
+                            onMouseEnter={() => hoverValue.set(1)}
+                            onMouseLeave={() => hoverValue.set(0)}>
 
                             <div className="absolute -inset-4 border border-primary/10 rounded-[2.5rem] pointer-events-none" />
-                            <div className="absolute -inset-1 bg-gradient-to-tr from-primary/20 to-transparent rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-1000" />
+                            <motion.div 
+                                style={{ opacity: gradientOpacity }}
+                                className="absolute -inset-1 bg-gradient-to-tr from-primary/20 to-transparent rounded-[2rem] blur-xl" 
+                            />
 
                             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border/50 bg-card/50 backdrop-blur-sm">
 
@@ -55,7 +89,26 @@ export default function About() {
                                     />
                                 </div>
 
-                                <div className="absolute inset-0 bg-gradient-to-r from-background/20 via-transparent to-transparent opacity-0 group-hover:opacity-80 z-[10] transition-opacity duration-1000" />
+                                {/* Orbital Rings */}
+                                <div className="absolute inset-0 z-[5] flex items-center justify-center pointer-events-none overflow-hidden">
+                                    <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                                        style={{ willChange: 'transform' }}
+                                        className="absolute w-[120%] h-[120%] border border-background/5 rounded-full"
+                                    />
+                                    <motion.div
+                                        animate={{ rotate: -360 }}
+                                        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                                        style={{ willChange: 'transform' }}
+                                        className="absolute w-[80%] h-[80%] border border-background/10 rounded-full"
+                                    />
+                                </div>
+
+                                <motion.div 
+                                    style={{ opacity: overlayOpacity }}
+                                    className="absolute inset-0 bg-gradient-to-r from-background/20 via-transparent to-transparent z-[10]" 
+                                />
 
                                 <div className="absolute inset-0 z-[20]">
                                     <Image
@@ -69,12 +122,9 @@ export default function About() {
                                 </div>
 
                                 <motion.div
+                                    style={{ opacity: lightPhotoOpacity }}
                                     className="absolute inset-0 z-[30]"
-                                    initial={{ opacity: 0 }}
-                                    whileHover={{ opacity: 1 }}
-                                    whileTap={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
-
                                 >
                                     <Image
                                         src="/images/landing/me_light.png"
@@ -90,14 +140,14 @@ export default function About() {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl border border-primary/20 shadow-2xl"
+                                className="absolute -bottom-6 -right-6 glass-card px-6 py-4 rounded-2xl border border-primary/20 shadow-2xl"
                             >
                                 <div className="flex items-center gap-3">
-                                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
+                                    <div className="w-2 h-2 bg-emerald-500 rounded-full" />
                                     <span className="text-[10px] font-black uppercase tracking-widest leading-none">Ready for Projects</span>
                                 </div>
                             </motion.div>
-                        </div>
+                        </motion.div>
                     </ScrollReveal>
 
                     <div className="space-y-12">
