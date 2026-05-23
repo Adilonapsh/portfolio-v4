@@ -1,12 +1,11 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
 import Image from "next/image"
 import { ScrollReveal } from "./scroll-reveal"
 import { useLoading } from "@/app/components/loading-context"
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 
 const frontendSkills = [
     "TypeScript", "React", "Next.js", "Tailwind CSS",
@@ -27,23 +26,39 @@ export default function About() {
     const photoOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
     const rawHoverProgress = useTransform(scrollYProgress, [0.35, 0.4], [0, 1]);
     const hoverValue = useMotionValue(0);
-    const combinedProgress = useTransform(
-        [rawHoverProgress, hoverValue],
-        ([s, h]) => Math.max(s, h)
-    );
-    const springHoverProgress = useSpring(combinedProgress, { stiffness: 100, damping: 25 });
+    const finalProgress = useMotionValue(0);
+    const springHoverProgress = useSpring(finalProgress, { stiffness: 100, damping: 25 });
+
+    useEffect(() => {
+        const unsubscribeScroll = rawHoverProgress.onChange((latest) => {
+            const currentHover = hoverValue.get();
+            const maxVal = Math.max(latest, currentHover);
+            finalProgress.set(maxVal);
+        });
+
+        const unsubscribeHover = hoverValue.onChange((latest) => {
+            const currentScroll = rawHoverProgress.get();
+            const maxVal = Math.max(currentScroll, latest);
+            finalProgress.set(maxVal);
+        });
+
+        return () => {
+            unsubscribeScroll();
+            unsubscribeHover();
+        };
+    }, [rawHoverProgress, hoverValue, finalProgress]);
 
     const gradientOpacity = useTransform(
-        [springHoverProgress],
-        ([h]) => h
+        springHoverProgress,
+        (h) => h
     );
     const overlayOpacity = useTransform(
-        [springHoverProgress],
-        ([h]) => h * 0.8
+        springHoverProgress,
+        (h) => h * 0.8
     );
     const lightPhotoOpacity = useTransform(
-        [springHoverProgress],
-        ([h]) => h
+        springHoverProgress,
+        (h) => h
     );
 
     return (
