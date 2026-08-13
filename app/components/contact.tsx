@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { motion } from "framer-motion"
-import { AlertCircle, CheckCircle2, Loader2, Mail, Radio, SendHorizontal } from "lucide-react"
+import { AlertCircle, CheckCircle2, Download, Loader2, Mail, Radio, SendHorizontal } from "lucide-react"
 import { useState } from "react"
 import { ScrollReveal } from "./scroll-reveal"
 
@@ -101,6 +101,20 @@ export default function Contact() {
                                         <p className="text-xl font-bold tracking-tight">@adilonapsh</p>
                                     </div>
                                 </div>
+
+                                <a
+                                    href="/CV%20ADIL%20IVANSYAH%20LUBIS.pdf"
+                                    download
+                                    className="inline-flex items-center gap-3 group"
+                                >
+                                    <div className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
+                                        <Download className="h-6 w-6" />
+                                    </div>
+                                    <div className="space-y-1 text-foreground">
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Download_CV</p>
+                                        <p className="text-xl font-bold tracking-tight group-hover:text-primary transition-colors">Unduh CV Saya</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </ScrollReveal>
