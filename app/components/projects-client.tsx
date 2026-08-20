@@ -70,7 +70,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                     viewport={{ once: true, margin: "-100px" }}
                     className="grid md:grid-cols-2 gap-10 lg:gap-12"
                 >
-                    {projects.slice(0, 4).map((project, index) => (
+                    {projects.slice(0, 4).reverse().map((project, index) => (
                         <motion.div key={index} variants={item}>
                             <Link
                                 href={`/projects/${project.slug}`}
@@ -80,24 +80,42 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
 
                                 {/* Content */}
                                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                    <div className="flex items-center gap-3 mb-2">
+                                    <motion.div 
+                                        className="flex items-center gap-3 mb-2"
+                                        whileHover={{ scale: 1.05 }}
+                                    >
                                         <span className="px-3 py-1 bg-white/10 backdrop-blur rounded-lg text-[10px] font-bold text-white uppercase tracking-widest leading-none">
                                             {project.services || "Project"}
                                         </span>
-                                    </div>
-                                    <h3 className="text-3xl font-black mb-1 text-white uppercase tracking-tighter leading-none">{project.name}</h3>
+                                    </motion.div>
+                                    <motion.h3 
+                                        className="text-3xl font-black mb-1 text-white uppercase tracking-tighter leading-none"
+                                        whileHover={{ x: 4 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                    >
+                                        {project.name}
+                                    </motion.h3>
                                     <p className="text-gray-400 text-sm font-medium line-clamp-2 max-w-sm">
                                         {project.short_desc}
                                     </p>
                                 </div>
 
                                 {/* Hover Arrow */}
-                                <div className="absolute top-8 right-8 z-30 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white text-black p-3 rounded-full transform translate-y-4 group-hover:translate-y-0 shadow-lg">
+                                <motion.div 
+                                    className="absolute top-8 right-8 z-30 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white text-black p-3 rounded-full transform translate-y-4 group-hover:translate-y-0 shadow-lg"
+                                    whileHover={{ rotate: 45, scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                >
                                     <ArrowUpRight className="w-6 h-6" />
-                                </div>
+                                </motion.div>
 
                                 {/* Background Image */}
-                                <div className="w-full h-full relative group-hover:scale-105 transition-transform duration-700">
+                                <motion.div 
+                                    className="w-full h-full relative"
+                                    whileHover={{ scale: 1.05 }}
+                                    transition={{ duration: 0.7, ease: "easeOut" }}
+                                >
                                     {project.thumbnail ? (
                                         <Image
                                             src={project.thumbnail}
@@ -111,7 +129,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                                             <Code2 className="w-16 h-16 text-white/10" />
                                         </div>
                                     )}
-                                </div>
+                                </motion.div>
                             </Link>
                         </motion.div>
                     ))}

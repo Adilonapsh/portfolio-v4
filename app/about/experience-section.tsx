@@ -32,7 +32,7 @@ export default function ExperienceSection() {
                                     JEJAK <br /> <span className="text-primary italic">KARIER</span>
                                 </h2>
                                 <p className="text-xl text-muted-foreground font-medium opacity-80 leading-relaxed max-w-sm">
-                                    Evolusi profesional saya dalam industri teknologi digital selama 5 tahun terakhir.
+                                    Evolusi profesional saya dalam industri teknologi digital sejak 2020 sampai sekarang.
                                 </p>
                             </div>
                         </ScrollReveal>

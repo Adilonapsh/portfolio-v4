@@ -69,14 +69,25 @@ function FAQComponent() {
         <div className="glass-card p-4 md:p-8 rounded-[2.5rem] border-primary/5 shadow-2xl overflow-hidden">
             <Accordion type="single" collapsible className="w-full">
                 {displayFaqs.map((item, index) => (
-                    <AccordionItem key={item.id || index} value={`item-${index}`} className="border-b border-primary/5 last:border-none">
-                        <AccordionTrigger className="text-left hover:no-underline hover:text-primary py-8 px-4 text-lg font-black uppercase tracking-tight transition-colors">
-                            {item.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-muted-foreground text-base leading-relaxed px-4 pb-8 font-medium">
-                            {item.answer}
-                        </AccordionContent>
-                    </AccordionItem>
+                    <motion.div
+                        key={item.id || index}
+                        whileHover={{ x: 8 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                    >
+                        <AccordionItem key={item.id || index} value={`item-${index}`} className="border-b border-primary/5 last:border-none">
+                            <AccordionTrigger className="text-left hover:no-underline hover:text-primary py-8 px-4 text-lg font-black uppercase tracking-tight transition-colors">
+                                <motion.span
+                                    whileHover={{ x: 4 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                >
+                                    {item.question}
+                                </motion.span>
+                            </AccordionTrigger>
+                            <AccordionContent className="text-muted-foreground text-base leading-relaxed px-4 pb-8 font-medium">
+                                {item.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                    </motion.div>
                 ))}
             </Accordion>
         </div>

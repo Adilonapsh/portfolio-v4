@@ -40,17 +40,43 @@ export default function CTASection() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
-                            <Button className="h-16 px-6 rounded-full text-lg font-semibold bg-foreground text-background hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group">
-                                <a href="mailto:hire@truenapsh.my.id" className="flex items-center gap-3">
-                                    Hubungi Saya
-                                    <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                                </a>
-                            </Button>
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                            >
+                                <Button className="h-16 px-6 rounded-full text-lg font-semibold bg-foreground text-background hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group">
+                                    <a href="mailto:hire@truenapsh.my.id" className="flex items-center gap-3">
+                                        Hubungi Saya
+                                        <motion.div
+                                            animate={{ x: [0, 4, 0], y: [0, -4, 0] }}
+                                            transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+                                        >
+                                            <ArrowUpRight className="w-5 h-5" />
+                                        </motion.div>
+                                    </a>
+                                </Button>
+                            </motion.div>
 
-                            <div className="flex items-center gap-3 glass-card px-6 py-4 rounded-2xl">
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                            <motion.div 
+                                className="flex items-center gap-3 glass-card px-6 py-4 rounded-2xl"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                            >
+                                <motion.div 
+                                    className="w-2 h-2 bg-emerald-500 rounded-full"
+                                    animate={{ 
+                                        opacity: [0.5, 1, 0.5], 
+                                        scale: [0.9, 1.2, 0.9] 
+                                    }}
+                                    transition={{ 
+                                        duration: 2, 
+                                        repeat: Infinity, 
+                                        ease: "easeInOut" 
+                                    }}
+                                />
                                 <span className="text-[10px] font-black uppercase tracking-widest text-foreground/50 leading-none">Status: Respon_Cepat</span>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </ScrollReveal>

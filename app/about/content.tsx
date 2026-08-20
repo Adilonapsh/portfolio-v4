@@ -137,7 +137,7 @@ export default function AboutContent() {
                                                     <Sparkles className="w-6 h-6" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">Core_Engine</p>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">Core</p>
                                                     <h4 className="text-xl font-black uppercase tracking-tight">Kreativitas & Skalabilitas</h4>
                                                 </div>
                                             </div>
@@ -162,9 +162,20 @@ export default function AboutContent() {
                             <ScrollReveal direction="up" delay={0.3}>
                                 <div className="space-y-12 lg:pl-16">
                                     <div className="relative">
-                                        <span className="absolute -left-12 top-0 text-[120px] font-black text-primary/5 select-none leading-none">"</span>
+                                        <span className="absolute -left-12 top-0 text-[120px] font-black text-primary/20 dark:text-primary/20 select-none leading-none">"</span>
                                         <h3 className="text-3xl md:text-5xl font-black leading-[1.2] tracking-tight uppercase">
-                                            Membangun aplikasi yang sukses <br /> adalah <span className="text-primary italic underline decoration-primary/20 underline-offset-8">sebuah tantangan</span> yang saya nikmati setiap harinya.
+                                                Membangun aplikasi yang sukses <br /> adalah <span className="relative inline-block text-background italic">
+                                                <span className="relative">sebuah tantangan</span>
+                                                <motion.span
+                                                    initial={{ width: 0 }}
+                                                    whileInView={{ width: "102%" }}
+                                                    viewport={{ once: false, amount: 0.5 }}
+                                                    transition={{ duration: 0.7, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                                                    className="absolute left-0 top-0 h-full overflow-hidden whitespace-nowrap bg-foreground"
+                                                >
+                                                    <span className="inline-block text-white">sebuah tantangan</span>
+                                                </motion.span>
+                                            </span> yang saya nikmati setiap harinya.
                                         </h3>
                                     </div>
 
@@ -183,16 +194,16 @@ export default function AboutContent() {
                                         </div>
                                     </div>
 
-                                    <div className="glass-card p-6 rounded-3xl border-primary/5 flex items-center justify-between group">
+                                    {/* <div className="glass-card p-6 rounded-3xl border-primary/5 flex items-center justify-between group">
                                         <div className="flex items-center gap-4">
                                             <div className="w-2 h-10 bg-primary/40 rounded-full group-hover:h-12 transition-all duration-500" />
                                             <div>
-                                                <p className="text-[10px] font-black uppercase tracking-widest text-primary/50">Status_Update</p>
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-primary/50"></p>
                                                 <p className="text-sm font-bold uppercase transition-colors group-hover:text-primary">Berpikir kritis & Solusi Efisien</p>
                                             </div>
                                         </div>
                                         <Orbit className="w-6 h-6 text-primary/30 group-hover:rotate-180 transition-transform duration-1000" />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </ScrollReveal>
                         </div>

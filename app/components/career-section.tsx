@@ -4,6 +4,7 @@ import { ScrollReveal } from "./scroll-reveal";
 import { fetchCareers } from "@/lib/api";
 import { Career as CareerType } from "@/lib/types";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function CareerSection() {
     const [careers, setCareers] = useState<CareerType[]>([]);
@@ -81,12 +82,20 @@ export default function CareerSection() {
                 <div className="space-y-6">
                     {displayCareers.map((career, index) => (
                         <ScrollReveal key={career.id || index} direction="up" delay={index * 0.1}>
-                            <div className="glass-card p-6 md:p-8 rounded-2xl border border-primary/10">
+                            <motion.div
+                                className="glass-card p-6 md:p-8 rounded-2xl border border-primary/10"
+                                whileHover={{ y: -4, boxShadow: "0 25px 50px -12px rgba(var(--primary-rgb), 0.25)" }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            >
                                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                                     <div className="space-y-2">
-                                        <h3 className="text-2xl font-black text-foreground uppercase tracking-tight">
+                                        <motion.h3 
+                                            className="text-2xl font-black text-foreground uppercase tracking-tight"
+                                            whileHover={{ x: 4 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                        >
                                             {career.position}
-                                        </h3>
+                                        </motion.h3>
                                         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground font-medium">
                                             <span>{career.company}</span>
                                             {career.location && <span>• {career.location}</span>}
@@ -109,13 +118,19 @@ export default function CareerSection() {
                                 {career.skills && career.skills.length > 0 && (
                                     <div className="mt-4 flex flex-wrap gap-2">
                                         {career.skills.map((skill, i) => (
-                                            <span key={i} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
-                                                {skill}
-                                            </span>
+                                            <motion.span 
+                                                key={i} 
+                                                className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider"
+                                                whileHover={{ scale: 1.1, backgroundColor: "rgba(var(--primary-rgb), 0.2)" }}
+                                                whileTap={{ scale: 0.95 }}
+                                                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                            >
+                                                {skill} s
+                                            </motion.span>
                                         ))}
                                     </div>
                                 )}
-                            </div>
+                            </motion.div>
                         </ScrollReveal>
                     ))}
                 </div>

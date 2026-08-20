@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
-import { AlertCircle, CheckCircle2, Loader2, Mail, Radio, SendHorizontal } from "lucide-react";
+import { AlertCircle, CheckCircle2, Download, Loader2, Mail, Radio, SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import { ScrollReveal } from "@/app/components/scroll-reveal";
 
@@ -17,6 +17,7 @@ export default function ContactContent() {
         message: ""
     });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [focusedField, setFocusedField] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -95,83 +96,173 @@ export default function ContactContent() {
                                 </p>
 
                                 <div className="space-y-8">
-                                    <div className="flex items-center gap-6 group">
-                                        <div className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
+                                    <motion.div 
+                                        className="flex items-center gap-6 group"
+                                        whileHover={{ x: 8 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                    >
+                                        <motion.div 
+                                            className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary"
+                                            whileHover={{ scale: 1.1, rotate: 5 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
                                             <Mail className="h-6 w-6" />
-                                        </div>
+                                        </motion.div>
                                         <div className="space-y-1 text-foreground">
                                             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Email_Saya</p>
-                                            <a href="mailto:hire@truenapsh.my.id" className="text-xl font-bold tracking-tight hover:text-primary transition-colors">hire@truenapsh.my.id</a>
+                                            <a href="mailto:hire@truenapsh.my.id" className="text-xl font-bold tracking-tight hover:text-primary transition-colors relative group/link">
+                                                hire@truenapsh.my.id
+                                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover/link:w-full transition-all duration-300" />
+                                            </a>
                                         </div>
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="flex items-center gap-6 group">
-                                        <div className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
+                                    <motion.div 
+                                        className="flex items-center gap-6 group"
+                                        whileHover={{ x: 8 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                    >
+                                        <motion.div 
+                                            className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary"
+                                            whileHover={{ scale: 1.1, rotate: -5 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
                                             <Radio className="h-6 w-6" />
-                                        </div>
+                                        </motion.div>
                                         <div className="space-y-1 text-foreground">
                                             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Sosial_Media</p>
                                             <p className="text-xl font-bold tracking-tight">@adilonapsh</p>
                                         </div>
-                                    </div>
+                                    </motion.div>
+
+                                    <motion.a
+                                        href="/CV%20ADIL%20IVANSYAH%20LUBIS.pdf"
+                                        download
+                                        className="flex items-center gap-6 group"
+                                        whileHover={{ x: 8 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                    >
+                                        <motion.div 
+                                            className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary"
+                                            whileHover={{ scale: 1.1, rotate: 5 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <Download className="h-6 w-6" />
+                                        </motion.div>
+                                        <div className="space-y-1 text-foreground">
+                                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/40">Download_CV</p>
+                                            <p className="text-xl font-bold tracking-tight group-hover:text-primary transition-colors">Unduh CV Saya</p>
+                                        </div>
+                                    </motion.a>
                                 </div>
                             </div>
                         </ScrollReveal>
 
                         <ScrollReveal direction="left" delay={0.2}>
-                            <form onSubmit={handleSubmit} className="glass-card p-2 rounded-[3.5rem] border-primary/10 shadow-3xl">
+                            <motion.form 
+                                onSubmit={handleSubmit} 
+                                className="glass-card p-2 rounded-[3.5rem] border-primary/10 shadow-3xl"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                whileHover={{ y: -4, boxShadow: "0 25px 50px -12px rgba(var(--primary-rgb), 0.25)" }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            >
                                 <div className="bg-card/50 backdrop-blur-xl rounded-[3rem] p-10 space-y-8">
                                     <div className="grid sm:grid-cols-2 gap-8 text-foreground">
-                                        <div className="space-y-3">
+                                        <div className="space-y-3 relative">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Nama_Lengkap</label>
-                                            <Input
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                placeholder="SIAPA NAMA ANDA?"
-                                                required
-                                                className="h-16 bg-white/5 border-none rounded-2xl px-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30"
+                                            <motion.div
+                                                animate={{ scale: focusedField === "name" ? 1.02 : 1 }}
+                                                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                            >
+                                                <Input
+                                                    value={formData.name}
+                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                    onFocus={() => setFocusedField("name")}
+                                                    onBlur={() => setFocusedField(null)}
+                                                    placeholder="SIAPA NAMA ANDA?"
+                                                    required
+                                                    className="h-16 bg-white/5 border-none rounded-2xl px-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-2 focus-visible:ring-primary/50 transition-all duration-300"
+                                                />
+                                            </motion.div>
+                                            <motion.div
+                                                className="absolute bottom-0 left-0 h-0.5 bg-primary rounded-full"
+                                                initial={{ width: "0%" }}
+                                                animate={{ width: focusedField === "name" ? "100%" : "0%" }}
+                                                transition={{ duration: 0.3 }}
                                             />
                                         </div>
-                                        <div className="space-y-3">
+                                        <div className="space-y-3 relative">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Alamat_Email</label>
-                                            <Input
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                placeholder="EMAIL@GMAIL.COM"
-                                                required
-                                                className="h-16 bg-white/5 border-none rounded-2xl px-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30"
+                                            <motion.div
+                                                animate={{ scale: focusedField === "email" ? 1.02 : 1 }}
+                                                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                            >
+                                                <Input
+                                                    type="email"
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                    onFocus={() => setFocusedField("email")}
+                                                    onBlur={() => setFocusedField(null)}
+                                                    placeholder="EMAIL@GMAIL.COM"
+                                                    required
+                                                    className="h-16 bg-white/5 border-none rounded-2xl px-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-2 focus-visible:ring-primary/50 transition-all duration-300"
+                                                />
+                                            </motion.div>
+                                            <motion.div
+                                                className="absolute bottom-0 left-0 h-0.5 bg-primary rounded-full"
+                                                initial={{ width: "0%" }}
+                                                animate={{ width: focusedField === "email" ? "100%" : "0%" }}
+                                                transition={{ duration: 0.3 }}
                                             />
                                         </div>
                                     </div>
-                                    <div className="space-y-3 text-foreground">
+                                    <div className="space-y-3 text-foreground relative">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Pesan_Anda</label>
-                                        <Textarea
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            placeholder="TULIS PESAN ANDA DI SINI..."
-                                            required
-                                            className="min-h-[160px] bg-white/5 border-none rounded-3xl p-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-1 focus-visible:ring-primary/30 resize-none"
+                                        <motion.div
+                                            animate={{ scale: focusedField === "message" ? 1.01 : 1 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                        >
+                                            <Textarea
+                                                value={formData.message}
+                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                                onFocus={() => setFocusedField("message")}
+                                                onBlur={() => setFocusedField(null)}
+                                                placeholder="TULIS PESAN ANDA DI SINI..."
+                                                required
+                                                className="min-h-[160px] bg-white/5 border-none rounded-3xl p-6 font-bold placeholder:text-muted-foreground/30 focus-visible:ring-2 focus-visible:ring-primary/50 transition-all duration-300 resize-none"
+                                            />
+                                        </motion.div>
+                                        <motion.div
+                                            className="absolute bottom-0 left-0 h-0.5 bg-primary rounded-full"
+                                            initial={{ width: "0%" }}
+                                            animate={{ width: focusedField === "message" ? "100%" : "0%" }}
+                                            transition={{ duration: 0.3 }}
                                         />
                                     </div>
                                     <motion.div
-                                        whileHover={{ scale: 1.01 }}
-                                        whileTap={{ scale: 0.99 }}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
                                         className="relative group rounded-[1rem] overflow-hidden"
                                     >
                                         <Button
                                             disabled={status === "loading" || status === "success"}
-                                            className={`relative w-full h-16 rounded-[1rem] bg-foreground/5 backdrop-blur-xl border border-foreground/10 group-hover:border-foreground/20 text-sm font-bold uppercase tracking-[0.2em] gap-3 transition-all duration-500 ${status === "success" ? "text-emerald-500 border-emerald-500/30" :
-                                                status === "error" ? "text-red-500 border-red-500/30" : "text-foreground"
+                                            className={`relative w-full h-16 rounded-[1rem] bg-foreground/5 backdrop-blur-xl border border-foreground/10 group-hover:border-primary/30 text-sm font-bold uppercase tracking-[0.2em] gap-3 transition-all duration-500 ${status === "success" ? "text-emerald-500 border-emerald-500/30 bg-emerald-500/10" :
+                                                status === "error" ? "text-red-500 border-red-500/30 bg-red-500/10" : "text-foreground"
                                                 } overflow-hidden hover:bg-foreground/[0.08] shadow-none`}
                                         >
-                                            <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-foreground/[0.05] to-transparent pointer-events-none" />
+                                            <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-primary/20 to-transparent pointer-events-none" />
 
                                             <div className="flex items-center justify-center gap-3 z-10">
                                                 {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin text-primary" /> :
                                                     status === "success" ? <CheckCircle2 className="h-4 w-4" /> :
                                                         status === "error" ? <AlertCircle className="h-4 w-4" /> :
-                                                            <SendHorizontal className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                                                            <motion.div
+                                                                animate={{ x: [0, 4, 0], y: [0, -4, 0] }}
+                                                                transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+                                                            >
+                                                                <SendHorizontal className="h-4 w-4" />
+                                                            </motion.div>
                                                 }
 
                                                 <span className="opacity-80 group-hover:opacity-100 transition-opacity">
@@ -183,7 +274,7 @@ export default function ContactContent() {
                                         </Button>
                                     </motion.div>
                                 </div>
-                            </form>
+                            </motion.form>
                         </ScrollReveal>
                     </div>
                 </div>

@@ -206,7 +206,7 @@ const Hero: React.FC = () => {
                             className="flex flex-col items-end gap-2"
                         >
                             <div className="flex items-center gap-3">
-                                <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Processing</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Version</span>
                                 <Cpu className="w-4 h-4 text-primary" />
                             </div>
                             <div className="flex items-center gap-4">
