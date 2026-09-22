@@ -164,8 +164,8 @@ export default function AboutContent() {
                                     <div className="relative">
                                         <span className="absolute -left-12 top-0 text-[120px] font-black text-primary/20 dark:text-primary/20 select-none leading-none">"</span>
                                         <h3 className="text-3xl md:text-5xl font-black leading-[1.2] tracking-tight uppercase">
-                                                Membangun aplikasi yang sukses <br /> adalah <span className="relative inline-block text-background italic">
-                                                <span className="relative">sebuah tantangan</span>
+                                                Membangun aplikasi yang sukses <br /> adalah <span className="relative inline-block italic">
+                                                <span className="relative text-foreground">sebuah tantangan</span>
                                                 <motion.span
                                                     initial={{ width: 0 }}
                                                     whileInView={{ width: "102%" }}
@@ -173,7 +173,7 @@ export default function AboutContent() {
                                                     transition={{ duration: 0.7, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
                                                     className="absolute left-0 top-0 h-full overflow-hidden whitespace-nowrap bg-foreground"
                                                 >
-                                                    <span className="inline-block text-white">sebuah tantangan</span>
+                                                    <span className="inline-block text-background">sebuah tantangan</span>
                                                 </motion.span>
                                             </span> yang saya nikmati setiap harinya.
                                         </h3>

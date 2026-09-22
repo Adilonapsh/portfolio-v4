@@ -166,7 +166,7 @@ const Hero: React.FC = () => {
                             initial={{ opacity: 0, y: 50 }}
                             animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                             transition={{ duration: 1, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                            className="text-7xl md:text-[12vw] font-black leading-[0.75] tracking-[-0.05em] uppercase flex flex-col"
+                            className="text-7xl md:text-[9vw] font-black leading-[0.75] tracking-[-0.05em] uppercase flex flex-col"
                         >
                             <span className="italic">True</span>
                             <span className="text-foreground">Napsh</span>
