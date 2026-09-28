@@ -17,6 +17,9 @@ interface ProjectPageProps {
     params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
     const slugs = await getAllProjectSlugs();
     return slugs.map((item) => item.params);

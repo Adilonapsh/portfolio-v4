@@ -19,7 +19,7 @@ export type Project = {
     body: string
 }
 
-const baseURL = process.env.NEXT_URL_API;
+const baseURL = process.env.NEXT_URL_API || "https://admin-porto.truenapsh.my.id/api";
 
 export const get = async (): Promise<Project[]> => {
     const data = await fetch(`${baseURL}/project`, {
@@ -27,19 +27,30 @@ export const get = async (): Promise<Project[]> => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-        }
+        },
+        next: { revalidate: 60 },
     });
+    if (!data.ok) {
+        console.error(`Failed to fetch projects, status: ${data.status}`);
+        return [];
+    }
     const json = await data.json();
-    return json.data;
+    return json.data ?? [];
 }
-export const detail = async (id: string): Promise<Project> => {
+export const detail = async (id: string): Promise<Project | null> => {
     const data = await fetch(`${baseURL}/project/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-        }
+        },
+        next: { revalidate: 60 },
     });
-    const json = await data.json();
-    return json.data;
+    if (!data.ok) {
+        console.error(`Failed to fetch project ${id}, status: ${data.status}`);
+        return null;
+    }
+    const json = await data.json().catch(() => null);
+    if (!json) return null;
+    return json.data ?? null;
 }
