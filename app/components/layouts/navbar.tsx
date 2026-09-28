@@ -164,8 +164,8 @@ export default function Navbar() {
                                 {theme === "light" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                             </Button>
 
-                            <Button className="rounded-full px-6 font-semibold hidden md:flex">
-                                Let's Talk
+                            <Button asChild className="rounded-full px-6 font-semibold hidden md:flex">
+                                <Link href="/contact">Let's Talk</Link>
                             </Button>
 
                             {/* Mobile Menu Toggle */}
