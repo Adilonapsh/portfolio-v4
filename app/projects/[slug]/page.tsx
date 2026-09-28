@@ -11,6 +11,35 @@ import CodeBlock from "@/app/components/code-block";
 import Image from "next/image";
 import ProjectSwiper from "@/app/components/project-swiper";
 import StickyWrapper from "@/app/components/sticky-wrapper";
+import { FaCode, FaCodeBranch, FaDatabase, FaLaptop, FaLaravel, FaReact } from 'react-icons/fa'
+import { FiFigma } from 'react-icons/fi'
+import { IoFileTrayFull } from 'react-icons/io5'
+import { RiNextjsFill, RiNodejsFill } from 'react-icons/ri'
+import { SiPostgresql } from 'react-icons/si'
+
+const TechIcons = ({ techstack }: { techstack: string[] }) => {
+    if (!techstack || techstack.length === 0) return null
+    return (
+        <div className="flex flex-wrap gap-3">
+            {techstack.map((tech, index) => (
+                <div key={index} className='flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-sm' title={tech}>
+                    {tech === 'Laravel' && <FaLaravel className='text-xl text-[#FF2D20]' />}
+                    {tech === 'React' && <FaReact className='text-xl text-[#61DAFB]' />}
+                    {tech === 'Postgres' && <SiPostgresql className='text-xl text-[#336791]' />}
+                    {tech === 'Next Js' && <RiNextjsFill className='text-xl text-[#000000] dark:text-white' />}
+                    {tech === 'Figma' && <FiFigma className='text-xl text-[#F24E1E]' />}
+                    {tech === 'Node Js' && <RiNodejsFill className='text-xl text-[#339933]' />}
+                    {tech === 'Code' && <FaCode className='text-xl text-[#007ACC]' />}
+                    {tech === 'Git' && <FaCodeBranch className='text-xl text-[#F05032]' />}
+                    {tech === 'Database' && <FaDatabase className='text-xl text-[#4479A1]' />}
+                    {tech === 'Web' && <FaLaptop className='text-xl text-[#62B0D3]' />}
+                    {tech === 'Project' && <IoFileTrayFull className='text-xl text-[#FFA500]' />}
+                    {!['Laravel','React','Postgres','Next Js','Figma','Node Js','Code','Git','Database','Web','Project'].includes(tech) && <span className="text-[10px] font-black">{tech.slice(0,2).toUpperCase()}</span>}
+                </div>
+            ))}
+        </div>
+    )
+}
 
 
 interface ProjectPageProps {
@@ -107,13 +136,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                             <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Main Technologies</p>
                             <p className="text-xl md:text-2xl font-black uppercase">{project.mainTech}</p>
                         </div>
+                        {project.techstack && project.techstack.length > 0 && (
+                            <div className="space-y-3">
+                                <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Tech Stack</p>
+                                <TechIcons techstack={project.techstack} />
+                            </div>
+                        )}
                         <div className="space-y-2">
                             <p className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Website</p>
                             <a
                                 href={project.website}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xl md:text-2xl font-black uppercase flex items-center gap-2 hover:text-[#6d5dfc] transition-colors group"
+                                className="text-xl md:text-2xl font-black uppercase flex items-center gap-2 hover:text-gray-500 transition-colors group"
                             >
                                 Preview <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />
                             </a>

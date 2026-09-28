@@ -11,6 +11,7 @@ export interface ProjectData {
     logo?: string
     images?: string[]
     content: string
+    techstack: string[]
 }
 
 export async function getProjectBySlug(slug: string): Promise<ProjectData | null> {
@@ -29,6 +30,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectData | null
             website: project.url,
             logo: project.logo,
             images: project.images,
+            techstack: project.techstack || [],
         }
     } catch (e) {
         console.error('Error fetching project by slug:', e)
