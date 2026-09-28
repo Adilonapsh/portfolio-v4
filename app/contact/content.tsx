@@ -136,8 +136,9 @@ export default function ContactContent() {
                                     </motion.div>
 
                                     <motion.a
-                                        href="/CV%20ADIL%20IVANSYAH%20LUBIS.pdf"
-                                        download
+                                        href="https://drive.google.com/file/d/1_EsqxBRa8EoUi-BqWSeDmue3dGIRhBjB/view?usp=drive_link"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className="flex items-center gap-6 group"
                                         whileHover={{ x: 8 }}
                                         transition={{ type: "spring", stiffness: 400, damping: 20 }}

@@ -253,7 +253,7 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Preserved Status Stream - Absolute Bottom Left */}
-            <motion.div
+            {/* <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
@@ -289,7 +289,7 @@ const Hero: React.FC = () => {
                         ))}
                     </AnimatePresence>
                 </div>
-            </motion.div>
+            </motion.div> */}
 
 
             {/* Scroll Indicator Decoration */}

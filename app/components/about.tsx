@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue } from "fram
 import Image from "next/image"
 import { ScrollReveal } from "./scroll-reveal"
 import { useLoading } from "@/app/components/loading-context"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 
 const frontendSkills = [
     "TypeScript", "React", "Next.js", "Tailwind CSS",
@@ -19,12 +19,30 @@ const backendSkills = [
 export default function About() {
     const { isLoaded } = useLoading();
     const containerRef = useRef(null);
+    const photoRef = useRef<HTMLDivElement>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mql = window.matchMedia("(max-width: 1023px)");
+        const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile(e.matches);
+        handler(mql);
+        mql.addEventListener("change", handler as (e: MediaQueryListEvent) => void);
+        return () => mql.removeEventListener("change", handler as (e: MediaQueryListEvent) => void);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
     });
+    // mobile: hanya di tengah layar (bukan dari bawah)
+    const { scrollYProgress: photoScrollYProgress } = useScroll({
+        target: photoRef,
+        offset: ["start 60%", "start 40%"]
+    });
     const photoOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
-    const rawHoverProgress = useTransform(scrollYProgress, [0.35, 0.4], [0, 1]);
+    const desktopHoverProgress = useTransform(scrollYProgress, [0.35, 0.4], [0, 1]);
+    const mobileHoverProgress = useTransform(photoScrollYProgress, [0, 1], [0, 1]);
+    const rawHoverProgress = isMobile ? mobileHoverProgress : desktopHoverProgress;
     const hoverValue = useMotionValue(0);
     const finalProgress = useMotionValue(0);
     const springHoverProgress = useSpring(finalProgress, { stiffness: 100, damping: 25 });
@@ -82,6 +100,7 @@ export default function About() {
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <ScrollReveal direction="right">
                         <motion.div 
+                            ref={photoRef}
                             style={{ opacity: photoOpacity }}
                             className="relative group"
                             onMouseEnter={() => hoverValue.set(1)}

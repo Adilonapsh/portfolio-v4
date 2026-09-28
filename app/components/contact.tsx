@@ -103,8 +103,9 @@ export default function Contact() {
                                 </div>
 
                                 <a
-                                    href="/CV%20ADIL%20IVANSYAH%20LUBIS.pdf"
-                                    download
+                                    href="https://drive.google.com/file/d/1_EsqxBRa8EoUi-BqWSeDmue3dGIRhBjB/view?usp=drive_link"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="inline-flex items-center gap-3 group"
                                 >
                                     <div className="h-16 w-16 rounded-[1.5rem] glass-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">

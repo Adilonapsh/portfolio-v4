@@ -136,8 +136,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                 h4: ({ node, ...props }) => <h4 className="text-xl sm:text-2xl md:text-3xl font-black uppercase mb-4 mt-8" {...props} />,
                                 p: ({ node, ...props }) => <p className="mb-6 sm:mb-8 last:mb-0 leading-relaxed text-lg" {...props} />,
                                 pre: ({ node, ...props }) => <pre className="mb-6 sm:mb-8 last:mb-0 overflow-x-auto rounded-xl" {...props} />,
-                                ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-6 sm:mb-8 space-y-2 marker:text-[#6d5dfc]" {...props} />,
-                                ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-6 sm:mb-8 space-y-2 marker:text-[#6d5dfc]" {...props} />,
+                                ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-6 sm:mb-8 space-y-2 marker:text-gray-400" {...props} />,
+                                ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-6 sm:mb-8 space-y-2 marker:text-gray-400" {...props} />,
                                 li: ({ node, ...props }) => <li className="pl-2" {...props} />,
                                 table: ({ node, ...props }) => (
                                     <div className="my-10 overflow-x-auto border border-gray-200 dark:border-white/10 rounded-2xl bg-gray-50 dark:bg-white/[0.02]">
