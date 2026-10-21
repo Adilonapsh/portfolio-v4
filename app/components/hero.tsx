@@ -251,7 +251,8 @@ const Hero: React.FC = () => {
                     </div>
                 </motion.div>
             </div>
-
+ 
+ 
             {/* Preserved Status Stream - Absolute Bottom Left */}
             {/* <motion.div
                 initial={{ opacity: 0, x: -20 }}
