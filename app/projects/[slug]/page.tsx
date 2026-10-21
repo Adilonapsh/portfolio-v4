@@ -46,8 +46,15 @@ interface ProjectPageProps {
     params: Promise<{ slug: string }>;
 }
 
-export const dynamicParams = true;
-export const revalidate = 60;
+// dynamicParams = false supaya slug yang tidak ada di generateStaticParams
+// langsung 404 dan TIDAK dibuatkan halaman on-demand. Kalau `true`, bot yang
+// menembak /projects/random-string akan memaksa Next membuat + menulis halaman
+// baru ke cache untuk setiap slug -> ISR writes bisa naik tanpa batas.
+export const dynamicParams = false;
+
+// 24 jam = 1 ISR write/hari per project page. Harus sama dengan
+// PROJECT_CACHE_TTL_SECONDS di lib/cache.ts.
+export const revalidate = 86_400;
 
 export async function generateStaticParams() {
     const slugs = await getAllProjectSlugs();

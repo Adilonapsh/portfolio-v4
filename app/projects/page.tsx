@@ -30,7 +30,9 @@ const TechIcons = ({ techstack, className = "flex gap-2" }: { techstack: string[
     )
 }
 
-export const revalidate = 60
+// 24 jam = 1 ISR write/hari. Harus sama dengan PROJECT_CACHE_TTL_SECONDS
+// di lib/cache.ts. Update instan: POST /api/revalidate.
+export const revalidate = 86_400
 
 const ProjectsPage = async () => {
     const projects = await get();

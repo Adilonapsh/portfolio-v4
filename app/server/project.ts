@@ -1,5 +1,7 @@
 'use server'
 
+import { PROJECTS_TAG, PROJECT_CACHE_TTL_SECONDS, projectTag } from '@/lib/cache'
+
 export type Project = {
     id: string
     name: string
@@ -28,7 +30,10 @@ export const get = async (): Promise<Project[]> => {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        next: { revalidate: 60 },
+        next: {
+            revalidate: PROJECT_CACHE_TTL_SECONDS,
+            tags: [PROJECTS_TAG],
+        },
     });
     if (!data.ok) {
         console.error(`Failed to fetch projects, status: ${data.status}`);
@@ -44,7 +49,10 @@ export const detail = async (id: string): Promise<Project | null> => {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        next: { revalidate: 60 },
+        next: {
+            revalidate: PROJECT_CACHE_TTL_SECONDS,
+            tags: [PROJECTS_TAG, projectTag(id)],
+        },
     });
     if (!data.ok) {
         console.error(`Failed to fetch project ${id}, status: ${data.status}`);

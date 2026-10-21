@@ -34,3 +34,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Cache & revalidation
+
+Semua data project di-cache 24 jam (`lib/cache.ts`), bukan 60 detik lagi.
+Ini membuat landing page dan halaman project hanya menulis ISR cache sekali
+per hari, bukan sekali per menit.
+
+Untuk menampilkan perubahan dari admin API secara instan, set environment
+variable `REVALIDATE_SECRET` (lokal dan di Vercel), lalu panggil:
+
+```bash
+# Semua halaman project
+curl -X POST "https://<domain>/api/revalidate?secret=<REVALIDATE_SECRET>"
+
+# Satu project saja
+curl -X POST "https://<domain>/api/revalidate?secret=<REVALIDATE_SECRET>&slug=<slug>"
+```
+
+Endpoint ini menghapus tag `projects` (Data Cache) dan me-revalidate `/`,
+`/projects`, serta `/projects/<slug>`. Panggil endpoint ini dari admin panel
+setelah project ditambah/diubah/dihapus (bisa lewat webhook).
+
+Catatan: `app/projects/[slug]/page.tsx` memakai `dynamicParams = false`.
+Project baru tetap butuh deploy ulang agar masuk `generateStaticParams`;
+edit/hapus project yang sudah ada cukup lewat endpoint di atas.
